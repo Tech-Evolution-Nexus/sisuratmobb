@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.LoginActivity"
+    tools:context=".View.LoginActivity"
     android:background="@drawable/rectagle">
 
     <!-- Hapus RelativeLayout tanpa konten -->
@@ -78,11 +78,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="85dp"
             android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2">
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/activasi_NIK"
                 android:layout_width="match_parent"
@@ -107,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="No.Telepon"
-                android:inputType="textPassword" />
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -148,7 +149,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/login_masuk"
+            android:id="@+id/activasi_masuk"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"
@@ -156,26 +157,26 @@
             android:layout_marginEnd="70dp"
             android:backgroundTint="@color/bluebaground"
             android:textSize="18sp"
-            android:text="Aktivkan Akun"
+            android:text="Aktifkan Akun"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textactivasi4" />
 
         <TextView
-            android:id="@+id/Activasi_masuk"
+            android:id="@+id/Activasi"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:contentDescription="Activasi"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:text="sudah mengaktivkan akun? Masuk "
-            android:textSize="15sp"
+            android:text="sudah mengaktifkan akun? Masuk "
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_masuk"
+            app:layout_constraintTop_toBottomOf="@+id/activasi_masuk"
             app:layout_constraintVertical_bias="0.037" />
 
         <TextView
@@ -190,6 +191,6 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Login_Activasi" />
+            app:layout_constraintTop_toBottomOf="@+id/Activasi" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
