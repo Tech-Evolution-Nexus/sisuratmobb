@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
        new Handler().postDelayed(() ->{
-           Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+           Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
            startActivity(intent);
            finish();
-        }, 5000 );
+        }, 3000 );
 
     }
 }

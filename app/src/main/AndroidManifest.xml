@@ -13,6 +13,15 @@
         android:theme="@style/Theme.Sisuratmob"
         tools:targetApi="31">
         <activity
+            android:name=".View.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.AktivasiXreqActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.TutorialActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.DashboardActivity"
             android:exported="false" />
         <activity
