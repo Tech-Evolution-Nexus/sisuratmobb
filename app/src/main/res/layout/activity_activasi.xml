@@ -89,7 +89,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nomor Induk Kependudukan"
-                android:inputType="number" />
+                android:inputType="number"
+                android:drawableStart="@drawable/ic_nik"
+                android:drawablePadding="16dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +110,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="No.Telepon"
-                android:inputType="number" />
+                android:inputType="number"
+                android:drawableStart="@drawable/ic_phone"
+                android:drawablePadding="16dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -127,7 +131,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Kata Sandi"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="16dp"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textactivasi4"
@@ -145,7 +151,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Konfirmasi Kata Sandi"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_confirm"
+                android:drawablePadding="16dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

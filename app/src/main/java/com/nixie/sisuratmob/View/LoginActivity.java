@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (dbHelper.checkUser(nik,password)){
                 Toast.makeText(this, "login berhasil", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this,MainActivity.class);
+                Intent intent = new Intent(this,DashboardActivity.class);
                 startActivity(intent);
                 finish();
             }else {
