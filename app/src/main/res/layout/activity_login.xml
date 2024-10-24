@@ -77,6 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nomor Induk Kependudukan"
+                android:drawableStart="@drawable/ic_nik"
+                android:drawablePadding="16dp"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,7 +98,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Kata sandi"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="16dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -134,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="165dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="sans-serif"
             android:text="CopyRight@Nautulius"
