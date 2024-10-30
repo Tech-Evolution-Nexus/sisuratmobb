@@ -3,4 +3,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name ="bluebaground">#052158</color>
+
+        <color name="colorActive">#052158</color> <!-- Warna aktif (biru) -->
+        <color name="colorInactive">#FFFFFF</color> <!-- Warna tidak aktif (putih) -->
+        <color name="backgroundColor">#052158</color> <!-- Latar belakang awal (biru) -->
+        <color name="backgroundActiveColor">#FFFFFF</color> <!-- Latar belakang aktif (putih) -->
+    <color name="ColorGRAY">#D7D9E9</color> <!-- Latar belakang aktif (putih) -->
+    <color name="ColorW">#C4C4D3</color> <!-- Latar belakang aktif (putih) -->
+
+
+
+
+
 </resources>
