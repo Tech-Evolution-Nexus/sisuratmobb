@@ -40,7 +40,7 @@
             android:layout_width="129dp"
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="60dp"
             android:fontFamily="sans-serif-black"
             android:text="Masuk"
             android:textSize="35sp"
@@ -68,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="70dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,26 +106,56 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/texto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Activasi"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:text="Lupa kata Sandi ?"
+            android:textColor="@color/bluebaground"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/textfor"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+
+        <TextView
+            android:id="@+id/textfor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="80dp"
+            android:contentDescription="Activasi"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center_vertical"
+            android:text="Ubah Sandi"
+            android:textColor="@color/bluebaground"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+
         <Button
             android:id="@+id/login_masuk"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"
-            android:layout_marginTop="40dp"
             android:layout_marginEnd="70dp"
             android:backgroundTint="@color/bluebaground"
             android:text="Masuk"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+            app:layout_constraintTop_toBottomOf="@+id/textfor" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/contsar"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="100dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="90dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -133,14 +163,14 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="Belum Aktivasi"
                 android:fontFamily="sans-serif"
-                android:gravity="center"
+                android:gravity="right"
                 android:text="Belum punya akun?"
                 android:textColor="@color/bluebaground"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textregister"
                 app:layout_constraintStart_toStartOf="parent"
@@ -148,8 +178,9 @@
 
             <TextView
                 android:id="@+id/textregister"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
                 android:contentDescription="Activasi"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center_vertical"
@@ -167,7 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="170dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="sans-serif"
             android:text="CopyRight@Nautulius"

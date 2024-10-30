@@ -6,18 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.nixie.sisuratmob.Database.DbHelper; // Import DbHelper
 import com.nixie.sisuratmob.R;
 
 public class AktivasiXreqActivity extends AppCompatActivity {
     private TextInputEditText editTextNIK;
     private Button buttonVerifikasi;
+    private DbHelper dbHelper; // Deklarasi DbHelper
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +24,7 @@ public class AktivasiXreqActivity extends AppCompatActivity {
 
         editTextNIK = findViewById(R.id.Verivikasi_NIK);
         buttonVerifikasi = findViewById(R.id.verivikasi_akun);
+        dbHelper = new DbHelper(this); // Inisialisasi DbHelper
 
         buttonVerifikasi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,8 +40,8 @@ public class AktivasiXreqActivity extends AppCompatActivity {
     }
 
     private void verifikasiNIK(String nik) {
-        // Simulasi pengecekan NIK dari database
-        boolean isRegistered = checkNIKInDatabase(nik); // Anda perlu mengimplementasikan ini
+        // Cek NIK di database
+        boolean isRegistered = checkNIKInDatabase(nik);
 
         if (isRegistered) {
             // Jika NIK terdaftar
@@ -60,11 +59,7 @@ public class AktivasiXreqActivity extends AppCompatActivity {
     }
 
     private boolean checkNIKInDatabase(String nik) {
-        // Logika untuk memeriksa NIK di database
-        // Gantilah dengan logika yang sesuai untuk aplikasi Anda
-        // Misalnya menggunakan API, SQLite, atau Firebase
-
-        // Contoh statis
-        return nik.equals("1234567890123456"); // Ganti dengan logika sebenarnya
+        return dbHelper.checkNIKExists(nik);
     }
+
 }

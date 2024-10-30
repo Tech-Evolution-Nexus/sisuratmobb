@@ -12,7 +12,7 @@ import com.nixie.sisuratmob.Models.RegistrasiModel;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Esurat_badean";
-    private static final int VERSION = 1 ;
+    private static final int VERSION = 2 ;
     private static final String TABLE_USER = "user";
 
     public DbHelper(@Nullable Context context) {
@@ -45,9 +45,12 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        onCreate(db); // Buat tabel baru
     }
+
+
 
     public void addUser(RegistrasiModel registrasiModel){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -79,4 +82,26 @@ public class DbHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
+
+    public boolean checkNIKExists(String nik) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE nik=?", new String[]{nik});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
+    //untuk mengetahui apakah passwrd yang diubah sesuai denganNik yang ada didtabase
+    public boolean updatePasswordByNIK(String nik, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password", newPassword);
+
+        // Memperbarui password berdasarkan NIK
+        int rows = db.update(TABLE_USER, values, "nik = ?", new String[]{nik});
+        return rows > 0; // Mengembalikan true jika ada baris yang diperbarui
+    }
+
+
+
 }

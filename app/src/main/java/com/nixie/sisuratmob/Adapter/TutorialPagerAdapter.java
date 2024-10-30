@@ -16,21 +16,21 @@ import com.nixie.sisuratmob.R;
 public class TutorialPagerAdapter extends PagerAdapter {
     private Context context;
     private int[] images = {
-            R.drawable.singup, // Ganti dengan nama gambar Anda
-            R.drawable.login,
+            R.drawable.login, // Ganti dengan nama gambar Anda
+            R.drawable.singup,
             R.drawable.veriv
     };
 
     private String[] titles = {
-            "SingUp",
             "Login",
-            "Verivication"
+            "Register",
+            "Aktivasi"
     };
 
     private String[] descriptions = {
-            "Pastikan Anda mengisi semua informasi yang diperlukan dengan benar, termasuk NIK, nomor telepon, dan kata sandi. Setelah mengisi formulir pendaftaran, Anda akan menerima notifikasi konfirmasi untuk mengaktifkan akun Anda",
-            "Kami akan memandu warga yang sudah terdaftar untuk melakukan login ke aplikasi. Cukup masukkan NIK dan kata sandi yang telah Anda daftarkan. Jika Anda lupa kata sandi, klik tautan 'Lupa Kata Sandi' untuk mendapatkan petunjuk pemulihan.",
-            "Proses verifikasi akun sangat penting untuk memastikan keamanan dan keaslian pengguna. Setelah mendaftar, Anda harus memverifikasi akun Anda. Pastikan untuk memeriksa notifikasi dan menyelesaikan verifikasi agar dapat mengakses semua fitur aplikasi."
+            "Kami akan memandu warga yang sudah terdaftar untuk melakukan login ke aplikasi. Cukup masukkan NIK dan kata sandi yang telah Anda daftarkan. Jika data anda sudah terdaftar sebelumnya bisa langsung Login Menuju Aplikasi E-surat.",
+            "Bagi warga baru diharapkan Register terlebih dahulu dan Pastikan Anda mengisi semua informasi yang diperlukan dengan benar, termasuk Nik, nomor telepon, dan kata sandi. ",
+            "Bagi warga yang sudah Terdaftar akan melanjutkan Aktifasi akun, Proses aktifasi akun sangat penting untuk memastikan keamanan dan keaslian pengguna.Pastikan untuk memeriksa notifikasi dan menyelesaikan aktifasi agar dapat mengakses semua fitur aplikasi."
     };
 
     public TutorialPagerAdapter(Context context) {

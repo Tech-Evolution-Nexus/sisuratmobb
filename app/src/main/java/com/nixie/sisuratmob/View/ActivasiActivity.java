@@ -62,10 +62,6 @@ public class ActivasiActivity extends AppCompatActivity {
             Toast.makeText(this, "Password dan konfirmasi password harus sama", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Membuat objek RegistrasiModel dengan hanya nik, nohp, dan password
-        // Perhatikan bahwa kita tidak bisa menggunakan konstruktor tanpa 'id' dan data lainnya
-        // Anda perlu menambahkan nilai default atau mengubah konstruktor
         RegistrasiModel registrasiModel = new RegistrasiModel(0, nik, "", "", "", "", "", "", "", "", "", "", "", "", "", "", password, nohp);
 
         // Menambahkan pengguna ke database
