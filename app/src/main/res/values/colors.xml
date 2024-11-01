@@ -4,13 +4,20 @@
     <color name="white">#FFFFFFFF</color>
     <color name ="bluebaground">#052158</color>
 
-        <color name="colorActive">#052158</color> <!-- Warna aktif (biru) -->
+        <color name="colorActive">#FFFFFF</color> <!-- Warna aktif (biru) -->
         <color name="colorInactive">#FFFFFF</color> <!-- Warna tidak aktif (putih) -->
         <color name="backgroundColor">#052158</color> <!-- Latar belakang awal (biru) -->
         <color name="backgroundActiveColor">#FFFFFF</color> <!-- Latar belakang aktif (putih) -->
-    <color name="ColorGRAY">#D7D9E9</color> <!-- Latar belakang aktif (putih) -->
-    <color name="ColorW">#C4C4D3</color> <!-- Latar belakang aktif (putih) -->
+        <color name="ColorGRAY">#D7D9E9</color> <!-- Latar belakang aktif (putih) -->
+        <color name="ColorW">#C4C4D3</color> <!-- Latar belakang aktif (putih) -->
 
+
+        <color name="purple_200">#7481C8</color>
+        <color name="purple_500">#FF6200EE</color>
+        <color name="purple_700">#FF3700B3</color>
+        <color name="teal_200">#FF03DAC5</color>
+        <color name="teal_700">#FF018786</color>
+        <color name="lavender">#052158</color>
 
 
 

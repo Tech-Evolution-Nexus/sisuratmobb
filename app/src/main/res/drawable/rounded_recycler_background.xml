@@ -1,0 +1,5 @@
+<!-- rounded_recycler_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F4F4F8" /> <!-- Warna abu-abu hint -->
+    <corners android:radius="16dp" /> <!-- Sesuaikan radius untuk efek lengkung -->
+</shape>
