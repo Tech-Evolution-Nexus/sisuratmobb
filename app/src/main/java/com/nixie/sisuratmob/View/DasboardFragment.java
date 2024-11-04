@@ -36,6 +36,7 @@ public class DasboardFragment extends Fragment {
         recyclerViewBerita = view.findViewById(R.id.recyclerViewBerita);
         recyclerViewBerita.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
         // Inisialisasi list berita
         beritaList = new ArrayList<>();
         beritaAdapter = new BeritaAdapter(getActivity(), beritaList);
@@ -60,13 +61,12 @@ public class DasboardFragment extends Fragment {
         });
 
 
-
         return view;
     }
     private void ambilDataBerita() {
         // Contoh data statis
-        beritaList.add(new Berita("Aplikasi Pengajuan Surat Kelurahan Digital", "Kemudahan Pengajuan Surat Warga dengan Aplikasi Praktis dan Efisien", "SiSuratMob hadir sebagai solusi modern yang membantu warga menghemat waktu dan tenaga dalam proses administrasi surat kelurahan, sekaligus memberikan transparansi dan kemudahan akses informasi melalui platform digital yang dapat diandalkan.", R.drawable.berita));
-        beritaList.add(new Berita("E-surat", "Pengembangan aplikasi Esurat", "SiSuratMob adalah aplikasi mobile inovatif yang dirancang untuk memudahkan warga dalam mengajukan berbagai jenis surat kelurahan secara online. Dengan antarmuka yang ramah pengguna, warga dapat dengan mudah mengakses layanan surat menyurat, mulai dari pengajuan surat keterangan domisili hingga surat izin usaha. Aplikasi ini menyediakan berbagai fitur yang mendukung kebutuhan warga dan pengurus RT/RW, seperti notifikasi status pengajuan, riwayat pengajuan, dan konfirmasi dari pihak kelurahan.", R.drawable.beritaw));
+        beritaList.add(new Berita("Pengembangan aplikasi ", "Sub Judul 1", "Deskripsi 1", R.drawable.berita));
+        beritaList.add(new Berita("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
         // Tambahkan berita lain sesuai kebutuhan
         beritaAdapter.notifyDataSetChanged();
     }
