@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.nixie.sisuratmob.Models.RegistrasiModel;
+import com.nixie.sisuratmob.Models.Warga.RegistrasiModel;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Esurat_badean";

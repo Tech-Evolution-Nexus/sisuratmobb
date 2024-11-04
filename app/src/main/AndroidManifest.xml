@@ -13,37 +13,57 @@
         android:theme="@style/Theme.Sisuratmob"
         tools:targetApi="31">
         <activity
-            android:name=".View.SuratActivity"
+            android:name=".View.RW.RekapRwActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.RW.SuratMasukRwActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.RW.DashboardRwActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.RT.RekapRtActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.RT.SuratMasukRtActivity"
             android:exported="false"
             android:theme="@style/Theme.Sisuratmob" />
         <activity
-            android:name=".View.StatusSuratActivity"
+            android:name=".View.RT.DashboardRtActivity"
             android:exported="false"
             android:theme="@style/Theme.Sisuratmob" />
         <activity
-            android:name=".View.ForgotPasswordActivity"
+            android:name=".View.Warga.Activity.SuratActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Sisuratmob" />
+        <activity
+            android:name=".View.Warga.Activity.StatusSuratActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Sisuratmob" />
+        <activity
+            android:name=".View.Warga.Activity.ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".View.RegisterActivity"
+            android:name=".View.Warga.Activity.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".View.AktivasiXreqActivity"
+            android:name=".View.Warga.Activity.AktivasiXreqActivity"
             android:exported="false" />
         <activity
-            android:name=".View.TutorialActivity"
+            android:name=".View.Warga.Activity.TutorialActivity"
             android:exported="false" />
         <activity
-            android:name=".View.DashboardActivity"
+            android:name=".View.Warga.Activity.DashboardActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".View.ActivasiActivity"
+            android:name=".View.Warga.Activity.ActivasiActivity"
             android:exported="false" />
         <activity
-            android:name=".View.LoginActivity"
+            android:name=".View.Warga.Activity.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".View.MainActivity"
+            android:name=".View.Warga.Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
