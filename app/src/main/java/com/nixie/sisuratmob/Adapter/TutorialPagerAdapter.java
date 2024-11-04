@@ -17,8 +17,8 @@ public class TutorialPagerAdapter extends PagerAdapter {
     private Context context;
     private int[] images = {
             R.drawable.login, // Ganti dengan nama gambar Anda
-            R.drawable.singup,
-            R.drawable.veriv
+            R.drawable.register,
+            R.drawable.actv
     };
 
     private String[] titles = {

@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:background="@color/ColorGRAY"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/rectanglewhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -18,10 +19,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="1sp"
+            android:background="@drawable/rounded_bottom_corners"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Overlay gelap -->
 
             <TextView
                 android:id="@+id/textView5"
@@ -29,8 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
                 android:text="Hello Mr holid !!"
-                android:textColor="#052158"
+                android:textColor="#142378"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +50,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:text="Selamat datang Di Aplikasi E-Surat Badean!"
-                android:textColor="#052158"
+                android:textColor="#061043"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -95,7 +100,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            android:padding="0dp">
+            android:padding="2dp">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,10 +118,10 @@
                     android:layout_marginEnd="32dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.065"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintVertical_bias="0.231"
                     app:srcCompat="@drawable/coba" />
 
                 <TextView
@@ -149,7 +154,7 @@
                     android:hint="Cari Pengajuan Surat"
                     android:padding="8dp"
                     android:textColor="#052158"
-                    android:textSize="14sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -160,8 +165,9 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="350dp"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="20dp">
 
@@ -169,9 +175,11 @@
                     android:id="@+id/textView7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:fontFamily="sans-serif-black"
                     android:text="Pengajuan Surat"
-                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -180,49 +188,55 @@
                 <TextView
                     android:id="@+id/textSurat"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:drawableEnd="@drawable/ic_lanjut"
                     android:fontFamily="sans-serif"
-                    android:text="Ajukan berbagai surat dengan mudah dan cepat sesuai kebutuhan anda"
+                    android:text="Ajukan berbagai surat dengan mudah dan cepat.."
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-
                 <!-- Kotak Menu 1: Surat Keterangan Domisili -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/menu1"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_margin="8dp"
                     android:layout_marginTop="20dp"
                     app:cardCornerRadius="8dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textSurat"
                     app:layout_constraintWidth_percent="0.45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="46dp"
+                        android:layout_height="70dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="15dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="26dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:contentDescription="Ikon Surat Keterangan Domisili"
                             android:scaleType="fitCenter"
                             android:src="@drawable/rumah" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
-                            android:text="Surat Keterangan Domisili"
-                            android:textSize="14sp" />
+                            android:text="SK Domisili"
+                            android:fontFamily="sans-serif"
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -230,10 +244,11 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/menu2"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_margin="8dp"
                     android:layout_marginTop="20dp"
                     app:cardCornerRadius="8dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textSurat"
                     app:layout_constraintWidth_percent="0.45">
@@ -242,22 +257,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:contentDescription="Ikon Surat Keterangan Usaha"
                             android:scaleType="fitCenter"
                             android:src="@drawable/bisnis" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
-                            android:text="Surat Keterangan Usaha"
-                            android:textSize="14sp" />
+                            android:text="SK Usaha"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -265,10 +281,11 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/menu3"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_margin="8dp"
                     android:layout_marginTop="8dp"
                     app:cardCornerRadius="8dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/menu1"
                     app:layout_constraintWidth_percent="0.45">
@@ -277,22 +294,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:contentDescription="Ikon Surat Keterangan Tidak Mampu"
                             android:scaleType="fitCenter"
                             android:src="@drawable/disabilitas" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="8dp"
-                            android:text="Surat Keterangan Tidak Mampu"
-                            android:textSize="14sp" />
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif"
+                            android:text="SK Tidak Mampu"
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -300,10 +319,11 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/menu4"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_margin="8dp"
                     android:layout_marginTop="8dp"
                     app:cardCornerRadius="8dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/menu2"
                     app:layout_constraintWidth_percent="0.45">
@@ -312,22 +332,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:contentDescription="Ikon Surat Permohonan Pindah"
                             android:scaleType="fitCenter"
                             android:src="@drawable/transfer" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
-                            android:text="Surat Permohonan Pindah"
-                            android:textSize="14sp" />
+                            android:text="SK Permohonan Pindah"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -335,10 +357,11 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/menu5"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_margin="8dp"
                     android:layout_marginTop="8dp"
                     app:cardCornerRadius="8dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/menu3"
                     app:layout_constraintWidth_percent="0.45">
@@ -347,136 +370,119 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:contentDescription="Ikon Surat Izin Keramaian"
                             android:scaleType="fitCenter"
                             android:src="@drawable/kermaaian" />
-
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
-                            android:text="Surat Izin Keramaian"
-                            android:textSize="14sp" />
+                            android:fontFamily="sans-serif"
+                            android:text="SK Izin Keramaian"
+                            android:textSize="16sp" />
+
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
 
                 <!-- Kotak Menu 6: Surat Keterangan Kematian -->
-                <TextView
-                    android:id="@+id/pengajuan_surat"
-                    android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_marginStart="200dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/rectangelradius"
-                    android:drawableEnd="@drawable/ic_lj"
-                    android:drawablePadding="6dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="Pengajuan lainnya"
-                    android:textColor="@color/white"
-                    android:textSize="13dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/menu6" />
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/menu6"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_margin="8dp"
                     android:layout_marginTop="8dp"
                     app:cardCornerRadius="8dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/menu4"
                     app:layout_constraintWidth_percent="0.45">
 
                     <LinearLayout
-                        android:id="@+id/ok"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:contentDescription="Ikon Surat Keterangan Kematian"
                             android:scaleType="fitCenter"
                             android:src="@drawable/deadt" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
-                            android:text="Surat Keterangan Kematian"
-                            android:textSize="14sp" />
+                            android:text="SK Kematian"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif"/>
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/textView16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Berita"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:text="Berita"
-                    android:textSize="17dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textBerita"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="32dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Informasi terbaru seputar kegiatan dan Pekembangan di Lingkungan desa/kelurahan anda"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            <TextView
+                android:id="@+id/textBerita"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:drawableEnd="@drawable/ic_lanjut"
+                android:drawablePadding="10dp"
+                android:fontFamily="sans-serif"
+                android:padding="10dp"
+                android:text="Informasi terbaru seputar kegiatan dan Pekembangan di Lingkungan desa/kelurahan anda"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
 
-                <TextView
-                    android:id="@+id/textView19"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text=">"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/textBerita"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewBerita"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_recycler_background"
+                android:nestedScrollingEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textBerita" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewBerita"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textBerita"
-                    tools:layout_editor_absoluteX="0dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="CopyRight@2024"
+                android:gravity="center"/>
         </LinearLayout>
-
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
