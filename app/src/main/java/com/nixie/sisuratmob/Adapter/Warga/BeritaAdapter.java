@@ -37,7 +37,7 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
         holder.judulTextView.setText(berita.getJudul());
         holder.gambarImageView.setImageResource(berita.getGambarUrl()); // Menggunakan resource ID
     }
-    @Override
+@Override
     public int getItemCount() {
         return beritaList.size();
     }
