@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nixie.sisuratmob.Models.Warga.Berita;
 import com.nixie.sisuratmob.R;
 
@@ -38,6 +36,7 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
         holder.gambarImageView.setImageResource(berita.getGambarUrl()); // Menggunakan resource ID
     }
 @Override
+
     public int getItemCount() {
         return beritaList.size();
     }
@@ -51,5 +50,10 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
             judulTextView = itemView.findViewById(R.id.judulTextView);
             gambarImageView = itemView.findViewById(R.id.gambarImageView);
         }
+    }
+    public void updateData(List<Berita> newBeritaList) {
+        beritaList.clear(); // Hapus data lama
+        beritaList.addAll(newBeritaList); // Tambahkan data baru
+        notifyDataSetChanged(); // Refresh RecyclerView
     }
 }
