@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.nixie.sisuratmob.Adapter.BeritaAdapter;
+import com.nixie.sisuratmob.View.Adapter.BeritaAdapter;
 import com.nixie.sisuratmob.Models.Berita;
 import com.nixie.sisuratmob.R;
 import java.util.ArrayList;

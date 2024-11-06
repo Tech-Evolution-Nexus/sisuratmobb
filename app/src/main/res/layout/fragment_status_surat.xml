@@ -13,16 +13,6 @@
         android:orientation="vertical">
 
         <!-- Judul atau Toolbar di bagian atas -->
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status Surat"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:padding="16dp"
-            android:gravity="center"/>
 
         <!-- TabLayout untuk tab navigasi di atas -->
         <com.google.android.material.tabs.TabLayout
@@ -32,7 +22,7 @@
             app:tabIndicatorColor="#052158"
             app:tabSelectedTextColor="#052158"
             app:tabTextColor="#7A7A7A"
-            app:tabMode="fixed"/>
+            app:tabMode="scrollable"/>
 
         <!-- ViewPager2 untuk menampilkan konten sesuai tab yang dipilih -->
         <androidx.viewpager2.widget.ViewPager2

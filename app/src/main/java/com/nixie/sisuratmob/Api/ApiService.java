@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    @GET("jenissurat/{nik}/{id_surat}") // Ganti dengan endpoint yang benar
+    @GET("jenissurat/{nik}/{id_surat}")
     Call<ResponModel> getDataForm(
             @Path("nik") String nik,
             @Path("id_surat") int id_surat

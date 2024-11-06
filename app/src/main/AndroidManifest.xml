@@ -15,13 +15,8 @@
         android:networkSecurityConfig="@xml/network_security_config">
         <activity
             android:name=".View.FormPengajuanActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".View.StatusSuratActivity"
             android:exported="true">
@@ -31,10 +26,7 @@
             android:name=".View.SuratActivity"
             android:exported="false"
             android:theme="@style/Theme.Sisuratmob" />
-        <activity
-            android:name=".View.StatusSuratActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Sisuratmob" />
+
         <activity
             android:name=".View.ForgotPasswordActivity"
             android:exported="false" />
@@ -59,7 +51,13 @@
             android:exported="true" />
         <activity
             android:name=".View.MainActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 

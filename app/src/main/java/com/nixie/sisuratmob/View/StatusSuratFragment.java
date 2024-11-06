@@ -7,15 +7,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.nixie.sisuratmob.Adapter.StatusSuratAdapter;
 import com.nixie.sisuratmob.R;
+import com.nixie.sisuratmob.View.Adapter.ViewPagerStatusAdapter;
 
 public class StatusSuratFragment extends Fragment {
 
@@ -24,7 +21,7 @@ public class StatusSuratFragment extends Fragment {
 
 
     public StatusSuratFragment() {
-        super(R.layout.fragment_status_surat); // Referensi ke layout fragment_status_surat.xml
+        super(R.layout.fragment_status_surat);
     }
 
     @Override
@@ -32,29 +29,31 @@ public class StatusSuratFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Inisialisasi komponen dari layout
-        tabLayout = view.findViewById(R.id.tabLayout);
-        viewPager = view.findViewById(R.id.viewPager);
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        ViewPager2 viewPager = view.findViewById(R.id.viewPager);
 
         // Set adapter untuk ViewPager
-        StatusSuratAdapter adapter = new StatusSuratAdapter(this);
+        ViewPagerStatusAdapter adapter = new ViewPagerStatusAdapter(getActivity());
         viewPager.setAdapter(adapter);
 
-        // Sinkronkan TabLayout dengan ViewPager menggunakan TabLayoutMediator
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            switch (position) {
-                case 0:
-                    tab.setText("Surat Diajukan");
-                    break;
-                case 1:
-                    tab.setText("Surat Diproses");
-                    break;
-                case 2:
-                    tab.setText("Surat Selesai");
-                    break;
-                case 3:
-                    tab.setText("Surat Ditolak");
-                    break;
-            }
-        }).attach();
+        // Hubungkan ViewPager2 dengan TabLayout
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    switch (position) {
+                        case 0:
+                            tab.setText("Surat Diajukan");
+                            break;
+                        case 1:
+                            tab.setText("Surat Diproses");
+                            break;
+                        case 2:
+                            tab.setText("Surat Selesai");
+                            break;
+                        case 3:
+                            tab.setText("Surat Ditolak");
+                            break;
+                    }
+                }
+        ).attach();
     }
 }

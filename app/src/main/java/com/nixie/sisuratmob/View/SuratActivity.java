@@ -4,7 +4,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.nixie.sisuratmob.Adapter.SuratItemAdapter;
+import com.nixie.sisuratmob.View.Adapter.SuratItemAdapter;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
 import java.util.ArrayList;
