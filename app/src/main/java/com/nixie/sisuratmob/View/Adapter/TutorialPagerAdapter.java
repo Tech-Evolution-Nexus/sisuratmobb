@@ -1,4 +1,4 @@
-package com.nixie.sisuratmob.Adapter;
+package com.nixie.sisuratmob.View.Adapter;
 
 // TutorialPagerAdapter.java // Sesuaikan dengan package Anda
 

@@ -1,4 +1,4 @@
-package com.nixie.sisuratmob.Adapter;
+package com.nixie.sisuratmob.View.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
