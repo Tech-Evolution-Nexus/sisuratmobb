@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".View.DashboardActivity">
+    tools:context=".View.Warga.Activity.DashboardActivity">
 
     <!-- Konten Utama -->
     <androidx.constraintlayout.widget.ConstraintLayout

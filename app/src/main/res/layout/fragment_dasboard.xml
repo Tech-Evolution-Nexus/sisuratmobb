@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.DashboardActivity">
+    tools:context=".View.Warga.Activity.DashboardActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -230,6 +230,7 @@
                             android:src="@drawable/rumah" />
 
                         <TextView
+                            android:id="@+id/SKDomisili"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -268,6 +269,7 @@
                             android:src="@drawable/bisnis" />
 
                         <TextView
+                            android:id="@+id/SkUsaha"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
