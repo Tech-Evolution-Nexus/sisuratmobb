@@ -1,22 +1,19 @@
 package com.nixie.sisuratmob.View;
 
 // TutorialActivity.java
- // Sesuaikan dengan package Anda
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import com.nixie.sisuratmob.View.Adapter.TutorialPagerAdapter;
 import com.nixie.sisuratmob.R;
 
 public class TutorialActivity extends AppCompatActivity {
     private ViewPager viewPager;
-    private Button doneButton;
-
+    private Button doneButton, nextButton, backButton;
+    private TutorialPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +22,10 @@ public class TutorialActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
         doneButton = findViewById(R.id.doneButton);
-        TutorialPagerAdapter adapter = new TutorialPagerAdapter(this);
+        nextButton = findViewById(R.id.nextButton);
+        backButton = findViewById(R.id.backButton);
+
+        adapter = new TutorialPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
         doneButton.setOnClickListener(v -> {
@@ -34,10 +34,34 @@ public class TutorialActivity extends AppCompatActivity {
             finish();
         });
 
+        // Menangani Tombol Next
+        nextButton.setOnClickListener(v -> {
+            int currentItem = viewPager.getCurrentItem();
+            if (currentItem < adapter.getCount() - 1) {
+                viewPager.setCurrentItem(currentItem + 1);
+            }
+        });
+
+        // Menangani Tombol Back
+        backButton.setOnClickListener(v -> {
+            int currentItem = viewPager.getCurrentItem();
+            if (currentItem > 0) {
+                viewPager.setCurrentItem(currentItem - 1);
+            }
+        });
+
+        // Menangani perubahan halaman pada ViewPager
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                // Tombol "Selesai" hanya muncul di slide terakhir
                 doneButton.setVisibility(position == adapter.getCount() - 1 ? View.VISIBLE : View.GONE);
+
+                // Tombol Back hanya muncul di slide selain pertama
+                backButton.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+
+                // Tombol Next hanya muncul di slide selain terakhir
+                nextButton.setVisibility(position == adapter.getCount() - 1 ? View.GONE : View.VISIBLE);
             }
         });
     }
