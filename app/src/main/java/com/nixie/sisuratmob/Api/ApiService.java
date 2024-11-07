@@ -1,7 +1,9 @@
 package com.nixie.sisuratmob.Api;
 
+import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.RiwayatSurat;
+import com.nixie.sisuratmob.View.Adapter.ListKkAdapter;
 
 import java.util.List;
 
@@ -19,5 +21,9 @@ public interface ApiService {
     Call<ResponModel> getPengajuan(
             @Path("nik") String nik,
             @Path("status") String status
+    );
+    @GET("getlistkk/{nokk}") // Gantilah dengan URL endpoint API yang sesuai
+    Call<List<ListKkModel>> getkk(
+            @Path("nokk") String nokk
     );
 }

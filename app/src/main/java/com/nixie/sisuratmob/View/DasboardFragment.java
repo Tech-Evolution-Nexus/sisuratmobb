@@ -51,7 +51,7 @@ public class DasboardFragment extends Fragment {
         btnsur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),FormPengajuanActivity.class);
+                Intent intent = new Intent(getActivity(), ListKeluargaActivity.class);
                 startActivity(intent);
             }
         });

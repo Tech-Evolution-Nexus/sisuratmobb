@@ -1,32 +1,32 @@
 package com.nixie.sisuratmob.Models;
 
-public class ListKk {
-    private String NIK;
+public class ListKkModel {
+    private String nik;
     private String nama;
 
 
     // Constructor
-    public ListKk(String nomorKK, String namaKepalaKeluarga, String alamat, String fotoKepalaKeluarga) {
-        this.NIK = nomorKK;
+    public ListKkModel(String nomorKK, String namaKepalaKeluarga, String alamat, String fotoKepalaKeluarga) {
+        this.nik = nomorKK;
         this.nama = namaKepalaKeluarga;
 
     }
 
     // Getter and Setter
     public String getNomorKK() {
-        return NIK;
+        return nik;
     }
 
     public void setNomorKK(String nomorKK) {
-        this.NIK = NIK;
+        this.nik = nik;
     }
 
 
-    public String getAlamat() {
+    public String getnama() {
         return nama;
     }
 
-    public void setAlamat(String alamat) {
+    public void setnama(String nama) {
         this.nama = nama;
     }
 }

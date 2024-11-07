@@ -26,17 +26,10 @@
             android:name=".View.SuratActivity"
             android:exported="false"
             android:theme="@style/Theme.Sisuratmob" />
-
-            android:name=".View.ListJenisSuratActivity"
-            android:exported="false" />
         <activity
             android:name=".View.ListKeluargaActivity"
             android:exported="true">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".View.ForgotPasswordActivity"
@@ -62,6 +55,11 @@
         <activity
             android:name=".View.MainActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
