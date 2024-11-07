@@ -2,18 +2,14 @@ package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.nixie.sisuratmob.Database.DbHelper;
 import com.nixie.sisuratmob.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -79,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if (nik.equals(DUMMY_NIK_RT) && password.equals(DUMMY_PASSWORD_RT)) {
             Toast.makeText(LoginActivity.this, "Login Berhasil sebagai RT", Toast.LENGTH_SHORT).show();
             // Arahkan ke Dashboard RT
-            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            Intent intent = new Intent(LoginActivity.this, DashboardRtActivity.class);
             startActivity(intent);
             finish();
         } else if (nik.equals(DUMMY_NIK_RW) && password.equals(DUMMY_PASSWORD_RW)) {

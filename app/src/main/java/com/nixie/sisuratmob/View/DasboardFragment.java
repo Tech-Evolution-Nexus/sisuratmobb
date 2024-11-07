@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,16 +24,18 @@ public class DasboardFragment extends Fragment {
     private RecyclerView recyclerViewBerita;
     private BeritaAdapter beritaAdapter;
     private List<Berita> beritaList;
-    private LinearLayout btnsur;
 
 
+    public DasboardFragment() {
+        // Fragment constructor harus kosong (default)
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dasboard, container, false);
+
         Surat = view.findViewById(R.id.textSurat);
         Berita = view.findViewById(R.id.textBerita);
-        btnsur = view.findViewById(R.id.btn_surrat);
         // Inisialisasi RecyclerView
         recyclerViewBerita = view.findViewById(R.id.recyclerViewBerita);
         recyclerViewBerita.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -48,17 +48,11 @@ public class DasboardFragment extends Fragment {
 
         // Panggil fungsi untuk mengambil data berita
         ambilDataBerita();
-        btnsur.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),FormPengajuanActivity.class);
-                startActivity(intent);
-            }
-        });
+
         Surat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),SuratActivity.class);
+                Intent intent = new Intent(getActivity(),StatusSuratActivity.class);
                 startActivity(intent);
             }
         });
