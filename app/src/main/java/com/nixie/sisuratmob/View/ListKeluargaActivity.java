@@ -51,16 +51,16 @@ public class ListKeluargaActivity extends AppCompatActivity {
         recyclerView.setAdapter(listKeluargaAdapter);
 
         // Mengambil data dari API
-        fetchDataFromAPI("23");
+        fetchDataFromAPI("1232313212133212");
     }
     private void fetchDataFromAPI(String nokk) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<List<ListKkModel>> call = apiService.getkk(nokk);
-        call.enqueue(new Callback<List<ListKkModel>>(){
+        Call<ResponModel> call = apiService.getkk(nokk);
+        call.enqueue(new Callback<ResponModel>(){
             @Override
-            public void onResponse(@NonNull Call<List<ListKkModel>> call, @NonNull Response<List<ListKkModel>> response) {
+            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<ListKkModel> suratList = response.body();
+                    List<ListKkModel> suratList = response.body().getDatakk();
                     if (suratList != null) {
                         dataList.clear();
                         dataList.addAll(suratList);
@@ -74,7 +74,7 @@ public class ListKeluargaActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<ListKkModel>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
                 Log.e("API Error", "Error: " + t.getMessage());
                 Toast.makeText(ListKeluargaActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }

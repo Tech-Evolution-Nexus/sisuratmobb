@@ -113,7 +113,7 @@ public class DiajukanFragment extends Fragment {
                     if (suratList != null) {
                         riwayatSuratList.clear();
                         riwayatSuratList.addAll(suratList);
-                        statusPengajuanAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
+                        statusPengajuanAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
                     }

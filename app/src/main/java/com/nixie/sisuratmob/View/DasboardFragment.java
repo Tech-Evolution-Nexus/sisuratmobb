@@ -36,17 +36,14 @@ public class DasboardFragment extends Fragment {
         Surat = view.findViewById(R.id.textSurat);
         Berita = view.findViewById(R.id.textBerita);
         btnsur = view.findViewById(R.id.btn_surrat);
-        // Inisialisasi RecyclerView
+
         recyclerViewBerita = view.findViewById(R.id.recyclerViewBerita);
         recyclerViewBerita.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-        // Inisialisasi list berita
         beritaList = new ArrayList<>();
         beritaAdapter = new BeritaAdapter(getActivity(), beritaList);
         recyclerViewBerita.setAdapter(beritaAdapter);
 
-        // Panggil fungsi untuk mengambil data berita
         ambilDataBerita();
         btnsur.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +55,7 @@ public class DasboardFragment extends Fragment {
         Surat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),SuratActivity.class);
+                Intent intent = new Intent(getActivity(),ListJenisSuratActivity.class);
                 startActivity(intent);
             }
         });

@@ -22,8 +22,10 @@ public interface ApiService {
             @Path("nik") String nik,
             @Path("status") String status
     );
-    @GET("getlistkk/{nokk}") // Gantilah dengan URL endpoint API yang sesuai
-    Call<List<ListKkModel>> getkk(
+    @GET("getlistkk/{nokk}")
+    Call<ResponModel> getkk(
             @Path("nokk") String nokk
     );
+    @GET("getlistsurat/")
+    Call<ResponModel> getsurat();
 }

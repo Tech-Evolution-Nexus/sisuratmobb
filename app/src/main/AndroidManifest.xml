@@ -45,7 +45,13 @@
             android:exported="false" />
         <activity
             android:name=".View.DashboardActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".View.ActivasiActivity"
             android:exported="false" />
@@ -53,13 +59,11 @@
             android:name=".View.LoginActivity"
             android:exported="true" />
         <activity
+            android:name=".View.ListJenisSuratActivity"
+            android:exported="true" />
+        <activity
             android:name=".View.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

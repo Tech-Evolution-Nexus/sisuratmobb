@@ -2,23 +2,27 @@ package com.nixie.sisuratmob.Models;
 
 public class Surat {
 
-    private int gambarSurat;
-    private String namaSurat;
-    public Surat(String suratKeterangan, int kermaaian) {
+    private String image;
+    private String nama_surat;
+
+    public void Surat(String image, String nama_surat){
+        this.image = image;
+        this.nama_surat = nama_surat;
     }
 
-
-    public void Surat(int gambarSurat, String namaSurat){
-        this.gambarSurat = gambarSurat;
-        this.namaSurat = namaSurat;
+    public String getImage() {
+        return image;
     }
 
-    public int getGambarSurat() {
-        return gambarSurat;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getNamaSurat() {
-        return namaSurat;
+    public String getNama_surat() {
+        return nama_surat;
     }
 
+    public void setNama_surat(String nama_surat) {
+        this.nama_surat = nama_surat;
+    }
 }

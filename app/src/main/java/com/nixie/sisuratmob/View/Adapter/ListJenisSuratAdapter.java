@@ -9,15 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nixie.sisuratmob.Models.ListKkModel;
+import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
 
 import java.util.List;
 
 public class ListJenisSuratAdapter extends RecyclerView.Adapter<ListJenisSuratAdapter.DataViewHolder> {
-    private List<ListKkModel> dataList;
+    private List<Surat> dataList;
 
     // Constructor
-    public ListJenisSuratAdapter(List<ListKkModel> dataList) {
+    public ListJenisSuratAdapter(List<Surat> dataList) {
         this.dataList = dataList;
     }
 
@@ -31,9 +32,8 @@ public class ListJenisSuratAdapter extends RecyclerView.Adapter<ListJenisSuratAd
 
     @Override
     public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
-        ListKkModel data = dataList.get(position);
-        holder.nikTextView.setText(data.getNomorKK());
-        holder.namaTextView.setText(data.getnama());
+        Surat data = dataList.get(position);
+        holder.namaTextView.setText(data.getNama_surat());
     }
 
     @Override
@@ -42,12 +42,11 @@ public class ListJenisSuratAdapter extends RecyclerView.Adapter<ListJenisSuratAd
     }
 
     public static class DataViewHolder extends RecyclerView.ViewHolder {
-        TextView nikTextView, namaTextView;
+        TextView namaTextView;
 
         public DataViewHolder(View itemView) {
             super(itemView);
-            nikTextView = itemView.findViewById(R.id.daftar_surat);
-            namaTextView = itemView.findViewById(R.id.cari);
+            namaTextView = itemView.findViewById(R.id.jenistxt);
         }
     }
 }

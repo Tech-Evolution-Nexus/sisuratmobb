@@ -2,14 +2,11 @@ package com.nixie.sisuratmob.Models;
 
 public class ListKkModel {
     private String nik;
-    private String nama;
+    private String nama_lengkap;
 
-
-    // Constructor
-    public ListKkModel(String nomorKK, String namaKepalaKeluarga, String alamat, String fotoKepalaKeluarga) {
-        this.nik = nomorKK;
-        this.nama = namaKepalaKeluarga;
-
+    public ListKkModel(String nik, String nama_lengkap	) {
+        this.nik = nik;
+        this.nama_lengkap = nama_lengkap;
     }
 
     // Getter and Setter
@@ -23,11 +20,11 @@ public class ListKkModel {
 
 
     public String getnama() {
-        return nama;
+        return nama_lengkap;
     }
 
     public void setnama(String nama) {
-        this.nama = nama;
+        this.nama_lengkap = nama_lengkap;
     }
 }
 
