@@ -61,15 +61,18 @@ public class LoginActivity extends AppCompatActivity {
 
         // Tambahkan log untuk melihat nilai nik dan password
         Log.d("LoginActivity", "NIK: " + nik + ", Password: " + password);
-
-        if (dbHelper.checkUser(nik, password)) {
-            Toast.makeText(this, "login berhasil", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, DashboardActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "nik dan password salah", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, "login berhasil", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
+//        if (dbHelper.checkUser(nik, password)) {
+//            Toast.makeText(this, "login berhasil", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(this, DashboardActivity.class);
+//            startActivity(intent);
+//            finish();
+//        } else {
+//            Toast.makeText(this, "nik dan password salah", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 }

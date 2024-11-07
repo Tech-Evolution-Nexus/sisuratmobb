@@ -10,7 +10,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.nixie.sisuratmob.Adapter.TutorialPagerAdapter;
+import com.nixie.sisuratmob.View.Adapter.TutorialPagerAdapter;
 import com.nixie.sisuratmob.R;
 
 public class TutorialActivity extends AppCompatActivity {
