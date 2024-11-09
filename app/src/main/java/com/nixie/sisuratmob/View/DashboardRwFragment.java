@@ -21,37 +21,37 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nixie.sisuratmob.Models.Berita;
-import com.nixie.sisuratmob.Models.BeritaRt;
+import com.nixie.sisuratmob.Models.BeritaRw;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
-import com.nixie.sisuratmob.View.Adapter.BeritaRtAdapter;
+import com.nixie.sisuratmob.View.Adapter.BeritaRwAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardRtFragment extends Fragment {
+public class DashboardRwFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private BeritaRtAdapter beritaRtAdapter;
-    private List<BeritaRt> beritaRtList;
+    private BeritaRwAdapter beritaRwAdapter;
+    private List<BeritaRw> beritaRwList;
     private ImageView icon;
 
-    public DashboardRtFragment() {
+    public DashboardRwFragment() {
         // Required empty public constructor
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dashboard_rt, container, false);
+        View view = inflater.inflate(R.layout.fragment_dashboard_rw, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewBerita);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
-        beritaRtList = new ArrayList<>();
-        beritaRtAdapter = new BeritaRtAdapter(getActivity(), beritaRtList);
-        recyclerView.setAdapter(beritaRtAdapter);
+        beritaRwList = new ArrayList<>();
+        beritaRwAdapter = new BeritaRwAdapter(getActivity(), beritaRwList);
+        recyclerView.setAdapter(beritaRwAdapter);
 
-        recyclerView.setAdapter(beritaRtAdapter);
+        recyclerView.setAdapter(beritaRwAdapter);
         recyclerView.setHasFixedSize(true);
         ambilDataBerita();
 
@@ -118,17 +118,17 @@ public class DashboardRtFragment extends Fragment {
     }
 
     private void ambilDataBerita() {
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi ", "Sub Judul 1", "Deskripsi 1", R.drawable.berita));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi ", "Sub Judul 1", "Deskripsi 1", R.drawable.berita));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
+        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
         // Tambahkan berita lain sesuai kebutuhan
-        beritaRtAdapter.notifyDataSetChanged();
+        beritaRwAdapter.notifyDataSetChanged();
     }
 }

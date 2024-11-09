@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if (nik.equals(DUMMY_NIK_RW) && password.equals(DUMMY_PASSWORD_RW)) {
             Toast.makeText(LoginActivity.this, "Login Berhasil sebagai RW", Toast.LENGTH_SHORT).show();
             // Arahkan ke Dashboard RW
-            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            Intent intent = new Intent(LoginActivity.this, DashboardRwActivity.class);
             startActivity(intent);
             finish();
         } else {
