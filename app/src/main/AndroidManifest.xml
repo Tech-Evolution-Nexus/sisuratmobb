@@ -15,22 +15,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sisuratmob"
         tools:targetApi="31">
+
+
+        <activity
+            android:name=".View.DashboardRwActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".View.DashboardRtActivity"
             android:exported="true"
-            android:theme="@style/Theme.Sisuratmob" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/Theme.Sisuratmob"/>
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+        <activity
+            android:name=".View.ListKeluargaActivity"
+            android:exported="true" />
         <activity
             android:name=".View.FormPengajuanActivity"
             android:exported="true" />
         <activity
             android:name=".View.StatusSuratActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".View.ForgotPasswordActivity"
             android:exported="false" />
@@ -55,8 +64,7 @@
             android:exported="true" />
         <activity
             android:name=".View.MainActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
     </application>
 
 </manifest>
