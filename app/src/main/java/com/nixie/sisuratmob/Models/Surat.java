@@ -5,7 +5,7 @@ public class Surat {
     private String image;
     private String nama_surat;
 
-    public void Surat(String image, String nama_surat){
+    public Surat(String image, String nama_surat){
         this.image = image;
         this.nama_surat = nama_surat;
     }
