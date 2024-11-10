@@ -1,6 +1,7 @@
 package com.nixie.sisuratmob.View.Adapter;
 
-// TutorialPagerAdapter.java // Sesuaikan dengan package Anda
+// TutorialPagerAdapter.java
+// Sesuaikan dengan package Anda
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -70,4 +71,3 @@ public class TutorialPagerAdapter extends PagerAdapter {
         container.removeView((View) obj);
     }
 }
-

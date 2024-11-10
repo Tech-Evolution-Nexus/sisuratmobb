@@ -38,7 +38,7 @@
             android:id="@+id/txt2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:contentDescription="Deskripsi untuk pembaca layar: Solusi cerdas untuk kebutuhan surat menyurat kelurahan Anda."
             android:gravity="center"
             android:text="Solusi cerdas untuk kebutuhan surat menyurat kelurahan Anda!"

@@ -2,77 +2,90 @@ package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.nixie.sisuratmob.Database.DbHelper;
 import com.nixie.sisuratmob.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextInputEditText editTextNik;
-    private TextInputEditText editTextPassword;
-    private Button buttonlogin;
-    private TextView textregister;
-    private TextView txtforg;
-    private DbHelper dbHelper;
+    private EditText editTextNIK, editTextPassword;
+    private Button buttonLogin;
+    private TextView register;
+    private TextView lupasandi;
+
+    // Data dummy untuk login (NIK dan Password berdasarkan role)
+    private static final String DUMMY_NIK_WARGA = "123456789";
+    private static final String DUMMY_PASSWORD_WARGA = "123";
+    private static final String DUMMY_NIK_RT = "987654321";
+    private static final String DUMMY_PASSWORD_RT = "321";
+    private static final String DUMMY_NIK_RW = "56789";
+    private static final String DUMMY_PASSWORD_RW = "rw";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+        register = findViewById(R.id.textregister);
+        lupasandi = findViewById(R.id.textfor);
 
-        // Inisialisasi view
-        editTextNik = findViewById(R.id.Login_NIK);
+        editTextNIK = findViewById(R.id.Login_NIK);
         editTextPassword = findViewById(R.id.login_password);
-        buttonlogin = findViewById(R.id.login_masuk);
-        dbHelper = new DbHelper(this);
-        txtforg = findViewById(R.id.textfor);
+        buttonLogin = findViewById(R.id.login_masuk);
 
-        // Set onclick listener untuk tombol login
-        buttonlogin.setOnClickListener(v -> Login());
 
-        // Inisialisasi dan set onclick listener untuk forgot password
-
-        // Inisialisasi dan set onclick listener untuk registrasi
-        txtforg.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
-            startActivity(intent);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inten = new Intent(LoginActivity.this,AktivasiXreqActivity.class);
+                startActivity(inten);
+            }
         });
-        textregister = findViewById(R.id.textregister);
-        textregister.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, AktivasiXreqActivity.class);
-            startActivity(intent);
+
+        lupasandi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inten = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+                startActivity(inten);
+            }
+        });
+        buttonLogin.setOnClickListener(v -> {
+            String nik = editTextNIK.getText().toString();
+            String password = editTextPassword.getText().toString();
+            if (!nik.isEmpty() && !password.isEmpty()) {
+                login(nik, password);
+            } else {
+                Toast.makeText(LoginActivity.this, "Semua kolom wajib diisi", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    // Fungsi untuk pengiriman pesan
-    private void Login() {
-        String nik = editTextNik.getText().toString();
-        String password = editTextPassword.getText().toString();
-
-        // Tambahkan log untuk melihat nilai nik dan password
-        Log.d("LoginActivity", "NIK: " + nik + ", Password: " + password);
-        Toast.makeText(this, "login berhasil", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, DashboardActivity.class);
-        startActivity(intent);
-        finish();
-//        if (dbHelper.checkUser(nik, password)) {
-//            Toast.makeText(this, "login berhasil", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, DashboardActivity.class);
-//            startActivity(intent);
-//            finish();
-//        } else {
-//            Toast.makeText(this, "nik dan password salah", Toast.LENGTH_SHORT).show();
-//        }
+    private void login(String nik, String password) {
+        if (nik.equals(DUMMY_NIK_WARGA) && password.equals(DUMMY_PASSWORD_WARGA)) {
+            Toast.makeText(LoginActivity.this, "Login Berhasil sebagai Warga", Toast.LENGTH_SHORT).show();
+            // Arahkan ke Dashboard Warga
+            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (nik.equals(DUMMY_NIK_RT) && password.equals(DUMMY_PASSWORD_RT)) {
+            Toast.makeText(LoginActivity.this, "Login Berhasil sebagai RT", Toast.LENGTH_SHORT).show();
+            // Arahkan ke Dashboard RT
+            Intent intent = new Intent(LoginActivity.this, DashboardRtActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (nik.equals(DUMMY_NIK_RW) && password.equals(DUMMY_PASSWORD_RW)) {
+            Toast.makeText(LoginActivity.this, "Login Berhasil sebagai RW", Toast.LENGTH_SHORT).show();
+            // Arahkan ke Dashboard RW
+            Intent intent = new Intent(LoginActivity.this, DashboardRwActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(LoginActivity.this, "NIK atau password salah", Toast.LENGTH_SHORT).show();
+        }
     }
-
 }

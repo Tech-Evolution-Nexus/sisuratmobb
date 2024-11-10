@@ -172,7 +172,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textactivasi4" />
 
         <TextView
-            android:id="@+id/Activasi"
+            android:id="@+id/Activasi_log"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -180,7 +180,7 @@
             android:fontFamily="sans-serif"
             android:gravity="center"
             android:text="sudah mengaktifkan akun? Masuk "
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -200,6 +200,6 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Activasi" />
+            app:layout_constraintTop_toBottomOf="@+id/Activasi_log" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

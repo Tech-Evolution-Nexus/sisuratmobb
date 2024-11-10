@@ -1,3 +1,4 @@
+
 package com.nixie.sisuratmob.Models;
 
 public class ListKkModel {
@@ -26,6 +27,3 @@ public class ListKkModel {
         this.nama_lengkap = nama_lengkap;
     }
 }
-
-
-
