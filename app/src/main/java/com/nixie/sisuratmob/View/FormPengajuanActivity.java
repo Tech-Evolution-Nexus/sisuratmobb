@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.View;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,14 +64,23 @@ public class FormPengajuanActivity extends AppCompatActivity {
         etProvinsi = findViewById(R.id.etProvinsi);
         etKkTgl = findViewById(R.id.etKkTgl);
         recyclerViewLampiran = findViewById(R.id.recyclerViewlampiran);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         recyclerViewLampiran.setLayoutManager(new LinearLayoutManager(this));
-        fetchDataFromApi();
+        String idsurat = getIntent().getStringExtra("id_surat");
+        String idnik = getIntent().getStringExtra("nik");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        fetchDataFromApi(idnik,idsurat);
 
 
     }
-    private void fetchDataFromApi() {
+    private void fetchDataFromApi(String nik,String idsur) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getDataForm("1234567890987658",14);
+        Call<ResponModel> call = apiService.getDataForm(nik, Integer.parseInt(idsur));
 
         call.enqueue(new Callback<ResponModel>() {
             @Override

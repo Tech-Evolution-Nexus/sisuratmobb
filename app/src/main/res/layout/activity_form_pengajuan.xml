@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0FF"
+    android:background="@color/white"
     tools:context=".View.FormPengajuanActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -21,9 +21,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
             app:layout_collapseMode="pin"
-            app:logo="@drawable/ic_confirm"
-            app:title="My App" />
+            app:navigationIcon="@drawable/ic_lanjutkiri"
+            app:title="Pengajuan Surat" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -43,6 +46,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Nama Lengkap">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -56,20 +62,26 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Nomor KK">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNoKk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Tanggal KK -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Tanggal KK">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -83,22 +95,28 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Nomor Induk Kependudukan">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNik"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:drawableStart="@drawable/ic_nik"
                     android:drawablePadding="16dp"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Alamat -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Alamat">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -107,10 +125,15 @@
                     android:layout_height="wrap_content"
                     android:enabled="false" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="RT">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRt"
                     android:layout_width="match_parent"
@@ -122,7 +145,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="RW">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRw"
                     android:layout_width="match_parent"
@@ -134,7 +161,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Kode Pos">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etKodePos"
                     android:layout_width="match_parent"
@@ -146,7 +177,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Kelurahan">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etKelurahan"
                     android:layout_width="match_parent"
@@ -157,7 +192,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Kecamatan">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etKecamatan"
                     android:layout_width="match_parent"
@@ -168,7 +207,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Kabupaten">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etKabupaten"
                     android:layout_width="match_parent"
@@ -179,7 +222,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
                 android:hint="Provinsi">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etProvinsi"
                     android:layout_width="match_parent"
@@ -190,7 +237,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewlampiran"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp" />
 
         </LinearLayout>
     </ScrollView>

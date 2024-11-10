@@ -1,23 +1,27 @@
 package com.nixie.sisuratmob.View;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.ResponModel;
-import com.nixie.sisuratmob.Models.RiwayatSurat;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.ListKkAdapter;
 
@@ -44,13 +48,19 @@ public class ListKeluargaActivity extends AppCompatActivity {
             return insets;
         });
         recyclerView = findViewById(R.id.reckk);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        String idsurat = getIntent().getStringExtra("id_surat");
         dataList = new ArrayList<>();
-        listKeluargaAdapter = new ListKkAdapter(dataList);
+        listKeluargaAdapter = new ListKkAdapter(getBaseContext(),dataList,idsurat);
         recyclerView.setAdapter(listKeluargaAdapter);
-
-        // Mengambil data dari API
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Fungsi yang dijalankan saat ikon navigasi diklik
+                onBackPressed(); // Misalnya kembali ke aktivitas sebelumnya
+            }
+        });
         fetchDataFromAPI("1232313212133212");
     }
     private void fetchDataFromAPI(String nokk) {
@@ -80,4 +90,5 @@ public class ListKeluargaActivity extends AppCompatActivity {
             }
         });
     }
+
 }

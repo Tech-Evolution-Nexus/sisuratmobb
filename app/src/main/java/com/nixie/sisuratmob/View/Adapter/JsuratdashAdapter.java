@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.View.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
             // Handle the click event
             // For example, pass the Surat object to a new activity
             Intent intent = new Intent(context, ListKeluargaActivity.class); // Replace with your desired activity
-            intent.putExtra("SURAT_DATA", "SURAT_DATA"); // Pass Surat data as an extra
+            intent.putExtra("id_surat", data.getId());
             context.startActivity(intent);
         });
     }

@@ -2,12 +2,16 @@ package com.nixie.sisuratmob.Models;
 
 public class Surat {
 
+    private String id;
     private String image;
     private String nama_surat;
 
-    public Surat(String image, String nama_surat){
-        this.image = image;
-        this.nama_surat = nama_surat;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImage() {
@@ -23,6 +27,12 @@ public class Surat {
     }
 
     public void setNama_surat(String nama_surat) {
+        this.nama_surat = nama_surat;
+    }
+
+    public Surat(String id, String image, String nama_surat) {
+        this.id = id;
+        this.image = image;
         this.nama_surat = nama_surat;
     }
 }
