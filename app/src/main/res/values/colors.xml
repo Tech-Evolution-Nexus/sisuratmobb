@@ -10,7 +10,7 @@
         <color name="backgroundActiveColor">#FFFFFF</color> <!-- Latar belakang aktif (putih) -->
         <color name="ColorGRAY">#D7D9E9</color> <!-- Latar belakang aktif (putih) -->
         <color name="ColorW">#C4C4D3</color> <!-- Latar belakang aktif (putih) -->
-
+        <color name="Colorrt">#F1F9FF</color>
 
         <color name="purple_200">#7481C8</color>
         <color name="purple_500">#FF6200EE</color>

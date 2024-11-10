@@ -2,7 +2,9 @@ package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +14,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.nixie.sisuratmob.Database.DbHelper;
 import com.nixie.sisuratmob.Models.RegistrasiModel;
 import com.nixie.sisuratmob.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText Editnik;
@@ -33,8 +38,11 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText Editpassword;
     private TextInputEditText Editconfirm;
 
+    private TextView masuklogin;
     private Button btn_register;
-    private DbHelper dbHelper;
+
+    // List untuk menyimpan data pengguna dummy sementara
+    private List<RegistrasiModel> dummyUserList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +71,17 @@ public class RegisterActivity extends AppCompatActivity {
         Editconfirm = findViewById(R.id.registrasi_confirpasword);
         btn_register = findViewById(R.id.registrasi_masuk);
 
-        dbHelper = new DbHelper(this);
-
         btn_register.setOnClickListener(v -> register());
+
+        masuklogin = findViewById(R.id.btn_registrasi);
+
+        masuklogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inten = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(inten);
+            }
+        });
     }
 
     // Metode untuk melakukan registrasi
@@ -109,8 +125,8 @@ public class RegisterActivity extends AppCompatActivity {
                 tgl_lahir, agama, pendidikan, pekerjaan, golongan_darah, status_perkawinan, status_keluarga,
                 kewarganegaraan, nama_ayah, nama_ibu, email, password, no_hp);
 
-        // Simpan ke database
-        dbHelper.addUser(registrasiModel);
+        // Tambah data ke list dummy
+        dummyUserList.add(registrasiModel);
         Toast.makeText(this, "Registrasi Berhasil", Toast.LENGTH_SHORT).show();
 
         // Pindah ke LoginActivity
