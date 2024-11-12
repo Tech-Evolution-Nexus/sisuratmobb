@@ -70,8 +70,9 @@ public class ListKeluargaActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<ListKkModel> suratList = response.body().getDatakk();
+                    List<ListKkModel> suratList = response.body().getData().getDatakk();
                     if (suratList != null) {
+                        Log.d("TAG", "onResponse: "+response.body().getData().getMsg());
                         dataList.clear();
                         dataList.addAll(suratList);
                         listKeluargaAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data

@@ -32,8 +32,6 @@ import com.nixie.sisuratmob.Models.LampiranSuratModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.LampiranAdapter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class FormPengajuanActivity extends AppCompatActivity {
@@ -86,8 +84,8 @@ public class FormPengajuanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponModel> call, Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<BiodataModel> biodataList = response.body().getBiodata();
-                    List<LampiranSuratModel> lampiranList = response.body().getData();
+                    List<BiodataModel> biodataList = response.body().getData().getBiodata();
+                    List<LampiranSuratModel> lampiranList = response.body().getData().getDatalampiran();
 
                     if (!biodataList.isEmpty()) {
                         BiodataModel biodata = biodataList.get(0);

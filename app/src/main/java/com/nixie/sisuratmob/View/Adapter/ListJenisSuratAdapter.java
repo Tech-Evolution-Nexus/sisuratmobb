@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
@@ -38,6 +40,11 @@ public class ListJenisSuratAdapter extends RecyclerView.Adapter<ListJenisSuratAd
     public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         Surat data = dataList.get(position);
         holder.namaTextView.setText(data.getNama_surat());
+        Glide.with(context)
+                .load("http://192.168.100.205/SISURAT/admin/assetssurat/"+data.getImage())
+                .placeholder(R.drawable.baground_rtrw) // Gambar placeholder
+                .error(R.drawable.baground_rtrw) // Gambar error jika URL tidak valid
+                .into(holder.imageView);
         holder.itemView.setOnClickListener(v -> {
             // Handle the click event
             // For example, pass the Surat object to a new activity
@@ -58,10 +65,12 @@ public class ListJenisSuratAdapter extends RecyclerView.Adapter<ListJenisSuratAd
     }
     public static class DataViewHolder extends RecyclerView.ViewHolder {
         TextView namaTextView;
-
+        ImageView imageView;
         public DataViewHolder(View itemView) {
             super(itemView);
             namaTextView = itemView.findViewById(R.id.jenistxt);
+            imageView = itemView.findViewById(R.id.icsuratt);
+
         }
     }
 }

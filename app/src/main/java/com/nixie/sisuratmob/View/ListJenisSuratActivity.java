@@ -89,7 +89,7 @@ public class ListJenisSuratActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
 
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Surat> suratList = response.body().getDatasurat();
+                    List<Surat> suratList = response.body().getData().getDatasurat();
                     if (suratList != null) {
                         dataList.clear();
                         dataList.addAll(suratList);

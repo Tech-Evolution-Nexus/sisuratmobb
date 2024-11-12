@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Sisuratmob"
         tools:targetApi="31">
         <activity
-            android:name=".DetailBritaActivity"
+            android:name=".View.DetailBritaActivity"
             android:exported="false" />
         <activity
             android:name=".View.BritaallActivity"

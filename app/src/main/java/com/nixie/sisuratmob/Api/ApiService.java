@@ -30,4 +30,9 @@ public interface ApiService {
     );
     @GET("getlistsurat/")
     Call<ResponModel> getsurat();
+
+    @GET("getberita/")
+    Call<ResponModel> getberita();
+    @GET("detailberita/{id}")
+    Call<ResponModel> getdetailberita( @Path("id") int id);
 }

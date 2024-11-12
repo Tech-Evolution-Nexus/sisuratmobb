@@ -98,7 +98,7 @@ public class DiajukanFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<RiwayatSurat> suratList = response.body().getDatariwayat();
+                    List<RiwayatSurat> suratList = response.body().getData().getDatariwayat();
                     if (suratList != null) {
                         riwayatSuratList.clear();
                         riwayatSuratList.addAll(suratList);

@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
@@ -63,7 +65,11 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
                     8                    // Bottom margin
             );
         }
-
+        Glide.with(context)
+                .load("http://192.168.100.205/SISURAT/admin/assets/"+data.getImage())
+                .placeholder(R.drawable.baground_rtrw) // Gambar placeholder
+                .error(R.drawable.baground_rtrw) // Gambar error jika URL tidak valid
+                .into(holder.imageView);
         // Apply the layout parameters with the updated margins
         holder.itemView.setLayoutParams(layoutParams);
         holder.itemView.setOnClickListener(v -> {
@@ -82,10 +88,13 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
 
     public static class DataViewHolder extends RecyclerView.ViewHolder {
         TextView namaTextView;
+        ImageView imageView;
 
         public DataViewHolder(View itemView) {
             super(itemView);
             namaTextView = itemView.findViewById(R.id.namej);
+            imageView = itemView.findViewById(R.id.icj);
+
         }
     }
     private int dpToPx(Context context, int dp) {

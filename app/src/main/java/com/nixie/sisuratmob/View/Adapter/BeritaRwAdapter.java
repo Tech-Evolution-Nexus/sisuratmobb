@@ -55,8 +55,8 @@ public class BeritaRwAdapter extends RecyclerView.Adapter<BeritaRwAdapter.Berita
 
         public BeritaRwViewHolder(@NonNull View itemView) {
             super(itemView);
-            judulTextView = itemView.findViewById(R.id.judulTextView);
-            gambarImageView = itemView.findViewById(R.id.gambarImageView);
+            judulTextView = itemView.findViewById(R.id.titleberita);
+            gambarImageView = itemView.findViewById(R.id.gambarberita);
         }
     }
 }
