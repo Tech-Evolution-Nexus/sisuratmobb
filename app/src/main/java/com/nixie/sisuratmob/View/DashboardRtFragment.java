@@ -21,18 +21,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nixie.sisuratmob.Models.Berita;
-import com.nixie.sisuratmob.Models.BeritaRt;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
-import com.nixie.sisuratmob.View.Adapter.BeritaRtAdapter;
+import com.nixie.sisuratmob.View.Adapter.BeritaAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardRtFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private BeritaRtAdapter beritaRtAdapter;
-    private List<BeritaRt> beritaRtList;
+    private BeritaAdapter beritaRtAdapter;
+    private List<Berita> beritaRtList;
     private ImageView icon;
 
     public DashboardRtFragment() {

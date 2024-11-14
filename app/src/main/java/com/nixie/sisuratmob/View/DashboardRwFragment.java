@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nixie.sisuratmob.Models.Berita;
-import com.nixie.sisuratmob.Models.BeritaRw;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.BeritaRwAdapter;
