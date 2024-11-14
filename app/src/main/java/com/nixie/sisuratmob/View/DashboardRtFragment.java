@@ -31,8 +31,8 @@ import java.util.List;
 public class DashboardRtFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private BeritaAdapter beritaRtAdapter;
-    private List<Berita> beritaRtList;
+    private BeritaAdapter beritaAdapter;
+    private List<Berita> beritaList;
     private ImageView icon;
 
     public DashboardRtFragment() {
@@ -47,13 +47,12 @@ public class DashboardRtFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewBerita);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
-        beritaRtList = new ArrayList<>();
-        beritaRtAdapter = new BeritaRtAdapter(getActivity(), beritaRtList);
-        recyclerView.setAdapter(beritaRtAdapter);
+        beritaList = new ArrayList<>();
+        beritaAdapter = new BeritaAdapter(getContext(), beritaList);
+        recyclerView.setAdapter(beritaAdapter);
 
-        recyclerView.setAdapter(beritaRtAdapter);
+        recyclerView.setAdapter(beritaAdapter);
         recyclerView.setHasFixedSize(true);
-        ambilDataBerita();
 
         icon = view.findViewById(R.id.iconn);
         icon.setOnClickListener(new View.OnClickListener() {
@@ -115,20 +114,5 @@ public class DashboardRtFragment extends Fragment {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-    }
-
-    private void ambilDataBerita() {
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi ", "Sub Judul 1", "Deskripsi 1", R.drawable.berita));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        beritaRtList.add(new BeritaRt("Pengembangan aplikasi", "sda","",1));
-        // Tambahkan berita lain sesuai kebutuhan
-        beritaRtAdapter.notifyDataSetChanged();
     }
 }

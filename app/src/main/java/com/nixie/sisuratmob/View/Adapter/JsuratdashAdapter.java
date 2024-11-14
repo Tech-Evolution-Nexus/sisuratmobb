@@ -66,16 +66,14 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
             );
         }
         Glide.with(context)
-                .load("http://192.168.100.205/SISURAT/admin/assets/"+data.getImage())
-                .placeholder(R.drawable.baground_rtrw) // Gambar placeholder
-                .error(R.drawable.baground_rtrw) // Gambar error jika URL tidak valid
+                .load("http://192.168.100.205/SISURAT/admin/assetssurat/"+data.getImage())
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
                 .into(holder.imageView);
-        // Apply the layout parameters with the updated margins
+
         holder.itemView.setLayoutParams(layoutParams);
         holder.itemView.setOnClickListener(v -> {
-            // Handle the click event
-            // For example, pass the Surat object to a new activity
-            Intent intent = new Intent(context, ListKeluargaActivity.class); // Replace with your desired activity
+            Intent intent = new Intent(context, ListKeluargaActivity.class);
             intent.putExtra("id_surat", data.getId());
             context.startActivity(intent);
         });
