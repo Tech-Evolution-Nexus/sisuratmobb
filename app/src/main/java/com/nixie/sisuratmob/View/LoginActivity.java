@@ -10,7 +10,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.nixie.sisuratmob.Api.ApiClient;
+import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Models.UserLoginModel;
 import com.nixie.sisuratmob.R;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,14 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private TextView register;
     private TextView lupasandi;
-
-    // Data dummy untuk login (NIK dan Password berdasarkan role)
-    private static final String DUMMY_NIK_WARGA = "123456789";
-    private static final String DUMMY_PASSWORD_WARGA = "123";
-    private static final String DUMMY_NIK_RT = "987654321";
-    private static final String DUMMY_PASSWORD_RT = "321";
-    private static final String DUMMY_NIK_RW = "56789";
-    private static final String DUMMY_PASSWORD_RW = "rw";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,35 +57,24 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(v -> {
             String nik = editTextNIK.getText().toString();
             String password = editTextPassword.getText().toString();
-            if (!nik.isEmpty() && !password.isEmpty()) {
-                login(nik, password);
-            } else {
-                Toast.makeText(LoginActivity.this, "Semua kolom wajib diisi", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+            UserLoginModel user = new UserLoginModel(nik,password);
+            ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+            Call<ResponseBody> call= apiService.reqLogin(user);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()){
+                        Intent intent = new Intent(LoginActivity.this,DashboardActivity.class);
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(LoginActivity.this, "Gagal Login", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-    private void login(String nik, String password) {
-        if (nik.equals(DUMMY_NIK_WARGA) && password.equals(DUMMY_PASSWORD_WARGA)) {
-            Toast.makeText(LoginActivity.this, "Login Berhasil sebagai Warga", Toast.LENGTH_SHORT).show();
-            // Arahkan ke Dashboard Warga
-            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (nik.equals(DUMMY_NIK_RT) && password.equals(DUMMY_PASSWORD_RT)) {
-            Toast.makeText(LoginActivity.this, "Login Berhasil sebagai RT", Toast.LENGTH_SHORT).show();
-            // Arahkan ke Dashboard RT
-            Intent intent = new Intent(LoginActivity.this, DashboardRtActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (nik.equals(DUMMY_NIK_RW) && password.equals(DUMMY_PASSWORD_RW)) {
-            Toast.makeText(LoginActivity.this, "Login Berhasil sebagai RW", Toast.LENGTH_SHORT).show();
-            // Arahkan ke Dashboard RW
-            Intent intent = new Intent(LoginActivity.this, DashboardRwActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(LoginActivity.this, "NIK atau password salah", Toast.LENGTH_SHORT).show();
-        }
+                }
+            });
+        });
     }
 }
