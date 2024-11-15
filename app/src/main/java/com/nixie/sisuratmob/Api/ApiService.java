@@ -1,23 +1,17 @@
 package com.nixie.sisuratmob.Api;
 
 import com.nixie.sisuratmob.Models.AktivasiModel;
-import com.nixie.sisuratmob.Models.JenisSuratModel;
-import com.nixie.sisuratmob.Models.KartuKeluargaModel;
 import com.nixie.sisuratmob.Models.RegistrasiModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.UserLoginModel;
 import com.nixie.sisuratmob.Models.VerivModel;
 
-import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiService {
 

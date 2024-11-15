@@ -74,6 +74,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Button register klik
         btn_register = findViewById(R.id.registrasi_button);
+
+
+
         btn_register.setOnClickListener(v -> register());
     }
 

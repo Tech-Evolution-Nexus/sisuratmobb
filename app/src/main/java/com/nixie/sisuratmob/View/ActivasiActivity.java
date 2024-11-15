@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.AktivasiModel;
-import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 
 import java.io.IOException;
