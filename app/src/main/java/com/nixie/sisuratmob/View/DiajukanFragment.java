@@ -73,7 +73,7 @@ public class DiajukanFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fetchData("1232313212133212","di_terima_rt");
+        fetchData("1232313212133212","pendding");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -98,7 +98,7 @@ public class DiajukanFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<RiwayatSurat> suratList = response.body().getDatariwayat();
+                    List<RiwayatSurat> suratList = response.body().getData().getDatariwayat();
                     if (suratList != null) {
                         riwayatSuratList.clear();
                         riwayatSuratList.addAll(suratList);

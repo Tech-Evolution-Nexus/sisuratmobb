@@ -1,6 +1,8 @@
 package com.nixie.sisuratmob.View.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.nixie.sisuratmob.View.DetailBritaActivity;
 import com.nixie.sisuratmob.Models.Berita;
 import com.nixie.sisuratmob.R;
 
@@ -36,7 +40,18 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
     public void onBindViewHolder(@NonNull BeritaViewHolder holder, int position) {
         Berita berita = beritaList.get(position);
         holder.judulTextView.setText(berita.getJudul());
-        holder.gambarImageView.setImageResource(berita.getGambarUrl()); // Menggunakan resource ID
+        holder.tglTextView.setText(berita.getCreated_at());
+//        holder.gambarImageView.setImageResource(berita.getGambarUrl());
+        Glide.with(context)
+                .load("http://192.168.100.205/SISURAT/admin/assetsberita/"+berita.getGambar())
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
+                .into(holder.gambarImageView);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailBritaActivity.class); // Replace with your desired activity
+            intent.putExtra("id_berita", String.valueOf(berita.getId()));
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -45,13 +60,15 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
     }
 
     public static class BeritaViewHolder extends RecyclerView.ViewHolder {
-        TextView judulTextView;
+        TextView judulTextView,tglTextView;
         ImageView gambarImageView;
 
         public BeritaViewHolder(@NonNull View itemView) {
             super(itemView);
-            judulTextView = itemView.findViewById(R.id.judulTextView);
-            gambarImageView = itemView.findViewById(R.id.gambarImageView);
+            judulTextView = itemView.findViewById(R.id.titleberita);
+            gambarImageView = itemView.findViewById(R.id.gambarberita);
+            tglTextView = itemView.findViewById(R.id.tglberita);
+
         }
     }
 }

@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
@@ -63,13 +65,15 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
                     8                    // Bottom margin
             );
         }
+        Glide.with(context)
+                .load("http://192.168.100.205/SISURAT/admin/assetssurat/"+data.getImage())
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
+                .into(holder.imageView);
 
-        // Apply the layout parameters with the updated margins
         holder.itemView.setLayoutParams(layoutParams);
         holder.itemView.setOnClickListener(v -> {
-            // Handle the click event
-            // For example, pass the Surat object to a new activity
-            Intent intent = new Intent(context, ListKeluargaActivity.class); // Replace with your desired activity
+            Intent intent = new Intent(context, ListKeluargaActivity.class);
             intent.putExtra("id_surat", data.getId());
             context.startActivity(intent);
         });
@@ -82,10 +86,13 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
 
     public static class DataViewHolder extends RecyclerView.ViewHolder {
         TextView namaTextView;
+        ImageView imageView;
 
         public DataViewHolder(View itemView) {
             super(itemView);
             namaTextView = itemView.findViewById(R.id.namej);
+            imageView = itemView.findViewById(R.id.icj);
+
         }
     }
     private int dpToPx(Context context, int dp) {

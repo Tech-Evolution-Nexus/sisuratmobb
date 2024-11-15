@@ -1,6 +1,7 @@
 package com.nixie.sisuratmob.Api;
 
 import com.nixie.sisuratmob.Models.AktivasiModel;
+import com.google.gson.JsonObject;
 import com.nixie.sisuratmob.Models.RegistrasiModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.UserLoginModel;
@@ -11,6 +12,12 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.http.Multipart;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -33,23 +40,37 @@ public interface ApiService {
     @GET("getlistsurat/")
     Call<ResponModel> getsurat();
 
+        // Login Request
+        @POST("login")
+        Call<ResponseBody> reqLogin(@Body UserLoginModel userLogin);
 
-    @POST("login")
-    Call<ResponseBody> reqLogin(@Body UserLoginModel user);
+        // Verifikasi Request
+        @POST("veriv")
+        Call<ResponseBody> reqVerifikasi(@Body VerivModel userLogin);
 
-    @POST("verivikasi")
-    Call<ResponseBody> reqVerivikasi(@Body VerivModel veriv);
+        // Aktivasi Request
+        @POST("aktivasi")
+        Call<ResponseBody> reqAktivasi(@Body AktivasiModel userRegister);
 
-    @POST("aktivasi")
-    Call<ResponseBody> reqAKtivasi(@Body AktivasiModel aktiv);
-
-    @POST("register")
-    Call<ResponseBody> reqRegister(@Body RegistrasiModel register);
-
-
-
-
-
+        // Register Request
+        @POST("register")
+        Call<ResponseBody> reqRegister(@Body RegistrasiModel userRegister);
 
 
+
+    @GET("getberita/")
+    Call<ResponModel> getberita();
+
+    @GET("detailberita/{id}")
+    Call<ResponModel> getdetailberita( @Path("id") int id);
+
+    @Multipart
+    @POST("sendpengajuansuratmasyarakat")
+//    Call<JsonObject> submitFormData(@Part List<MultipartBody.Part> images);
+    Call<JsonObject> submitFormData(
+            @Part("nik") RequestBody nik,
+            @Part("idsurat") RequestBody idsurat,
+            @Part("keterangan") RequestBody keterangan,
+            @Part List<MultipartBody.Part> images
+    );
 }

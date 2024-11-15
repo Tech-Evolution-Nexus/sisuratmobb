@@ -14,7 +14,7 @@
         android:layout_height="220dp">
 
         <TextView
-            android:id="@+id/judulTextView"
+            android:id="@+id/titleberita"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="4dp"
@@ -23,10 +23,10 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gambarImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/gambarberita" />
 
         <ImageView
-            android:id="@+id/gambarImageView"
+            android:id="@+id/gambarberita"
             android:layout_width="0dp"
             android:layout_height="107dp"
             android:scaleType="centerCrop"
@@ -42,7 +42,7 @@
             app:layout_constraintGuide_begin="155dp" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/tglberita"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="42dp"
@@ -54,7 +54,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/judulTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/titleberita" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

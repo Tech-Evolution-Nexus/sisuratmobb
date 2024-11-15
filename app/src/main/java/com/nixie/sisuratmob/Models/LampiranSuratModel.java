@@ -1,22 +1,24 @@
 package com.nixie.sisuratmob.Models;
 
+import android.net.Uri;
+
 public class LampiranSuratModel {
-    private int idSurat;
+    private int id_surat;
     private int id;
     private String nama_lampiran	;
-
-    public LampiranSuratModel(int idSurat, int id, String nama_lampiran	) {
-        this.idSurat = idSurat;
+    private Uri imageUri;
+    public LampiranSuratModel(int id_surat, int id, String nama_lampiran	) {
+        this.id_surat = id_surat;
         this.id = id;
         this.nama_lampiran	 = nama_lampiran	;
     }
 
     public int getIdSurat() {
-        return idSurat;
+        return id_surat;
     }
 
-    public void setIdSurat(int idSurat) {
-        this.idSurat = idSurat;
+    public void setIdSurat(int id_surat) {
+        this.id_surat = id_surat;
     }
 
     public int getId() {
@@ -33,5 +35,12 @@ public class LampiranSuratModel {
 
     public void setNamaLampiran(String namaLampiran) {
         this.nama_lampiran	 = namaLampiran;
+    }
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 }

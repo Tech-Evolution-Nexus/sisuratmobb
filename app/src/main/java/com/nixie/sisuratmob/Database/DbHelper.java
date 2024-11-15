@@ -63,13 +63,11 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put("agama", registrasiModel.getAgama());
         values.put("pendidikan", registrasiModel.getPendidikan());
         values.put("pekerjaan", registrasiModel.getPekerjaan());
-        values.put("golongan_darah", registrasiModel.getGolongan_darah());
         values.put("status_perkawinan", registrasiModel.getStatus_perkawinan());
         values.put("status_keluarga", registrasiModel.getStatus_keluarga());
         values.put("kewarganegaraan", registrasiModel.getKewarganegaraan());
         values.put("nama_ayah", registrasiModel.getNama_ayah());
         values.put("nama_ibu", registrasiModel.getNama_ibu());
-        values.put("email", registrasiModel.getEmail());
         values.put("password", registrasiModel.getPassword());
         db.insert(TABLE_USER,null,values);
         db.close();

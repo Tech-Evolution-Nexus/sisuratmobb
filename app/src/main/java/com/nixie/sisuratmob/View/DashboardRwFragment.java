@@ -21,18 +21,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nixie.sisuratmob.Models.Berita;
-import com.nixie.sisuratmob.Models.BeritaRw;
-import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
-import com.nixie.sisuratmob.View.Adapter.BeritaRwAdapter;
+import com.nixie.sisuratmob.View.Adapter.BeritaAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardRwFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private BeritaRwAdapter beritaRwAdapter;
-    private List<BeritaRw> beritaRwList;
+    private BeritaAdapter beritaAdapter;
+    private List<Berita> beritaList;
     private ImageView icon;
 
     public DashboardRwFragment() {
@@ -47,13 +45,12 @@ public class DashboardRwFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewBerita);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
-        beritaRwList = new ArrayList<>();
-        beritaRwAdapter = new BeritaRwAdapter(getActivity(), beritaRwList);
-        recyclerView.setAdapter(beritaRwAdapter);
+        beritaList = new ArrayList<>();
+        beritaAdapter = new BeritaAdapter(getActivity(), beritaList);
+        recyclerView.setAdapter(beritaAdapter);
 
-        recyclerView.setAdapter(beritaRwAdapter);
+        recyclerView.setAdapter(beritaAdapter);
         recyclerView.setHasFixedSize(true);
-        ambilDataBerita();
 
         icon = view.findViewById(R.id.iconn);
         icon.setOnClickListener(new View.OnClickListener() {
@@ -92,13 +89,12 @@ public class DashboardRwFragment extends Fragment {
 
         Window window = dialog.getWindow();
         if (window != null) {
-            // Mengatur posisi dialog di kanan atas
             window.setGravity(Gravity.TOP | Gravity.RIGHT);
 
-            // Mengatur margin atau jarak dari tepi
+
             WindowManager.LayoutParams layoutParams = window.getAttributes();
-            layoutParams.x = 30; // Jarak dari kanan (untuk memberi jarak dengan ikon)
-            layoutParams.y = 40; // Jarak dari atas (ubah sesuai keinginan)
+            layoutParams.x = 30;
+            layoutParams.y = 40;
             window.setAttributes(layoutParams);
         }
 
@@ -115,20 +111,5 @@ public class DashboardRwFragment extends Fragment {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-    }
-
-    private void ambilDataBerita() {
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi ", "Sub Judul 1", "Deskripsi 1", R.drawable.berita));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
-        beritaRwList.add(new BeritaRw("Pengembangan aplikasi", "sda","",1));
-        // Tambahkan berita lain sesuai kebutuhan
-        beritaRwAdapter.notifyDataSetChanged();
     }
 }

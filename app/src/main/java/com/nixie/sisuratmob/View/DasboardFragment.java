@@ -45,7 +45,7 @@ public class DasboardFragment extends Fragment {
     private RecyclerView recyclerViewBerita,recyclerViewsurdash;
     private BeritaAdapter beritaAdapter;
     private JsuratdashAdapter jsuratAdapter;
-    private List<Berita> beritaList;
+    private List<Berita> dberitaList = new ArrayList<>();
     private List<Surat> dataList = new ArrayList<>();
     private List<Surat> filteredList = new ArrayList<>();
 
@@ -67,11 +67,11 @@ public class DasboardFragment extends Fragment {
         recyclerViewBerita.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewsurdash.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        beritaList = new ArrayList<>();
+        dberitaList = new ArrayList<>();
         dataList = new ArrayList<>();
 
         jsuratAdapter = new JsuratdashAdapter( getContext(),dataList);
-        beritaAdapter = new BeritaAdapter(getContext(), beritaList);
+        beritaAdapter = new BeritaAdapter(getContext(), dberitaList);
 
 
 
@@ -81,7 +81,7 @@ public class DasboardFragment extends Fragment {
         recyclerViewBerita.setAdapter(beritaAdapter);
         recyclerViewBerita.setHasFixedSize(true);
 
-        ambilDataBerita();
+
 
         fetchdata();
 
@@ -151,7 +151,7 @@ public class DasboardFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Surat> suratList = response.body().getDatasurat();
+                    List<Surat> suratList = response.body().getData().getDatasurat();
                     if (suratList != null) {
                         dataList.clear();
                         filteredList.clear();  // Clear the filtered list as well
@@ -176,22 +176,30 @@ public class DasboardFragment extends Fragment {
                 Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    private void ambilDataBerita() {
-        // Contoh data statis
-        beritaList.add(new Berita("Pengembangan aplikasi ", "Sub Judul 1", "Deskripsi 1", R.drawable.berita));
-        beritaList.add(new Berita("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-        beritaList.add(new Berita("Pengembangan aplikasi2", "Sub Judul 2", "Deskripsi 2", R.drawable.beritaw));
-//        suratList.add(new Surat("Pengembangan aplikasi", "sda"));
-//        suratList.add(new Surat("Pengembangan aplikasi2", "sda"));
-//        suratList.add(new Surat("Pengembangan aplikasi2", "sda"));
-//        suratList.add(new Surat("Pengembangan aplikasi2", "sda"));
-//        suratList.add(new Surat("Pengembangan aplikasi2", "sda"));
-//        suratList.add(new Surat("Pengembangan aplikasi2", "sda"));
-        // Tambahkan berita lain sesuai kebutuhan
-        beritaAdapter.notifyDataSetChanged();
-//        jsuratAdapter.notifyDataSetChanged();
+        Call<ResponModel> call2 = apiService.getberita();
+        call2.enqueue(new Callback<ResponModel>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Berita> beritaList = response.body().getData().getDataberita();
+                    if (beritaList != null) {
+                        dberitaList.clear();
+                        dberitaList.addAll(beritaList);
+                    } else {
+                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
+                Log.e("API Error", "Error: " + t.getMessage());
+                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private List<String> getSuratTitles() {
         List<String> titles = new ArrayList<>();
