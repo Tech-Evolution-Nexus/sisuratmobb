@@ -1,5 +1,7 @@
 package com.nixie.sisuratmob.Models;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class ResponModel {
@@ -25,8 +27,11 @@ public class ResponModel {
         private List<ListKkModel> datakk;
         private List<Surat> datasurat;
         private List<Berita> databerita;
+        private List<PengajuanSuratModel> datapengajuanpending;
+        private List<PengajuanSuratModel> datapengajuanselesai;
+        private List<PengajuanSuratModel> datapengajuan;
 
-        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita) {
+        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita,List<PengajuanSuratModel> datapengajuanpending,List<PengajuanSuratModel> datapengajuanselesai) {
             this.msg = msg;
             this.biodata = biodata;
             this.datalampiran = datalampiran;
@@ -34,6 +39,8 @@ public class ResponModel {
             this.datakk = datakk;
             this.datasurat = datasurat;
             this.databerita = databerita;
+            this.datapengajuanpending = datapengajuanpending;
+            this.datapengajuanselesai = datapengajuanselesai;
         }
 
         public List<Berita> getDataberita() {
@@ -86,6 +93,11 @@ public class ResponModel {
 
         public List<Surat> getDatasurat() {
             return datasurat;
+        }
+        public List<PengajuanSuratModel> getDataListPengajuanPending() {
+            return datapengajuanpending;
+        }public List<PengajuanSuratModel> getDataListPengajuanSelesai() {
+            return datapengajuanselesai;
         }
 
         public void setDatasurat(List<Surat> datasurat) {
