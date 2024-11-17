@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.nixie.sisuratmob.R;
+import com.nixie.sisuratmob.View.PengajuanSurat.ApprovalPengajuanFragment;
 import com.nixie.sisuratmob.databinding.ActivityDashboardRtBinding;
 
 public class DashboardRtActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class DashboardRtActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.home) {
                 selectedFragment = new DashboardRtFragment();
             } else if (item.getItemId() == R.id.surat) {
-                selectedFragment = new StatusSuratFragment();
+                selectedFragment = new ApprovalPengajuanFragment();
             } else if (item.getItemId() == R.id.rekap) {
                 selectedFragment = new ProfileFragment();
             }
