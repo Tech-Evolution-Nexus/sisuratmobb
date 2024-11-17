@@ -42,7 +42,7 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
         holder.judulTextView.setText(berita.getJudul());
         holder.tglTextView.setText(berita.getCreated_at());
 //        holder.gambarImageView.setImageResource(berita.getGambarUrl());
-        Glide.with(context)
+                Glide.with(context)
                 .load("http://192.168.100.205/SISURAT/admin/assetsberita/"+berita.getGambar())
                 .placeholder(R.drawable.baground_rtrw)
                 .error(R.drawable.baground_rtrw)
