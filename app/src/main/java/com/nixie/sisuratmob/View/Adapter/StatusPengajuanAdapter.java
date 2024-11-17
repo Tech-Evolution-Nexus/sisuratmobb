@@ -1,22 +1,17 @@
 package com.nixie.sisuratmob.View.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nixie.sisuratmob.Models.RiwayatSurat;
-import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
-import com.nixie.sisuratmob.View.StatusSuratActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuanAdapter.StatusPengajuanViewHolder>{

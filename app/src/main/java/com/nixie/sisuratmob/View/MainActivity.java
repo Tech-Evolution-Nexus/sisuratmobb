@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
        new Handler().postDelayed(() ->{
-           Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
+        
+        Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
+
            startActivity(intent);
            finish();
         }, 5000 );
