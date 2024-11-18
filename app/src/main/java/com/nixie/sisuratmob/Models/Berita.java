@@ -3,15 +3,15 @@ package com.nixie.sisuratmob.Models;
 public class Berita {
     private int id;
     private String judul;
-    private String subjudul; // Opsional, jika perlu
+    private String sub_judul; // Opsional, jika perlu
     private String deskripsi; // Opsional, jika perlu
     private String gambar;
     private String created_at;
 
-    public Berita(int id, String judul, String subjudul, String deskripsi, String gambar, String created_at) {
+    public Berita(int id, String judul, String sub_judul, String deskripsi, String gambar, String created_at) {
         this.id = id;
         this.judul = judul;
-        this.subjudul = subjudul;
+        this.sub_judul = sub_judul;
         this.deskripsi = deskripsi;
         this.gambar = gambar;
         this.created_at = created_at;
@@ -34,11 +34,11 @@ public class Berita {
     }
 
     public String getSubjudul() {
-        return subjudul;
+        return sub_judul;
     }
 
-    public void setSubjudul(String subjudul) {
-        this.subjudul = subjudul;
+    public void setSubjudul(String sub_judul) {
+        this.sub_judul = sub_judul;
     }
 
     public String getDeskripsi() {

@@ -72,7 +72,7 @@ public class ListKeluargaActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     List<ListKkModel> suratList = response.body().getData().getDatakk();
                     if (suratList != null) {
-                        Log.d("TAG", "onResponse: "+response.body().getData().getMsg());
+                        Log.d("TAG", "onResponse: "+response.body().getData());
                         dataList.clear();
                         dataList.addAll(suratList);
                         listKeluargaAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data

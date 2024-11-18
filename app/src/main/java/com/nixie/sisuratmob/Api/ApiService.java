@@ -2,8 +2,10 @@ package com.nixie.sisuratmob.Api;
 
 import com.nixie.sisuratmob.Models.AktivasiModel;
 import com.google.gson.JsonObject;
+import com.nixie.sisuratmob.Models.Berita;
 import com.nixie.sisuratmob.Models.RegistrasiModel;
 import com.nixie.sisuratmob.Models.ResponModel;
+import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.Models.UserLoginModel;
 import com.nixie.sisuratmob.Models.VerivModel;
 
@@ -45,7 +47,6 @@ public interface ApiService {
     );
     @GET("getlistsurat/")
     Call<ResponModel> getsurat();
-
         // Login Request
         @POST("login")
         Call<ResponseBody> reqLogin(@Body UserLoginModel userLogin);
@@ -78,5 +79,9 @@ public interface ApiService {
             @Part("idsurat") RequestBody idsurat,
             @Part("keterangan") RequestBody keterangan,
             @Part List<MultipartBody.Part> images
+    );
+    @GET("detailhistory/{idpengajuan}")
+    Call<ResponModel> getdetailhistory(
+            @Path("idpengajuan") int idpengajuan
     );
 }

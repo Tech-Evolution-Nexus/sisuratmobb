@@ -257,7 +257,7 @@
             <!-- Button Pilih File untuk Lampiran -->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewlampiran"
+                android:id="@+id/recyclerViewpopup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
@@ -266,7 +266,7 @@
                 android:layout_marginBottom="16dp" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/dbatal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
