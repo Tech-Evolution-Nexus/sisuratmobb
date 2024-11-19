@@ -33,7 +33,8 @@ public interface ApiService {
     @GET("getpengajuan/{nik}/{status}")
     Call<ResponModel> getPengajuan(
             @Path("nik") String nik,
-            @Path("status") String status
+            @Path(value = "status", encoded = true) String status
+
     );
 
     @GET("list-pengajuan/{nik}")
