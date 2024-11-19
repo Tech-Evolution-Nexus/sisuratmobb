@@ -6,7 +6,6 @@ public class RegistrasiModel {
     private String password;
     private String no_hp;
     private String nama_lengkap;
-    private String role;
     private String jenis_kelamin;
     private String tempat_lahir;
     private String tgl_lahir;
@@ -27,14 +26,13 @@ public class RegistrasiModel {
     private String kecamatan;
     private String kabupaten;
     private String provinsi;
-    private String kk_tanggal;
+    private String kk_tgl;
 
-    public RegistrasiModel(String nik, String password, String no_hp, String nama_lengkap, String role, String jenis_kelamin, String tempat_lahir, String tgl_lahir, String agama, String pendidikan, String pekerjaan, String status_perkawinan, String status_keluarga, String kewarganegaraan, String nama_ayah, String nama_ibu, String no_kk, String alamat, String rt, String rw, String kode_pos, String kelurahan, String kecamatan, String kabupaten, String provinsi, String kk_tanggal) {
+    public RegistrasiModel(String nik, String password, String no_hp, String nama_lengkap, String jenis_kelamin, String tempat_lahir, String tgl_lahir, String agama, String pendidikan, String pekerjaan, String status_perkawinan, String status_keluarga, String kewarganegaraan, String nama_ayah, String nama_ibu, String no_kk, String alamat, String rt, String rw, String kode_pos, String kelurahan, String kecamatan, String kabupaten, String provinsi, String kk_tgl) {
         this.nik = nik;
         this.password = password;
         this.no_hp = no_hp;
         this.nama_lengkap = nama_lengkap;
-        this.role = role;
         this.jenis_kelamin = jenis_kelamin;
         this.tempat_lahir = tempat_lahir;
         this.tgl_lahir = tgl_lahir;
@@ -55,7 +53,7 @@ public class RegistrasiModel {
         this.kecamatan = kecamatan;
         this.kabupaten = kabupaten;
         this.provinsi = provinsi;
-        this.kk_tanggal = kk_tanggal;
+        this.kk_tgl = kk_tgl;
     }
 
 
@@ -89,14 +87,6 @@ public class RegistrasiModel {
 
     public void setNama_lengkap(String nama_lengkap) {
         this.nama_lengkap = nama_lengkap;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getJenis_kelamin() {
@@ -260,10 +250,10 @@ public class RegistrasiModel {
     }
 
     public String getKk_tanggal() {
-        return kk_tanggal;
+        return kk_tgl;
     }
 
-    public void setKk_tanggal(String kk_tanggal) {
-        this.kk_tanggal = kk_tanggal;
+    public void setKk_tanggal(String kk_tgl) {
+        this.kk_tgl = kk_tgl;
     }
 }

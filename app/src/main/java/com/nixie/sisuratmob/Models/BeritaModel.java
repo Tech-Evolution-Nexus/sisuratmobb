@@ -6,4 +6,5 @@ public class BeritaModel {
     private String subJudul;
     private String deskripsi;
     private String gambar;
+
 }

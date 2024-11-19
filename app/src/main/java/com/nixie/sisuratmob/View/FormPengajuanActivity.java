@@ -7,40 +7,30 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.os.Bundle;
-import android.widget.EditText;
+
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.BiodataModel;
-import com.nixie.sisuratmob.Models.FormModel;
 import com.nixie.sisuratmob.Models.LampiranSuratModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
@@ -84,7 +74,7 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
         etKkTgl = findViewById(R.id.etKkTgl);
         etKeterangan = findViewById(R.id.etketerangan);
 
-        recyclerViewLampiran = findViewById(R.id.recyclerViewlampiran);
+        recyclerViewLampiran = findViewById(R.id.recyclerViewpopup);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         recyclerViewLampiran.setLayoutManager(new LinearLayoutManager(this));

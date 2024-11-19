@@ -101,7 +101,6 @@ public class DasboardFragment extends Fragment {
         etSearch.setOnItemClickListener((parent, v, position, id) -> {
             String selectedItem = parent.getItemAtPosition(position).toString();
             Surat selectedSurat = filteredList.get(position);
-            Log.d("TAG", "onCreateView: "+selectedSurat.getId());
             Intent intent = new Intent(getActivity(), ListKeluargaActivity.class);
             intent.putExtra("id_surat", selectedSurat.getId());
             startActivity(intent);
@@ -117,10 +116,10 @@ public class DasboardFragment extends Fragment {
                 filteredList.clear();
                 for (Surat surat : dataList) {
                     if (surat.getNama_surat().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        filteredList.add(surat);  // Add to filteredList if it matches the filter
+                        filteredList.add(surat);
                     }
                 }
-                jsuratAdapter.notifyDataSetChanged(); // Trigger filtering based on input text
+                jsuratAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -160,12 +159,13 @@ public class DasboardFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Surat> suratList = response.body().getData().getDatasurat();
+                        List<Surat> suratList = response.body().getData().getDatasurat();
+
                     if (suratList != null) {
                         dataList.clear();
-                        filteredList.clear();  // Clear the filtered list as well
+                        filteredList.clear();
                         dataList.addAll(suratList);
-                        filteredList.addAll(suratList);  // Populate filtered list too
+                        filteredList.addAll(suratList);
                         jsuratAdapter.notifyDataSetChanged();
                         ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getSuratTitles());
                         etSearch.setAdapter(autoCompleteAdapter);
@@ -178,11 +178,11 @@ public class DasboardFragment extends Fragment {
                     Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
-                Log.e("API Error", "Error: " + t.getMessage());
-                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onFailure: "+t.getMessage());
+                Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+
             }
         });
 
