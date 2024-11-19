@@ -52,7 +52,7 @@ public interface ApiService {
 
         // Verifikasi Request
         @POST("veriv")
-        Call<ResponseBody> reqVerifikasi(@Body VerivModel userLogin);
+        Call<ResponseBody> reqVerifikasi(@Body VerivModel userVeriv);
 
         // Aktivasi Request
         @POST("aktivasi")

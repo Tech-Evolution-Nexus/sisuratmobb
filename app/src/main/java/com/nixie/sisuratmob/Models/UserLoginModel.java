@@ -3,8 +3,7 @@ package com.nixie.sisuratmob.Models;
 public class UserLoginModel {
     private String nik;
     private String password;
-
-    public UserLoginModel(String nik, String password) {
+    public UserLoginModel(String nik, String password ) {
         this.nik = nik;
         this.password = password;
     }

@@ -1,7 +1,9 @@
 package com.nixie.sisuratmob.View;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Models.UserLoginModel;
 import com.nixie.sisuratmob.Models.VerivModel;
 import com.nixie.sisuratmob.R;
 
@@ -37,62 +40,76 @@ public class AktivasiXreqActivity extends AppCompatActivity {
 
         // Listener untuk masuk login
 
-        // Listener untuk tombol verifikasi
-        buttonVerifikasi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String nik = textNik.getText().toString().trim();
+        buttonVerifikasi.setOnClickListener(view -> {
+            String nik = textNik.getText().toString().trim();
 
-                // Validasi input
-                if (nik.isEmpty()) {
-                    Toast.makeText(AktivasiXreqActivity.this, "NIK tidak boleh kosong", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                // Membuat model untuk verifikasi
-            VerivModel veriv = new VerivModel(nik);
-                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-                Call<ResponseBody> call = apiService.reqVerifikasi(veriv);
+            if (nik.isEmpty()) {
+                Toast.makeText(AktivasiXreqActivity.this, "NIK tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                // Ambil respons sebagai JSON
-                                String responseBody = response.body().string();
+            VerivModel verivModel = new VerivModel(nik);
+            ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+            Call<ResponseBody> call = apiService.reqVerifikasi(verivModel);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        try {
+                            // Mendapatkan respons API
+                            String responseBody = response.body().string();
+                            Log.d("API Response", responseBody);
+
+                            // Validasi format respons
+                            if (responseBody.trim().startsWith("{")) {
                                 JSONObject jsonObject = new JSONObject(responseBody);
-
-                                // Ambil data dari JSON
                                 JSONObject data = jsonObject.getJSONObject("data");
+
                                 boolean status = data.getBoolean("status");
                                 String message = data.getString("msg");
 
+                                // Menangani jika NIK ditemukan
                                 if (status) {
-                                    // Verifikasi berhasil
-                                    Toast.makeText(AktivasiXreqActivity.this, "Verifikasi berhasil, akun aktif", Toast.LENGTH_SHORT).show();
-                                    // Pindah ke halaman login
-                                    Intent intent = new Intent(AktivasiXreqActivity.this, LoginActivity.class);
-                                    startActivity(intent);
+                                    Toast.makeText(AktivasiXreqActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(AktivasiXreqActivity.this, ActivasiActivity.class));
                                     finish();
                                 } else {
-                                    // Verifikasi gagal
+                                    // Jika NIK tidak ditemukan, arahkan ke RegisterActivity
                                     Toast.makeText(AktivasiXreqActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(AktivasiXreqActivity.this, RegisterActivity.class));
+                                    finish();
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Toast.makeText(AktivasiXreqActivity.this, "Kesalahan parsing data", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Jika respons bukan JSON yang valid
+                                Log.e("API Error", "Respons bukan JSON: " + responseBody);
+                                Toast.makeText(AktivasiXreqActivity.this, "Kesalahan server: format respons tidak valid", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(AktivasiXreqActivity.this, "Verifikasi gagal, coba lagi", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(AktivasiXreqActivity.this, "Kesalahan parsing data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // Jika respons gagal, menampilkan pesan error
+                        try {
+                            String errorBody = response.errorBody().string();
+                            JSONObject errorObject = new JSONObject(errorBody);
+                            String errorMessage = errorObject.getString("msg");
+                            Toast.makeText(AktivasiXreqActivity.this, "Verifikasi gagal: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(AktivasiXreqActivity.this, "Verifikasi gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(AktivasiXreqActivity.this, "Gagal terhubung ke server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    // Kesalahan koneksi server
+                    Toast.makeText(AktivasiXreqActivity.this, "Tidak dapat terhubung ke server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+
     }
 }
