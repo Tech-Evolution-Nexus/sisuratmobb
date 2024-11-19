@@ -72,9 +72,9 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
         public StatusPengajuanViewHolder(@NonNull View itemView) {
             super(itemView);
             statusText = itemView.findViewById(R.id.status);
-            nikText = itemView.findViewById(R.id.nikText);
+//            nikText = itemView.findViewById(R.id.nikText);
             tanggal_pengajuan = itemView.findViewById(R.id.dateText);
-            nama_lengkap = itemView.findViewById(R.id.nameText);
+//            nama_lengkap = itemView.findViewById(R.id.nameText);
             nama_surat = itemView.findViewById(R.id.jenisText);
         }
     }

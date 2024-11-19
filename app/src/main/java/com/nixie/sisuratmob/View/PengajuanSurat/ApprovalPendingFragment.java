@@ -93,31 +93,31 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
 
 
     private void fetchData(String nik) {
-        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getListPengajuan(nik);
-        String jsonResponse = "";
-        call.enqueue(new Callback<ResponModel>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<PengajuanSuratModel> suratList = response.body().getData().getDataListPengajuanPending();
-                    if (suratList != null) {
-                        pengajuanSuratList.clear();
-                        pengajuanSuratList.addAll(suratList);
-                        statusPengajuanAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
-                    } else {
-                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
-                Log.e("API Error", "Error: " + t.getMessage());
-                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+//        Call<ResponModel> call = apiService.getListPengajuan(nik);
+//        String jsonResponse = "";
+//        call.enqueue(new Callback<ResponModel>() {
+//            @Override
+//            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    List<PengajuanSuratModel> suratList = response.body().getData().getDataListPengajuanPending();
+//                    if (suratList != null) {
+//                        pengajuanSuratList.clear();
+//                        pengajuanSuratList.addAll(suratList);
+//                        statusPengajuanAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
+//                    } else {
+//                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
+//                Log.e("API Error", "Error: " + t.getMessage());
+//                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

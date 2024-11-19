@@ -5,34 +5,35 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@drawable/kotakputih"
-    android:elevation="4dp"
-    android:padding="16dp">
+    android:elevation="2dp"
+    android:padding="12dp">
 
     <!-- Title and Date -->
+
     <TextView
         android:id="@+id/jenisText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
         android:text="Surat Keluarga Baru"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/status"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/imagesurataju"
+        app:layout_constraintStart_toEndOf="@+id/imagesurataju"
+        app:layout_constraintTop_toTopOf="@+id/imagesurataju" />
 
     <TextView
         android:id="@+id/dateText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:text="12-September-2024 12:00"
         android:textColor="#7A7A7A"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/status"
         app:layout_constraintEnd_toStartOf="@+id/status"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/jenisText" />
+        app:layout_constraintTop_toTopOf="@+id/status" />
 
     <!-- Process Button -->
 
@@ -45,11 +46,11 @@
         android:background="#686868"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateText" />
+        app:layout_constraintTop_toBottomOf="@+id/status" />
 
     <!-- Profile Picture -->
     <ImageView
-        android:id="@+id/profileImage"
+        android:id="@+id/imagesurataju"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
@@ -59,33 +60,6 @@
         app:layout_constraintTop_toBottomOf="@id/dividerLine" />
 
     <!-- Name and ID -->
-    <TextView
-        android:id="@+id/nameText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Ilham Nur isnaini bj"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/infoIcon"
-        app:layout_constraintStart_toEndOf="@+id/profileImage"
-        app:layout_constraintTop_toTopOf="@+id/profileImage" />
-
-    <TextView
-        android:id="@+id/nikText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="23123123213"
-        android:textColor="#7A7A7A"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/profileImage"
-        app:layout_constraintEnd_toStartOf="@+id/infoIcon"
-        app:layout_constraintStart_toEndOf="@+id/profileImage"
-        app:layout_constraintTop_toBottomOf="@+id/nameText" />
 
     <!-- Info Icon -->
     <ImageView
@@ -95,7 +69,7 @@
         android:src="@android:drawable/ic_dialog_info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/profileImage"
+        app:layout_constraintTop_toTopOf="@id/imagesurataju"
         app:tint="#117A8B" />
 
     <TextView
@@ -103,14 +77,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_status_tosca"
-        android:padding="10dp"
+        android:padding="6dp"
         android:text="Diproses"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:circularflow_radiusInDP="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/dateText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
