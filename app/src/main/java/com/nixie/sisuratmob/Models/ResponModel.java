@@ -27,10 +27,10 @@ public class ResponModel{
         private List<ListKkModel> datakk;
         private List<Surat> datasurat;
         private List<Berita> databerita;
-        private List<PengajuanSuratModel> datapengajuan;
+        private List<PengajuanSuratModel> dataPengajuan;
         private List<DetailHistoriModel> datahistori;
 
-        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita, List<PengajuanSuratModel> datapengajuan, List<DetailHistoriModel> datahistori) {
+        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita, List<PengajuanSuratModel> dataPengajuan, List<DetailHistoriModel> datahistori) {
             this.msg = msg;
             this.biodata = biodata;
             this.datalampiran = datalampiran;
@@ -39,7 +39,6 @@ public class ResponModel{
             this.datasurat = datasurat;
             this.databerita = databerita;
             this.dataPengajuan = dataPengajuan;
-            this.datapengajuan = datapengajuan;
             this.datahistori = datahistori;
         }
 
