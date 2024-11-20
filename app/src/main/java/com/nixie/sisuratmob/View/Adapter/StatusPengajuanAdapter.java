@@ -1,6 +1,8 @@
 package com.nixie.sisuratmob.View.Adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,9 +43,50 @@ public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuan
     @Override
     public void onBindViewHolder(@NonNull StatusPengajuanViewHolder holder, int position) {
         RiwayatSurat riwayatSurat = listRiwayat.get(position);
-        holder.statusText.setText(riwayatSurat.getStatus());
+        String status = riwayatSurat.getStatus();
+        String formattedStatus;
+        int backgroundColor;
+        switch (status) {
+            case "pendding":
+                formattedStatus = "Menunggu Persetujuan";
+                backgroundColor = 0xFFE0A800;
+                break;
+            case "di_terima_rt":
+                formattedStatus = "Diterima oleh RT";
+                backgroundColor = 0xFF117A8B;
+                break;
+            case "di_terima_rw":
+                formattedStatus = "Diterima oleh RW";
+                backgroundColor = 0xFF117A8B;
+                break;
+            case "di_tolak_rt":
+                formattedStatus = "Ditolak oleh RT";
+                backgroundColor = 0xFFC82333;
+                break;
+            case "di_tolak_rw":
+                formattedStatus = "Ditolak oleh RW";
+                backgroundColor = 0xFFC82333;
+                break;
+            case "selesai":
+                formattedStatus = "Proses Selesai";
+                backgroundColor = 0xFF218838;
+                break;
+            default:
+                formattedStatus = "Status Tidak Diketahui";
+                backgroundColor = 0xFFE0A800;
+                break;
+        }
+        holder.statusText.setText(formattedStatus);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(backgroundColor); // Set the background color
+        drawable.setCornerRadius(16f); // Set the corner radius (e.g., 16dp)
+        ColorStateList tintColor = ColorStateList.valueOf(backgroundColor);
+        holder.icbtn.setImageTintList(tintColor);
+// Apply the background to the status text view
+        holder.statusText.setBackground(drawable);
 //        holder.nikText.setText(riwayatSurat.getNik());
         holder.createdAtText.setText(riwayatSurat.getCreated_at());
+        holder.jenistext.setText(riwayatSurat.getNama_surat());
         Glide.with(context)
                 .load("http://192.168.100.205/SISURAT/admin/assetssurat/"+riwayatSurat.getImage())
                 .placeholder(R.drawable.baground_rtrw)
@@ -71,12 +114,14 @@ public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuan
     }
 
     static class StatusPengajuanViewHolder extends RecyclerView.ViewHolder {
-        TextView nomorSuratText, statusText, nikText, createdAtText;
+        TextView jenistext,nomorSuratText, statusText, nikText, createdAtText;
         ImageView img,icbtn;
         public StatusPengajuanViewHolder(@NonNull View itemView) {
             super(itemView);
             statusText = itemView.findViewById(R.id.status);
 //            nikText = itemView.findViewById(R.id.nikText);
+            jenistext = itemView.findViewById(R.id.jenisText);
+
             createdAtText = itemView.findViewById(R.id.dateText);
             img = itemView.findViewById(R.id.imagesurataju);
             icbtn = itemView.findViewById(R.id.infoIcon);

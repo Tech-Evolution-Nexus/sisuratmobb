@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditNamalengkap = findViewById(R.id.registrasi_nama_lengkap);
         EditJeniskelamin = findViewById(R.id.registrasi_jenis_kelamin);
         EditTempatlahir = findViewById(R.id.registrasi_tempat_lahir);
-        EditTanggal = findViewById(R.id.textregistrasi_tgl_lahir);
+        EditTanggal = findViewById(R.id.registrasi_tgl_lahir);
         EditAgama = findViewById(R.id.registrasi_agama);
         EditPendidikan = findViewById(R.id.registrasi_pendidikan);
         EditPekerjaan = findViewById(R.id.registrasi_pekerjaan);
@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditKabupaten = findViewById(R.id.registrasi_kabupaten);
         EditProvinsi = findViewById(R.id.registrasi_provinsi);
         EditKkTanggal = findViewById(R.id.registrasi_kk_tgl);
-        EditRole = findViewById(R.id.registrasi_role);
+        Spinner spinner = findViewById(R.id.registrasi_role);
         btn_register = findViewById(R.id.registrasi_button);
 
         btn_register.setOnClickListener(new View.OnClickListener() {

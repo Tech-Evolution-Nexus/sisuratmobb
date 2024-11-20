@@ -34,7 +34,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class DiprosesFragment extends Fragment {
-    private TextView jtext,dtext,ntext,natext,status;
+//    private TextView jtext,dtext,ntext,natext,status;
     private RecyclerView recyclerViewRiwayatSurat;
     private StatusPengajuanAdapter statusPengajuanAdapter;
     private List<RiwayatSurat> riwayatSuratList = new ArrayList<>();
@@ -73,7 +73,7 @@ public class DiprosesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fetchData("1232313212133212","di_terima_rt|di_terima_rw|diproses");
+        fetchData("1232313212133212","di_terima_rt,di_terima_rw");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -100,14 +100,20 @@ public class DiprosesFragment extends Fragment {
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<RiwayatSurat> suratList = response.body().getData().getDatariwayat();
+                    Log.d("TAG", response.body().getData().getMsg());
+                   for (RiwayatSurat surat : suratList) {
+                       Log.d("TAG", surat.getStatus());
+                   }
                     if (suratList != null) {
                         riwayatSuratList.clear();
                         riwayatSuratList.addAll(suratList);
                         statusPengajuanAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
                     } else {
+                        Log.d("TAG", "s");
                         Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    Log.d("TAG", "af");
                     Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -118,7 +118,7 @@
                     android:id="@+id/registrasi_nama_lengkap"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="Nama Lengkap"
                     android:inputType="textPassword"
                     android:drawableStart="@drawable/ic_lock"
                     android:drawablePadding="16dp"/>

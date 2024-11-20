@@ -60,13 +60,21 @@ public class DataPopup extends DialogFragment {
         detProvinsi = view.findViewById(R.id.detProvinsi);
         detKkTgl = view.findViewById(R.id.detKkTgl);
         detKeterangan = view.findViewById(R.id.detketerangan);
-
         recyclerViewLampiran = view.findViewById(R.id.recyclerViewpopup);
         recyclerViewLampiran.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (getArguments() != null) {
             String title = getArguments().getString("title");
             String status = getArguments().getString("status");
+            View dbatalView = view.findViewById(R.id.dbatal);
+            View dcetakView = view.findViewById(R.id.dcetak);
+
+            if ("pendding".equals(status)) {
+                dbatalView.setVisibility(View.VISIBLE);
+            }
+            if ("selesai".equals(status)) {
+                dcetakView.setVisibility(View.VISIBLE);
+            }
             String date = getArguments().getString("date");
             String nik = getArguments().getString("nik");
             int ipengajuan = getArguments().getInt("idpengajuan");

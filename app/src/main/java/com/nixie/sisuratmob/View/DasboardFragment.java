@@ -1,5 +1,6 @@
 package com.nixie.sisuratmob.View;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,9 +49,11 @@ public class DasboardFragment extends Fragment {
     private List<Berita> dberitaList = new ArrayList<>();
     private List<Surat> dataList = new ArrayList<>();
     private List<Surat> filteredList = new ArrayList<>();
-
+    private SharedPreferences sharedPreferences;
     private MaterialAutoCompleteTextView etSearch;
-
+    private static final String PREF_NAME = "userPrefs";
+    private static final String KEY_USER_NAME ="userName";
+    private TextView txt5;
 
 
     @Nullable
@@ -62,6 +65,12 @@ public class DasboardFragment extends Fragment {
         recyclerViewBerita = view.findViewById(R.id.recyclerViewBerita);
         recyclerViewsurdash = view.findViewById(R.id.recjsurdash);
         etSearch = view.findViewById(R.id.carijsurdash);
+        txt5 = view.findViewById(R.id.textView5);
+        sharedPreferences = getActivity().getSharedPreferences(PREF_NAME,getActivity().MODE_PRIVATE);
+        String username = sharedPreferences.getString(KEY_USER_NAME,"user");
+
+        txt5.setText("Hallo" + username);
+
 
 
         recyclerViewBerita.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

@@ -33,7 +33,8 @@ public interface ApiService {
     @GET("getpengajuan/{nik}/{status}")
     Call<ResponModel> getPengajuan(
             @Path("nik") String nik,
-            @Path("status") String status
+            @Path(value = "status", encoded = true) String status
+
     );
 
     @GET("list-pengajuan/{nik}/{status}")
@@ -54,7 +55,7 @@ public interface ApiService {
 
         // Verifikasi Request
         @POST("veriv")
-        Call<ResponseBody> reqVerifikasi(@Body VerivModel userLogin);
+        Call<ResponseBody> reqVerifikasi(@Body VerivModel userVeriv);
 
         // Aktivasi Request
         @POST("aktivasi")
