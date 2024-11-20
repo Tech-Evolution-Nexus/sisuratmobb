@@ -1,6 +1,7 @@
 package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -86,9 +87,25 @@ public class LoginActivity extends AppCompatActivity {
 
                                 // Menangani jika login berhasil
                                 if (status) {
-                                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-                                    finish();
+                                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean("isLoggedIn", true);
+                                    editor.putString("nik", data.getJSONObject("dataUserLogin").getString("nik"));
+                                    editor.putString("role", data.getJSONObject("dataUserLogin").getString("role"));
+                                    editor.apply();
+
+                                    if(data.getJSONObject("dataUserLogin").getString("role").equals("masyarakat")){
+                                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                                        finish();
+                                    }else if(data.getJSONObject("dataUserLogin").getString("role").equals("rt")||data.getJSONObject("dataUserLogin").getString("role").equals("rw")){
+                                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LoginActivity.this, DashboardRtActivity.class));
+                                        finish();
+                                    }else{
+                                        Toast.makeText(LoginActivity.this, "Role Tidak Dizinkan", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 } else {
                                     // Jika login gagal, menampilkan pesan kesalahan
                                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();

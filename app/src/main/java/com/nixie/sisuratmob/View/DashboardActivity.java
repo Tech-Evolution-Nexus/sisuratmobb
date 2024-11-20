@@ -30,7 +30,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navi_view);  // NavigationView untuk drawer
         bottomNavigationView = findViewById(R.id.btm_view);  // BottomNavigationView untuk navigasi bawah

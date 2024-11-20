@@ -2,9 +2,11 @@ package com.nixie.sisuratmob.View;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,11 +28,30 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
        new Handler().postDelayed(() ->{
-        
-        Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
 
-           startActivity(intent);
-           finish();
+           SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+           boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+           String role = sharedPreferences.getString("role", "");
+
+           if (!isLoggedIn) {
+               Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
+               startActivity(intent);
+               finish();
+           }else{
+               if(role.equals("masyarakat")){
+                   Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                   startActivity(intent);
+                   finish();
+               }else if(role.equals("rt")||role.equals("rw")){
+                   Intent intent = new Intent(MainActivity.this, DashboardRtActivity.class);
+                   startActivity(intent);
+                   finish();
+               }else {
+                   Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
+                   startActivity(intent);
+                   finish();
+               }
+           }
         }, 5000 );
 
     }
