@@ -63,8 +63,7 @@ public class ListJenisSuratActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Fungsi yang dijalankan saat ikon navigasi diklik
-                onBackPressed(); // Misalnya kembali ke aktivitas sebelumnya
+                onBackPressed();
             }
         });
         searchEditText.addTextChangedListener(new TextWatcher() {

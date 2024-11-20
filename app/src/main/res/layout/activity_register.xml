@@ -11,8 +11,8 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
         android:padding="1dp"
         android:background="@drawable/rectangelradius"
         android:layout_alignParentTop="true"
@@ -22,16 +22,18 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="70dp"
             app:srcCompat="@drawable/coba" />
     </LinearLayout>
 
     <!-- ScrollView untuk konten yang bisa digulir -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/linearLayout2"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:layout_marginTop="100dp">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -39,11 +41,11 @@
             android:padding="16dp"
             android:background="@color/white">
 
+            <!-- Title -->
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
                 android:fontFamily="sans-serif"
                 android:text="Registrasi"
                 android:textSize="25sp"
@@ -63,32 +65,52 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textregistrasi1"
+                android:id="@+id/textregistrasi_nik"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@id/textView2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registrasi_NIK"
+                    android:id="@+id/registrasi_nik"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nomor Induk Kependudukan"
+                    android:hint="Nomor Induk Kependudukan (NIK)"
                     android:inputType="number"
                     android:drawableStart="@drawable/ic_nik"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Nama Lengkap -->
+            <!-- Password -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textregistrasi_nama"
+                android:id="@+id/textregistrasi_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi1"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_nik"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_nama_lengkap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_password"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -96,11 +118,48 @@
                     android:id="@+id/registrasi_nama_lengkap"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nama Lengkap"
-                    android:inputType="text"
-                    android:drawableStart="@drawable/ic_namalengkap"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:drawableStart="@drawable/ic_lock"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- No HP -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_no_hp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_nama_lengkap"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_no_hp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nomor HP"
+                    android:inputType="phone"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Role -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_role"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_no_hp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <android.widget.Spinner
+                    android:id="@+id/registrasi_role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <!-- Jenis Kelamin -->
             <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +167,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi_nama"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_role"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -118,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Jenis Kelamin"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_jk"
+                    android:drawableStart="@drawable/ic_agama"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Tempat Lahir"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_home"
+                    android:drawableStart="@drawable/ic_surat"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -156,9 +215,9 @@
                     android:id="@+id/registrasi_tgl_lahir"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Tanggal Lahir (DD/MM/YYYY)"
-                    android:inputType="date"
-                    android:drawableStart="@drawable/ic_tgllahir"
+                    android:hint="Tanggal Lahir"
+                    android:inputType="none"
+                    android:drawableStart="@drawable/ic_agama"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -222,33 +281,13 @@
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Golongan Darah -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textregistrasi_golongan_darah"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi_pekerjaan"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registrasi_golongan_darah"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Golongan Darah"
-                    android:inputType="text"
-                    android:drawableStart="@drawable/ic_gol_darah"
-                    android:drawablePadding="16dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
             <!-- Status Perkawinan -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textregistrasi_status_perkawinan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi_golongan_darah"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_pekerjaan"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -258,7 +297,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Status Perkawinan"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_statusperkawinan"
+                    android:drawableStart="@drawable/ic_agama"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -278,7 +317,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Status Keluarga"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_family"
+                    android:drawableStart="@drawable/ic_agama"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -298,7 +337,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Kewarganegaraan"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_warganegara"
+                    android:drawableStart="@drawable/ic_agama"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -318,7 +357,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Nama Ayah"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_namaayah"
+                    android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -338,13 +377,13 @@
                     android:layout_height="wrap_content"
                     android:hint="Nama Ibu"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_namaibu"
+                    android:drawableStart="@drawable/ic_lanjut"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Email -->
+            <!-- No KK -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textregistrasi_email"
+                android:id="@+id/textregistrasi_no_kk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -353,100 +392,207 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registrasi_email"
+                    android:id="@+id/registrasi_no_kk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:drawableStart="@drawable/ic_email"
-                    android:drawablePadding="16dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- No HP -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textregistrasi_no_hp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi_email"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registrasi_no_hp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="No. Telepon"
+                    android:hint="Nomor KK"
                     android:inputType="number"
-                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableStart="@drawable/ic_surat"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Password -->
+            <!-- Alamat -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textregistrasi_password"
+                android:id="@+id/textregistrasi_alamat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi_no_hp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_no_kk"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registrasi_password"
+                    android:id="@+id/registrasi_alamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Kata Sandi"
-                    android:inputType="textPassword"
+                    android:hint="Alamat"
+                    android:inputType="text"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- RT -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_rt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_alamat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_rt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="RT"
+                    android:inputType="number"
+                    android:drawableStart="@drawable/ic_agama"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- RW -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_rw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_rt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_rw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="RW"
+                    android:inputType="number"
+                    android:drawableStart="@drawable/ic_surat"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Kode Pos -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_kode_pos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_rw"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_kode_pos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Kode Pos"
+                    android:inputType="number"
+                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Kelurahan -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_kelurahan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_kode_pos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_kelurahan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Kelurahan"
+                    android:inputType="text"
+                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Kecamatan -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_kecamatan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_kelurahan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_kecamatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Kecamatan"
+                    android:inputType="text"
                     android:drawableStart="@drawable/ic_lock"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Konfirmasi Password -->
+            <!-- Kabupaten -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textregistrasi_confirpasword"
+                android:id="@+id/textregistrasi_kabupaten"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi_password"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_kecamatan"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registrasi_confirpasword"
+                    android:id="@+id/registrasi_kabupaten"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Konfirmasi Kata Sandi"
-                    android:inputType="textPassword"
-                    android:drawableStart="@drawable/ic_confirm"
+                    android:hint="Kabupaten"
+                    android:inputType="text"
+                    android:drawableStart="@drawable/ic_lanjut"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/registrasi_masuk"
+            <!-- Provinsi -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_provinsi"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:backgroundTint="@color/bluebaground"
-                android:textSize="18sp"
-                android:text="Simpan"
-                app:layout_constraintTop_toBottomOf="@+id/textregistrasi_confirpasword"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_kabupaten"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/btn_registrasi"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_provinsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Provinsi"
+                    android:inputType="text"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- KK Tanggal -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textregistrasi_kk_tgl"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:contentDescription="Activasi"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="sudah Resgitrasi akun? Masuk "
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@+id/registrasi_masuk"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_provinsi"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/registrasi_kk_tgl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tanggal KK"
+                    android:inputType="date"
+                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawablePadding="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Tombol Registrasi -->
+            <android.widget.Button
+                android:id="@+id/registrasi_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Registrasi"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_kk_tgl"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@android:color/white"
+                android:background="@color/backgroundColor"/>
 
             <TextView
                 android:id="@+id/textView3"
@@ -456,10 +602,10 @@
                 android:fontFamily="sans-serif"
                 android:text="CopyRight@Nautulius"
                 android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@+id/btn_registrasi"
+                app:layout_constraintTop_toBottomOf="@+id/registrasi_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </RelativeLayout>

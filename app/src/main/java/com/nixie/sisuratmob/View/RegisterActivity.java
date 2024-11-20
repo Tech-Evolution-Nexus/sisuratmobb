@@ -4,134 +4,125 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.nixie.sisuratmob.Database.DbHelper;
+import com.nixie.sisuratmob.Api.ApiClient;
+import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.RegistrasiModel;
 import com.nixie.sisuratmob.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
-    private TextInputEditText Editnik;
-    private TextInputEditText Editnamalengkap;
-    private TextInputEditText Editjk;
-    private TextInputEditText Edittempatlahir;
-    private TextInputEditText Edittanggal;
-    private TextInputEditText Editagama;
-    private TextInputEditText Editpendidikan;
-    private TextInputEditText Editpekerjaan;
-    private TextInputEditText Editgoldarah;
-    private TextInputEditText Editstatusperkawinan;
-    private TextInputEditText Editstatuskeluarga;
-    private TextInputEditText Editkwarganegaraan;
-    private TextInputEditText Editnamaayah;
-    private TextInputEditText Editnamaibu;
-    private TextInputEditText Editemail;
-    private TextInputEditText Editnohp;
-    private TextInputEditText Editpassword;
-    private TextInputEditText Editconfirm;
 
-    private TextView masuklogin;
+    private TextInputEditText EditNik, EditPassword, EditNohp, EditNamalengkap, EditJeniskelamin;
+    private TextInputEditText EditTempatlahir, EditTanggal, EditAgama, EditPendidikan, EditPekerjaan;
+    private TextInputEditText EditStatusperkawinan, EditStatuskeluarga, EditKwarganegaraan, EditNamaayah;
+    private TextInputEditText EditNamaibu, EditNokk, EditAlamat, EditRt, EditRw, EditKodepos, EditKelurahan;
+    private TextInputEditText EditKecamatan, EditKabupaten, EditProvinsi, EditKkTanggal;
+    private Spinner EditRole;
     private Button btn_register;
-
-    // List untuk menyimpan data pengguna dummy sementara
-    private List<RegistrasiModel> dummyUserList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
-        // Inisialisasi EditText dan Button
-        Editnik = findViewById(R.id.registrasi_NIK);
-        Editnamalengkap = findViewById(R.id.registrasi_nama_lengkap);
-        Editjk = findViewById(R.id.registrasi_jenis_kelamin);
-        Edittempatlahir = findViewById(R.id.registrasi_tempat_lahir);
-        Edittanggal = findViewById(R.id.registrasi_tgl_lahir);
-        Editagama = findViewById(R.id.registrasi_agama);
-        Editpendidikan = findViewById(R.id.registrasi_pendidikan);
-        Editpekerjaan = findViewById(R.id.registrasi_pekerjaan);
-        Editgoldarah = findViewById(R.id.registrasi_golongan_darah);
-        Editstatusperkawinan = findViewById(R.id.registrasi_status_perkawinan);
-        Editstatuskeluarga = findViewById(R.id.registrasi_status_keluarga);
-        Editkwarganegaraan = findViewById(R.id.registrasi_kewarganegaraan);
-        Editnamaayah = findViewById(R.id.registrasi_nama_ayah);
-        Editnamaibu = findViewById(R.id.registrasi_nama_ibu);
-        Editemail = findViewById(R.id.registrasi_email);
-        Editnohp = findViewById(R.id.registrasi_no_hp);
-        Editpassword = findViewById(R.id.registrasi_password);
-        Editconfirm = findViewById(R.id.registrasi_confirpasword);
-        btn_register = findViewById(R.id.registrasi_masuk);
+        EditNik = findViewById(R.id.registrasi_nik);
+        EditPassword = findViewById(R.id.registrasi_password);
+        EditNohp = findViewById(R.id.registrasi_no_hp);
+        EditNamalengkap = findViewById(R.id.registrasi_nama_lengkap);
+        EditJeniskelamin = findViewById(R.id.registrasi_jenis_kelamin);
+        EditTempatlahir = findViewById(R.id.registrasi_tempat_lahir);
+        EditTanggal = findViewById(R.id.textregistrasi_tgl_lahir);
+        EditAgama = findViewById(R.id.registrasi_agama);
+        EditPendidikan = findViewById(R.id.registrasi_pendidikan);
+        EditPekerjaan = findViewById(R.id.registrasi_pekerjaan);
+        EditStatusperkawinan = findViewById(R.id.registrasi_status_perkawinan);
+        EditStatuskeluarga = findViewById(R.id.registrasi_status_keluarga);
+        EditKwarganegaraan = findViewById(R.id.registrasi_kewarganegaraan);
+        EditNamaayah = findViewById(R.id.registrasi_nama_ayah);
+        EditNamaibu = findViewById(R.id.registrasi_nama_ibu);
+        EditNokk = findViewById(R.id.registrasi_no_kk);
+        EditAlamat = findViewById(R.id.registrasi_alamat);
+        EditRt = findViewById(R.id.registrasi_rt);
+        EditRw = findViewById(R.id.registrasi_rw);
+        EditKodepos = findViewById(R.id.registrasi_kode_pos);
+        EditKelurahan = findViewById(R.id.registrasi_kelurahan);
+        EditKecamatan = findViewById(R.id.registrasi_kecamatan);
+        EditKabupaten = findViewById(R.id.registrasi_kabupaten);
+        EditProvinsi = findViewById(R.id.registrasi_provinsi);
+        EditKkTanggal = findViewById(R.id.registrasi_kk_tgl);
+        EditRole = findViewById(R.id.registrasi_role);
+        btn_register = findViewById(R.id.registrasi_button);
 
-        btn_register.setOnClickListener(v -> register());
-
-        masuklogin = findViewById(R.id.btn_registrasi);
-
-        masuklogin.setOnClickListener(new View.OnClickListener() {
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent inten = new Intent(RegisterActivity.this,LoginActivity.class);
-                startActivity(inten);
+                registerUser();
             }
         });
     }
 
-    // Metode untuk melakukan registrasi
-    public void register() {
-        String nik = Editnik.getText().toString();
-        String nama_lengkap = Editnamalengkap.getText().toString();
-        String jenis_kelamin = Editjk.getText().toString();
-        String tempat_lahir = Edittempatlahir.getText().toString();
-        String tgl_lahir = Edittanggal.getText().toString();
-        String agama = Editagama.getText().toString();
-        String pendidikan = Editpendidikan.getText().toString();
-        String pekerjaan = Editpekerjaan.getText().toString();
-        String golongan_darah = Editgoldarah.getText().toString();
-        String status_perkawinan = Editstatusperkawinan.getText().toString();
-        String status_keluarga = Editstatuskeluarga.getText().toString();
-        String kewarganegaraan = Editkwarganegaraan.getText().toString();
-        String nama_ayah = Editnamaayah.getText().toString();
-        String nama_ibu = Editnamaibu.getText().toString();
-        String email = Editemail.getText().toString();
-        String no_hp = Editnohp.getText().toString();
-        String password = Editpassword.getText().toString();
-        String confirm_password = Editconfirm.getText().toString();
+    private void registerUser() {
+        // Ambil data dari EditText
+        String nik = EditNik.getText().toString().trim();
+        String password = EditPassword.getText().toString().trim();
+        String noTelp = EditNohp.getText().toString().trim();
+        String namaLengkap = EditNamalengkap.getText().toString().trim();
+        String jenisKelamin = EditJeniskelamin.getText().toString().trim();
+        String tempatLahir = EditTempatlahir.getText().toString().trim();
+        String tanggalLahir = EditTanggal.getText().toString().trim();
+        String agama = EditAgama.getText().toString().trim();
+        String pendidikan = EditPendidikan.getText().toString().trim();
+        String pekerjaan = EditPekerjaan.getText().toString().trim();
+        String statusPernikahan = EditStatusperkawinan.getText().toString().trim();
+        String statusKeluarga = EditStatuskeluarga.getText().toString().trim();
+        String kewarganegaraan = EditKwarganegaraan.getText().toString().trim();
+        String namaAyah = EditNamaayah.getText().toString().trim();
+        String namaIbu = EditNamaibu.getText().toString().trim();
+        String noKK = EditNokk.getText().toString().trim();
+        String alamat = EditAlamat.getText().toString().trim();
+        String rt = EditRt.getText().toString().trim();
+        String rw = EditRw.getText().toString().trim();
+        String kodepos = EditKodepos.getText().toString().trim();
+        String kelurahan = EditKelurahan.getText().toString().trim();
+        String kecamatan = EditKecamatan.getText().toString().trim();
+        String kabupaten = EditKabupaten.getText().toString().trim();
+        String provinsi = EditProvinsi.getText().toString().trim();
+        String kkTanggal = EditKkTanggal.getText().toString().trim();
+        String role = EditRole.getSelectedItem().toString().trim();
 
-        // Validasi input
-        if (nik.isEmpty() || nama_lengkap.isEmpty() || jenis_kelamin.isEmpty() || tempat_lahir.isEmpty() ||
-                tgl_lahir.isEmpty() || agama.isEmpty() || pendidikan.isEmpty() || pekerjaan.isEmpty() ||
-                golongan_darah.isEmpty() || status_perkawinan.isEmpty() || status_keluarga.isEmpty() ||
-                kewarganegaraan.isEmpty() || nama_ayah.isEmpty() || nama_ibu.isEmpty() || email.isEmpty() ||
-                password.isEmpty()) {
-            Toast.makeText(this, "Semua kolom wajib diisi", Toast.LENGTH_SHORT).show();
-            return;
-        }
+      RegistrasiModel userRegister = new RegistrasiModel(nik, password, noTelp, namaLengkap, jenisKelamin,
+                tempatLahir, tanggalLahir, agama, pendidikan, pekerjaan, statusPernikahan, statusKeluarga,
+                kewarganegaraan, namaAyah, namaIbu, noKK, alamat, rt, rw, kodepos, kelurahan, kecamatan,
+                kabupaten, provinsi, kkTanggal, role);
 
-        if (!password.equals(confirm_password)) {
-            Toast.makeText(this, "Kata sandi dan Confirm password harus sama", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.reqRegister(userRegister);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "Registrasi Berhasil", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Registrasi Gagal", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        // Buat objek RegistrasiModel
-        RegistrasiModel registrasiModel = new RegistrasiModel(0, nik, nama_lengkap, jenis_kelamin, tempat_lahir,
-                tgl_lahir, agama, pendidikan, pekerjaan, golongan_darah, status_perkawinan, status_keluarga,
-                kewarganegaraan, nama_ayah, nama_ibu, email, password, no_hp);
-
-        // Tambah data ke list dummy
-        dummyUserList.add(registrasiModel);
-        Toast.makeText(this, "Registrasi Berhasil", Toast.LENGTH_SHORT).show();
-
-        // Pindah ke LoginActivity
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

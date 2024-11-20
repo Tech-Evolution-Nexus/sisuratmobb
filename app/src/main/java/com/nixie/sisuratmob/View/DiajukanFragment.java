@@ -86,7 +86,7 @@ public class DiajukanFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_diajukan, container, false);
         recyclerViewRiwayatSurat = view.findViewById(R.id.recdiajukan);
         recyclerViewRiwayatSurat.setLayoutManager(new LinearLayoutManager(getContext()));
-        statusPengajuanAdapter = new StatusPengajuanAdapter(riwayatSuratList);
+        statusPengajuanAdapter = new StatusPengajuanAdapter(getContext(),riwayatSuratList,this);
         recyclerViewRiwayatSurat.setAdapter(statusPengajuanAdapter);
         return view;
     }

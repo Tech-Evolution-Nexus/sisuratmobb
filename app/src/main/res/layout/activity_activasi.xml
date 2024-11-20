@@ -109,10 +109,10 @@
                 android:id="@+id/activasi_Nohp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="No.Telepon"
-                android:inputType="number"
                 android:drawableStart="@drawable/ic_phone"
-                android:drawablePadding="16dp"/>
+                android:drawablePadding="16dp"
+                android:hint="No.Telepon"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

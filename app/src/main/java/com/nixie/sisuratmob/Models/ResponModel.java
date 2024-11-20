@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.List;
 
-public class ResponModel {
+public class ResponModel{
     private DataWrapper data;
 
     public ResponModel(DataWrapper data) {
@@ -27,11 +27,10 @@ public class ResponModel {
         private List<ListKkModel> datakk;
         private List<Surat> datasurat;
         private List<Berita> databerita;
-        private List<PengajuanSuratModel> datapengajuanpending;
-        private List<PengajuanSuratModel> datapengajuanselesai;
-        private List<PengajuanSuratModel> dataPengajuan;
+        private List<PengajuanSuratModel> datapengajuan;
+        private List<DetailHistoriModel> datahistori;
 
-        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita,List<PengajuanSuratModel> dataPengajuan) {
+        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita, List<PengajuanSuratModel> datapengajuan, List<DetailHistoriModel> datahistori) {
             this.msg = msg;
             this.biodata = biodata;
             this.datalampiran = datalampiran;
@@ -40,6 +39,16 @@ public class ResponModel {
             this.datasurat = datasurat;
             this.databerita = databerita;
             this.dataPengajuan = dataPengajuan;
+            this.datapengajuan = datapengajuan;
+            this.datahistori = datahistori;
+        }
+
+        public List<DetailHistoriModel> getDatahistori() {
+            return datahistori;
+        }
+
+        public void setDatahistori(List<DetailHistoriModel> datahistori) {
+            this.datahistori = datahistori;
         }
 
         public List<Berita> getDataberita() {

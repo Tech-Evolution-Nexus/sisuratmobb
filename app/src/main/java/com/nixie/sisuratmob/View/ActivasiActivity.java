@@ -10,18 +10,23 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.nixie.sisuratmob.Api.ApiClient;
+import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Models.AktivasiModel;
 import com.nixie.sisuratmob.R;
+
+import org.json.JSONObject;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivasiActivity extends AppCompatActivity {
 
-    private TextInputEditText textNik, textPassword;
+    private TextInputEditText textNik, textPassword, notelfon;
     private Button buttonActivasi;
     private TextView masuklogin;
-
-    // Data dummy untuk NIK yang terdaftar
-    private static final String DUMMY_NIK_WARGA = "123456789";
-    private static final String DUMMY_NIK_RT = "987654321";
-    private static final String DUMMY_NIK_RW = "56789";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class ActivasiActivity extends AppCompatActivity {
         masuklogin = findViewById(R.id.Activasi_log);
         textNik = findViewById(R.id.activasi_NIK);
         textPassword = findViewById(R.id.activasi_password);
+        notelfon = findViewById(R.id.activasi_Nohp);
         buttonActivasi = findViewById(R.id.activasi_masuk);
 
         // Listener untuk masuk login
@@ -44,23 +50,62 @@ public class ActivasiActivity extends AppCompatActivity {
         });
 
         // Listener untuk tombol aktivasi
-        buttonActivasi.setOnClickListener(v -> {
-            String nik = textNik.getText().toString();
-            String password = textPassword.getText().toString();
+        buttonActivasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nik = textNik.getText().toString().trim();
+                String password = textPassword.getText().toString().trim();
+                String noTelpon = notelfon.getText().toString().trim();
 
-            if (nik.isEmpty() || password.isEmpty()) {
-                Toast.makeText(ActivasiActivity.this, "NIK dan Password harus diisi", Toast.LENGTH_SHORT).show();
-            } else {
-                // Cek apakah NIK sudah terdaftar
-                if (nik.equals(DUMMY_NIK_WARGA) || nik.equals(DUMMY_NIK_RT) || nik.equals(DUMMY_NIK_RW)) {
-                    Toast.makeText(ActivasiActivity.this, "NIK valid, Aktivasi Berhasil", Toast.LENGTH_SHORT).show();
-                    // Arahkan ke LoginActivity setelah aktivasi berhasil
-                    Intent intent = new Intent(ActivasiActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(ActivasiActivity.this, "NIK tidak terdaftar", Toast.LENGTH_SHORT).show();
+                // Validasi input
+                if (nik.isEmpty() || password.isEmpty() || noTelpon.isEmpty()) {
+                    Toast.makeText(ActivasiActivity.this, "Semua field harus diisi", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                // Membuat model untuk aktivasi
+               AktivasiModel userAktivasi = new AktivasiModel(nik, password, noTelpon);
+                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+                Call<ResponseBody> call = apiService.reqAktivasi(userAktivasi);
+
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                // Ambil respons sebagai JSON
+                                String responseBody = response.body().string();
+                                JSONObject jsonObject = new JSONObject(responseBody);
+
+                                // Ambil data dari JSON
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                boolean status = data.getBoolean("status");
+                                String message = data.getString("msg");
+
+                                if (status) {
+                                    // Aktivasi berhasil
+                                    Toast.makeText(ActivasiActivity.this, "Akun berhasil diaktivasi!", Toast.LENGTH_SHORT).show();
+                                    // Pindah ke halaman login
+                                    startActivity(new Intent(ActivasiActivity.this, LoginActivity.class));
+                                    finish();
+                                } else {
+                                    // Aktivasi gagal
+                                    Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(ActivasiActivity.this, "Kesalahan parsing data", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(ActivasiActivity.this, "Aktivasi gagal, coba lagi", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(ActivasiActivity.this, "Gagal terhubung ke server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
