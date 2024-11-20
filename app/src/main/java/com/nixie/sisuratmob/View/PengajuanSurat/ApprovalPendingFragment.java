@@ -94,13 +94,15 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
 
     private void fetchData(String nik) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getListPengajuan(nik);
+        String status = "pending";
+        Call<ResponModel> call = apiService.getListPengajuan(nik,status);
         String jsonResponse = "";
         call.enqueue(new Callback<ResponModel>() {
             @Override
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+                    Log.d("Response Api",new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
-                    List<PengajuanSuratModel> suratList = response.body().getData().getDataListPengajuanPending();
+                    List<PengajuanSuratModel> suratList = response.body().getData().getDataListPengajuan();
                     if (suratList != null) {
                         pengajuanSuratList.clear();
                         pengajuanSuratList.addAll(suratList);
