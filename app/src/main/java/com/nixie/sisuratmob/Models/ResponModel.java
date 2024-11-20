@@ -27,12 +27,10 @@ public class ResponModel{
         private List<ListKkModel> datakk;
         private List<Surat> datasurat;
         private List<Berita> databerita;
-        private List<PengajuanSuratModel> datapengajuanpending;
-        private List<PengajuanSuratModel> datapengajuanselesai;
-        private List<PengajuanSuratModel> datapengajuan;
+        private List<PengajuanSuratModel> dataPengajuan;
         private List<DetailHistoriModel> datahistori;
 
-        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita, List<PengajuanSuratModel> datapengajuanpending, List<PengajuanSuratModel> datapengajuanselesai, List<PengajuanSuratModel> datapengajuan, List<DetailHistoriModel> datahistori) {
+        public DataWrapper(String msg, List<BiodataModel> biodata, List<LampiranSuratModel> datalampiran, List<RiwayatSurat> datariwayat, List<ListKkModel> datakk, List<Surat> datasurat, List<Berita> databerita, List<PengajuanSuratModel> dataPengajuan, List<DetailHistoriModel> datahistori) {
             this.msg = msg;
             this.biodata = biodata;
             this.datalampiran = datalampiran;
@@ -40,9 +38,7 @@ public class ResponModel{
             this.datakk = datakk;
             this.datasurat = datasurat;
             this.databerita = databerita;
-            this.datapengajuanpending = datapengajuanpending;
-            this.datapengajuanselesai = datapengajuanselesai;
-            this.datapengajuan = datapengajuan;
+            this.dataPengajuan = dataPengajuan;
             this.datahistori = datahistori;
         }
 
@@ -105,10 +101,9 @@ public class ResponModel{
         public List<Surat> getDatasurat() {
             return datasurat;
         }
-        public List<PengajuanSuratModel> getDataListPengajuanPending() {
-            return datapengajuanpending;
-        }public List<PengajuanSuratModel> getDataListPengajuanSelesai() {
-            return datapengajuanselesai;
+
+        public List<PengajuanSuratModel> getDataListPengajuan() {
+            return dataPengajuan;
         }
 
         public void setDatasurat(List<Surat> datasurat) {
