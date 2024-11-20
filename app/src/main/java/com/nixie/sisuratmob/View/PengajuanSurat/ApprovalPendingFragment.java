@@ -106,7 +106,7 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
                     if (suratList != null) {
                         pengajuanSuratList.clear();
                         pengajuanSuratList.addAll(suratList);
-                        statusPengajuanAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
+                        statusPengajuanAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
                     }

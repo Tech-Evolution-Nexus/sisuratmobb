@@ -94,7 +94,8 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
 
     private void fetchData(String nik) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getListPengajuan(nik,"selesai");
+           String status = "selesai";
+        Call<ResponModel> call = apiService.getListPengajuan(nik,status);
         String jsonResponse = "";
         call.enqueue(new Callback<ResponModel>() {
             @Override
