@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1020077465457",
+    "project_id": "sisuratmob",
+    "storage_bucket": "sisuratmob.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020077465457:android:f9d60dde25dee93f97a0d0",
+        "android_client_info": {
+          "package_name": "com.nixie.sisuratmob"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDomj8KpdFwZ2kzIuWKNo0LXiZ9A7Rzafs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

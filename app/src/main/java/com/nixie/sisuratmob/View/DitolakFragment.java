@@ -1,5 +1,6 @@
 package com.nixie.sisuratmob.View;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -71,7 +72,9 @@ public class DitolakFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fetchData("1232313212133212","di_tolak_rt,di_tolak_rw");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
+        String nik = sharedPreferences.getString("nik", "");
+        fetchData(nik,"di_tolak_rt,di_tolak_rw");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
