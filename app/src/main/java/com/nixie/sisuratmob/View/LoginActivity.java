@@ -8,7 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.UserLoginModel;
@@ -24,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextNIK, editTextPassword;
     private Button buttonLogin;
     private TextView register, lupaSandi;
-
+    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +67,21 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>(){
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    if (!task.isSuccessful()) {
+                        Log.w("as", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    token= task.getResult();
+                    Log.d("TAG", "FCM Token: " + token);
+                }
+            });
             // Membuat model login
-            UserLoginModel loginModel = new UserLoginModel(nik, password);
+            UserLoginModel loginModel = new UserLoginModel(nik, password,token);
 
             // Menggunakan Retrofit untuk mengirim request login
             ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
@@ -79,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             // Validasi format respons JSON
                             if (responseBody.trim().startsWith("{")) {
+
                                 JSONObject jsonObject = new JSONObject(responseBody);
                                 JSONObject data = jsonObject.getJSONObject("data");
 
@@ -92,6 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putBoolean("isLoggedIn", true);
                                     editor.putString("nik", data.getJSONObject("dataUserLogin").getString("nik"));
                                     editor.putString("role", data.getJSONObject("dataUserLogin").getString("role"));
+                                    editor.putString("nokk", data.getJSONObject("dataUserLogin").getString("no_kk"));
+
                                     editor.apply();
 
                                     if(data.getJSONObject("dataUserLogin").getString("role").equals("masyarakat")){
