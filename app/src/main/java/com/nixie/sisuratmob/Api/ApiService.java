@@ -36,9 +36,10 @@ public interface ApiService {
 
     );
 
-    @GET("list-pengajuan/{nik}")
+    @GET("list-pengajuan/{nik}/{status}")
     Call<ResponModel> getListPengajuan(
-            @Path("nik") String nik
+            @Path("nik") String nik,
+            @Path("status") String status
     );
 
     @GET("getlistkk/{nokk}")
