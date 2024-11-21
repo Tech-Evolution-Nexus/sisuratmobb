@@ -1,5 +1,6 @@
 package com.nixie.sisuratmob.View;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -61,7 +62,9 @@ public class ListKeluargaActivity extends AppCompatActivity {
                 onBackPressed(); // Misalnya kembali ke aktivitas sebelumnya
             }
         });
-        fetchDataFromAPI("1232313212133212");
+        SharedPreferences sharedPreferences = getBaseContext().getSharedPreferences("UserPrefs", getBaseContext().MODE_PRIVATE);
+        String nokk = sharedPreferences.getString("nokk", "");
+        fetchDataFromAPI(nokk);
     }
     private void fetchDataFromAPI(String nokk) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);

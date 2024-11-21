@@ -10,17 +10,22 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.nixie.sisuratmob.Api.ApiClient;
+import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.Berita;
+import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.BeritaAdapter;
@@ -28,13 +33,17 @@ import com.nixie.sisuratmob.View.Adapter.BeritaAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DashboardRtFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private BeritaAdapter beritaAdapter;
-    private List<Berita> beritaList;
-    private ImageView icon;
 
+    private ImageView icon;
+    private List<Berita> dberitaList = new ArrayList<>();
     public DashboardRtFragment() {
         // Required empty public constructor
     }
@@ -47,10 +56,7 @@ public class DashboardRtFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewBerita);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
-        beritaList = new ArrayList<>();
-        beritaAdapter = new BeritaAdapter(getContext(), beritaList);
-        recyclerView.setAdapter(beritaAdapter);
-
+        beritaAdapter = new BeritaAdapter(getContext(), dberitaList);
         recyclerView.setAdapter(beritaAdapter);
         recyclerView.setHasFixedSize(true);
 
@@ -61,6 +67,7 @@ public class DashboardRtFragment extends Fragment {
                 showOptionsDialog();
             }
         });
+        fetchdata();
         return view;
     }
 
@@ -102,6 +109,32 @@ public class DashboardRtFragment extends Fragment {
         }
 
         dialog.show();
+    }
+    private void fetchdata() {
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponModel> call2 = apiService.getberita();
+        call2.enqueue(new Callback<ResponModel>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Berita> beritaList = response.body().getData().getDataberita();
+                    if (beritaList != null) {
+                        dberitaList.clear();
+                        dberitaList.addAll(beritaList);
+                    } else {
+                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
+                Log.e("API Error", "Error: " + t.getMessage());
+                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void showAboutApp() {

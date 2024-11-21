@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.nixie.sisuratmob" />
+                  <option name="mobileSdkAppId" value="1:1020077465457:android:f9d60dde25dee93f97a0d0" />
+                  <option name="projectId" value="sisuratmob" />
+                  <option name="projectNumber" value="1020077465457" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -34,7 +34,7 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
     @NonNull
     @Override
     public StatusPengajuanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diajukan, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_approval_surat, parent, false);
         return new StatusPengajuanViewHolder(view);
     }
 
@@ -43,7 +43,6 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
         PengajuanSuratModel pengajuan = listPengajuan.get(position);
         String formattedDate = Helpers.formatTanggal(pengajuan.getTanggal_pengajuan());
         String status;
-
 
         if(this.type == "pending"){
              status = pengajuan.getStatus().equals("pending")  || pengajuan.getStatus().equals("di_terima_rt")  ? "Menunggu Persetujuan" : "Selesai";
@@ -55,7 +54,7 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
                 holder.statusText.setBackground(ContextCompat.getDrawable(context,R.drawable.bg_status_danger));
             }
         }
-        holder.statusText.setText(status);
+;        holder.statusText.setText(status);
         holder.nikText.setText(pengajuan.getNik());
         holder.tanggal_pengajuan.setText(formattedDate);
         holder.nama_surat.setText(pengajuan.getNama_surat());
@@ -72,9 +71,9 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
         public StatusPengajuanViewHolder(@NonNull View itemView) {
             super(itemView);
             statusText = itemView.findViewById(R.id.status);
-//            nikText = itemView.findViewById(R.id.nikText);
+            nikText = itemView.findViewById(R.id.nikText);
             tanggal_pengajuan = itemView.findViewById(R.id.dateText);
-//            nama_lengkap = itemView.findViewById(R.id.nameText);
+            nama_lengkap = itemView.findViewById(R.id.nameText);
             nama_surat = itemView.findViewById(R.id.jenisText);
         }
     }
