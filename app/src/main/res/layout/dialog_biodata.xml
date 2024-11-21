@@ -286,7 +286,7 @@
                 android:layout_gravity="right"
                 android:layout_margin="12dp"
                 android:backgroundTint="#CE1212"
-                android:onClick="onSubmit"
+                android:onClick="batalkan"
                 android:text="Batal"
                 android:visibility="gone" />
 
