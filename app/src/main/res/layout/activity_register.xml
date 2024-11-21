@@ -571,24 +571,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:background="@drawable/rectangelradius"
                 android:text="Registrasi"
-                app:layout_constraintTop_toBottomOf="@id/textregistrasi_kk_tgl"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@android:color/white"
-                android:background="@color/backgroundColor"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textregistrasi_kk_tgl" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="170dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif"
                 android:text="CopyRight@Nautulius"
                 android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@+id/registrasi_button"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/registrasi_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -16,19 +16,22 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
-import com.nixie.sisuratmob.Models.Berita;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailBritaActivity extends AppCompatActivity {
-    TextView title,tgl,des;
+    TextView title, tgl, des;
     ImageView img;
 
     @Override
@@ -53,34 +56,47 @@ public class DetailBritaActivity extends AppCompatActivity {
 
     private void fetchdata(String idberita) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call2 = apiService.getdetailberita(Integer.parseInt(idberita));
-        call2.enqueue(new Callback<ResponModel>() {
+        Call<ResponseBody> call2 = apiService.getdetailberita(Integer.parseInt(idberita));
+        call2.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Berita> beritaList = response.body().getData().getDataberita();
-                    if (beritaList != null) {
-                        Berita berita = beritaList.get(0);
-                        title.setText(berita.getJudul());
-                        tgl.setText(berita.getCreated_at());
-                        des.setText(berita.getDeskripsi());
 
-                        Glide.with(DetailBritaActivity.this)
-                                .load("http://192.168.100.205/SISURAT/admin/assetsberita/"+berita.getGambar())
-                                .placeholder(R.drawable.baground_rtrw)
-                                .error(R.drawable.baground_rtrw)
-                                .into(img);
+                    try {
+                        String responseBody = response.body().string();
+                        Log.d("Response Body", responseBody);
+                        JSONObject jsonObject =  new JSONObject(responseBody);
+                        JSONObject dataArray = jsonObject.getJSONObject("data");
+                        boolean st = jsonObject.getBoolean("status");
+                        String msg = jsonObject.getString("message");
+                        if(st){
+                            title.setText(dataArray.getString("judul"));
+                            tgl.setText(dataArray.getString("created_at"));
+                            des.setText(dataArray.getString("deskripsi"));
 
-                    } else {
-                        Toast.makeText(getBaseContext(), "No data available", Toast.LENGTH_SHORT).show();
+                            Glide.with(DetailBritaActivity.this)
+                                    .load("http://192.168.100.205/SISURAT/admin/assetsberita/" + dataArray.getString("gambar"))
+                                    .placeholder(R.drawable.baground_rtrw)
+                                    .error(R.drawable.baground_rtrw)
+                                    .into(img);
+                        }else{
+                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+//                    List<Berita> beritaList = response.body().getData().getDataberita();
+
+
+                    } catch (JSONException | IOException e) {
+                        throw new RuntimeException(e);
                     }
+
+
                 } else {
                     Toast.makeText(getBaseContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Log.e("API Error", "Error: " + t.getMessage());
                 Toast.makeText(getBaseContext(), "Network error", Toast.LENGTH_SHORT).show();
             }

@@ -47,7 +47,7 @@ public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuan
         String formattedStatus;
         int backgroundColor;
         switch (status) {
-            case "pendding":
+            case "pending":
                 formattedStatus = "Menunggu Persetujuan";
                 backgroundColor = 0xFFE0A800;
                 break;
@@ -82,9 +82,7 @@ public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuan
         drawable.setCornerRadius(16f); // Set the corner radius (e.g., 16dp)
         ColorStateList tintColor = ColorStateList.valueOf(backgroundColor);
         holder.icbtn.setImageTintList(tintColor);
-// Apply the background to the status text view
         holder.statusText.setBackground(drawable);
-//        holder.nikText.setText(riwayatSurat.getNik());
         holder.createdAtText.setText(riwayatSurat.getCreated_at());
         holder.jenistext.setText(riwayatSurat.getNama_surat());
         Glide.with(context)

@@ -30,9 +30,15 @@ import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.BeritaAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,25 +118,44 @@ public class DashboardRtFragment extends Fragment {
     }
     private void fetchdata() {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call2 = apiService.getberita();
-        call2.enqueue(new Callback<ResponModel>() {
+        Call<ResponseBody> call2 = apiService.getberita("s");
+        call2.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Berita> beritaList = response.body().getData().getDataberita();
-                    if (beritaList != null) {
-                        dberitaList.clear();
-                        dberitaList.addAll(beritaList);
-                    } else {
-                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+                    try {
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject dataObject = dataArray.getJSONObject(i);
+                            Berita berita = new Berita(dataObject.getInt("id"),
+                                    dataObject.getString("judul"),
+                                    dataObject.getString("sub_judul"),
+                                    dataObject.getString("deskripsi"),
+                                    dataObject.getString("gambar"),
+                                    dataObject.getString("created_at"));
+                            dberitaList.add(berita);
+                            beritaAdapter.notifyDataSetChanged();
+                        }
+
+                    } catch (IOException | JSONException e) {
+                        throw new RuntimeException(e);
                     }
+//                    List<Berita> beritaList = response.body().getData().getDataberita();
+//                    if (beritaList != null) {
+//                        dberitaList.clear();
+//                        dberitaList.addAll(beritaList);
+//                    } else {
+//                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+//                    }
                 } else {
                     Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Log.e("API Error", "Error: " + t.getMessage());
                 Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
             }

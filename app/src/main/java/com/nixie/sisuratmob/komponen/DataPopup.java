@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.komponen;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.BiodataModel;
@@ -26,9 +28,21 @@ import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.LampiranAdapter;
 import com.nixie.sisuratmob.View.Adapter.PopupAdapter;
+import com.nixie.sisuratmob.View.DiajukanFragment;
+import com.nixie.sisuratmob.View.StatusSuratFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,15 +80,16 @@ public class DataPopup extends DialogFragment {
         if (getArguments() != null) {
             String title = getArguments().getString("title");
             String status = getArguments().getString("status");
-            View dbatalView = view.findViewById(R.id.dbatal);
+            View dbatalView = view.findViewById(R.id.btnbatalkansurat);
             View dcetakView = view.findViewById(R.id.dcetak);
 
-            if ("pendding".equals(status)) {
+            if ("pending".equals(status)) {
                 dbatalView.setVisibility(View.VISIBLE);
             }
             if ("selesai".equals(status)) {
                 dcetakView.setVisibility(View.VISIBLE);
             }
+
             String date = getArguments().getString("date");
             String nik = getArguments().getString("nik");
             int ipengajuan = getArguments().getInt("idpengajuan");
@@ -82,7 +97,47 @@ public class DataPopup extends DialogFragment {
             fetchDataFromApi(ipengajuan);
             titlejsurat.setText(title);
             dateText.setText(date);
+            dbatalView.setOnClickListener(v -> {
 
+                Log.d("TAG", String.valueOf(ipengajuan));
+                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+                Call<ResponseBody> call = apiService.batalkanpengajuan(String.valueOf(ipengajuan));
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            String responseBody = null;
+                            try {
+                                responseBody = response.body().string();
+                                JSONObject jsonObject = new JSONObject(responseBody);
+                                boolean status = jsonObject.getBoolean("status");
+                                if(status){
+                                    if (getParentFragment() != null) {
+                                        ((DiajukanFragment) getParentFragment()).refreshFragment();
+                                    }
+                                    dismiss();
+                                }else{
+                                    Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("API Response", responseBody);
+
+                        } else {
+                            // Menangani error dari respons
+                            Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("TAG", t.getMessage());
+                        Toast.makeText(getContext(),"Gagal",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            });
         }
         return view;
     }
@@ -101,9 +156,8 @@ public class DataPopup extends DialogFragment {
             getDialog().getWindow().setLayout(width, height);
         }
     }
-    private void batalkan(){
 
-    }
+
     private void fetchDataFromApi(int ipengajuan) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponModel> call = apiService.getdetailhistory(ipengajuan);

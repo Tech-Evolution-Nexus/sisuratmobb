@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
            boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
            String role = sharedPreferences.getString("role", "");
-
            if (!isLoggedIn) {
                Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
                startActivity(intent);

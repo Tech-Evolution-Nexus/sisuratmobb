@@ -71,6 +71,7 @@ public class ProfileFragment extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove("isLoggedIn");
                 editor.remove("nik");
+                editor.remove("nokk");
                 editor.remove("role");
                 editor.apply();
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
