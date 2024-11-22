@@ -34,7 +34,6 @@ public interface ApiService {
     Call<ResponModel> getPengajuan(
             @Path("nik") String nik,
             @Path(value = "status", encoded = true) String status
-
     );
 
     @GET("list-pengajuan/{nik}/{status}")
