@@ -35,10 +35,7 @@
             android:name=".View.DashboardRtActivity"
             android:exported="true"
             android:theme="@style/Theme.Sisuratmob">
-               <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
 
@@ -75,6 +72,10 @@
         <activity
             android:name=".View.MainActivity"
             android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <service
             android:name=".Helpers.MyFirebaseMessagingService"

@@ -44,7 +44,11 @@ public class AktivasiXreqActivity extends AppCompatActivity {
             String nik = textNik.getText().toString().trim();
 
             if (nik.isEmpty()) {
-                Toast.makeText(AktivasiXreqActivity.this, "NIK tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                textNik.setError("NIK tidak boleh kosong");
+                return;
+            }
+            if (textNik.length()!=16) {
+                textNik.setError("NIK harus memiliki panjang 16 karakter");
                 return;
             }
 

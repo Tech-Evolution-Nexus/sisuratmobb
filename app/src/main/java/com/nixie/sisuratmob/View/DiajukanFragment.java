@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,14 +18,21 @@ import android.widget.Toast;
 
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.RiwayatSurat;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.StatusPengajuanAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,9 +82,7 @@ public class DiajukanFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
-        String nik = sharedPreferences.getString("nik", "");
-        fetchData(nik,"pendding");
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -87,6 +93,9 @@ public class DiajukanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_diajukan, container, false);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
+        String nik = sharedPreferences.getString("nik", "");
+        fetchData(nik,"pending");
         recyclerViewRiwayatSurat = view.findViewById(R.id.recdiajukan);
         recyclerViewRiwayatSurat.setLayoutManager(new LinearLayoutManager(getContext()));
         statusPengajuanAdapter = new StatusPengajuanAdapter(getContext(),riwayatSuratList,this);
@@ -95,31 +104,72 @@ public class DiajukanFragment extends Fragment {
     }
     private void fetchData(String nik,String status) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getPengajuan(nik, status);
+        Call<ResponseBody> call = apiService.getPengajuan(nik, status);
         String jsonResponse = ""; // Replace with API response
-        call.enqueue(new Callback<ResponModel>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<RiwayatSurat> suratList = response.body().getData().getDatariwayat();
-                    if (suratList != null) {
-                        riwayatSuratList.clear();
-                        riwayatSuratList.addAll(suratList);
-                        statusPengajuanAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
-                    } else {
-                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+                    try {
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        boolean st = jsonObject.getBoolean("status");
+                        String msg = jsonObject.getString("message");
+                        if(st){
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject dataObject = dataArray.getJSONObject(i);
+                                RiwayatSurat listkk = new RiwayatSurat(
+                                        dataObject.getInt("id"),
+                                        dataObject.getInt("id_surat"),
+                                        dataObject.getString("nomor_surat"),
+                                        dataObject.getString("no_pengantar_rt"),
+                                        dataObject.getString("no_pengantar_rw"),
+                                        dataObject.getString("status"),
+                                        dataObject.getString("keterangan"),
+                                        dataObject.getString("keterangan_ditolak"),
+                                        dataObject.getString("nik"),
+                                        dataObject.getString("kode_kelurahan"),
+                                        dataObject.getString("nomor_surat_tambahan"),
+                                        dataObject.getString("created_at"),
+                                        dataObject.getString("updated_at"),
+                                        dataObject.getString("nama_surat"),
+                                        dataObject.getString("image")
+                                );
+
+                                riwayatSuratList.add(listkk);
+                                statusPengajuanAdapter.notifyDataSetChanged();
+                            }
+                        }else{
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException | IOException e) {
+                        throw new RuntimeException(e);
                     }
+//                    List<RiwayatSurat> suratList = response.body().getData().getDatariwayat();
+//                    if (suratList != null) {
+//                        riwayatSuratList.clear();
+//                        riwayatSuratList.addAll(suratList);
+//                        statusPengajuanAdapter.notifyDataSetChanged();
+//                    } else {
+//                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+//                    }
                 } else {
                     Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Log.e("API Error", "Error: " + t.getMessage());
                 Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
+    public void refreshFragment() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
+        String nik = sharedPreferences.getString("nik", "");
+        fetchData(nik,"pending");
+    }
 }

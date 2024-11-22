@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:onClick="onSubmit">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -265,7 +266,7 @@
                     android:id="@+id/detketerangan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"  />
+                    android:enabled="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Button Pilih File untuk Lampiran -->
@@ -279,16 +280,6 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="16dp" />
 
-            <Button
-                android:id="@+id/dbatal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="12dp"
-                android:backgroundTint="#CE1212"
-                android:onClick="onSubmit"
-                android:text="Batal"
-                android:visibility="gone" />
 
             <Button
                 android:id="@+id/dcetak"
@@ -298,6 +289,16 @@
                 android:layout_margin="12dp"
                 android:padding="12dp"
                 android:text="Cetak"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnbatalkansurat"
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#CE1C1C"
+                android:text="Batalkan"
                 android:visibility="gone" />
 
         </LinearLayout>
