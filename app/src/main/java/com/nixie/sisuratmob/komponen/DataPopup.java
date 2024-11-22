@@ -101,6 +101,7 @@ public class DataPopup extends DialogFragment {
             getDialog().getWindow().setLayout(width, height);
         }
     }
+
     private void fetchDataFromApi(int ipengajuan) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponModel> call = apiService.getdetailhistory(ipengajuan);

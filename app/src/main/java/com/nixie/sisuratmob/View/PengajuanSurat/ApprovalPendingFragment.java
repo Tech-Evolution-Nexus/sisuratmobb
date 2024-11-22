@@ -86,7 +86,7 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
         RecyclerView recyclerViewRiwayatSurat = view.findViewById(R.id.pengajuan_list);
         recyclerViewRiwayatSurat.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        statusPengajuanAdapter = new ApprovalPengajuanItemAdapter(getContext(),pengajuanSuratList,"pending");
+        statusPengajuanAdapter = new ApprovalPengajuanItemAdapter(getContext(),pengajuanSuratList,"pending",this);
         recyclerViewRiwayatSurat.setAdapter(statusPengajuanAdapter);
         return view;
     }
