@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextNIK = findViewById(R.id.Login_NIK);
         editTextPassword = findViewById(R.id.login_password);
         buttonLogin = findViewById(R.id.login_masuk);
-
+        editTextNIK.setText(getIntent().getStringExtra("nik"));
         register.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, AktivasiXreqActivity.class);
             startActivity(intent);

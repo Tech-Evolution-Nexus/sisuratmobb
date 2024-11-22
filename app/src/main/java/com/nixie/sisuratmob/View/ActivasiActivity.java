@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.AktivasiModel;
 import com.nixie.sisuratmob.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
@@ -40,8 +42,8 @@ public class ActivasiActivity extends AppCompatActivity {
         textcPassword = findViewById(R.id.activasi_confirpasword);
         notelfon = findViewById(R.id.activasi_Nohp);
         buttonActivasi = findViewById(R.id.activasi_masuk);
+        textNik.setText(getIntent().getStringExtra("nik"));
 
-        // Listener untuk masuk login
         masuklogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,15 +84,16 @@ public class ActivasiActivity extends AppCompatActivity {
                     return;
                 }
                 if (noTelpon.length() <=9||noTelpon.length()>=14) {
-                    notelfon.setError("no Telfon tidak boleh kosong");
+                    notelfon.setError("format no telfon salah");
                     return;
                 }
                 if (password.length() < 8) {
-                    notelfon.setError("Password harus memiliki minimal 8 karakter");
+                    textPassword.setError("Password harus memiliki minimal 8 karakter");
                     return;
                 }
-                if (password != cpassword) {
-                    notelfon.setError("Password Tidak sama");
+                Log.d("TAG", "onClick: "+password+" "+cpassword);
+                if (!password.equals(cpassword)) {
+                    textcPassword.setError("Password Tidak sama");
                     return;
                 }
                AktivasiModel userAktivasi = new AktivasiModel(nik, password, noTelpon);
@@ -102,23 +105,20 @@ public class ActivasiActivity extends AppCompatActivity {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             try {
-                                // Ambil respons sebagai JSON
                                 String responseBody = response.body().string();
                                 JSONObject jsonObject = new JSONObject(responseBody);
 
                                 // Ambil data dari JSON
-                                JSONObject data = jsonObject.getJSONObject("data");
-                                boolean status = data.getBoolean("status");
-                                String message = data.getString("msg");
+                                boolean status = jsonObject.getBoolean("status");
+                                String message = jsonObject.getString("message");
 
                                 if (status) {
-                                    // Aktivasi berhasil
-                                    Toast.makeText(ActivasiActivity.this, "Akun berhasil diaktivasi!", Toast.LENGTH_SHORT).show();
-                                    // Pindah ke halaman login
-                                    startActivity(new Intent(ActivasiActivity.this, LoginActivity.class));
+                                    Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ActivasiActivity.this, LoginActivity.class);
+                                    intent.putExtra("nik", nik);
+                                    startActivity(intent);
                                     finish();
                                 } else {
-                                    // Aktivasi gagal
                                     Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (Exception e) {

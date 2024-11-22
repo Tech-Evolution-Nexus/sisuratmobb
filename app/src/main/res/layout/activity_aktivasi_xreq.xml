@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif"
-            android:text="Verivikasi Akun Anda "
+            android:text="Verifikasi Akun Anda"
             android:textAlignment="center"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +101,8 @@
                 android:drawablePadding="16dp"
                 android:hint="Nomor Induk Kependudukan"
                 android:inputType="number"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:maxLength="16"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

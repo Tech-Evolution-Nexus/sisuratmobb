@@ -109,10 +109,10 @@ public class DitolakFragment extends Fragment {
                     try {
                         String responseBody = response.body().string();
                         JSONObject jsonObject = new JSONObject(responseBody);
-                        JSONArray dataArray = jsonObject.getJSONArray("data");
                         boolean st = jsonObject.getBoolean("status");
                         String msg = jsonObject.getString("message");
                         if(st){
+                            JSONArray dataArray = jsonObject.getJSONArray("data");
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject dataObject = dataArray.getJSONObject(i);
                                 RiwayatSurat listkk = new RiwayatSurat(
@@ -137,7 +137,7 @@ public class DitolakFragment extends Fragment {
                                 statusPengajuanAdapter.notifyDataSetChanged();
                             }
                         }else{
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException | IOException e) {
@@ -151,8 +151,6 @@ public class DitolakFragment extends Fragment {
 //                    } else {
 //                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
 //                    }
-                } else {
-                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
 

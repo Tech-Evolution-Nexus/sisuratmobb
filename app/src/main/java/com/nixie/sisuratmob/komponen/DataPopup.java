@@ -1,9 +1,11 @@
 package com.nixie.sisuratmob.komponen;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -138,6 +140,10 @@ public class DataPopup extends DialogFragment {
                     }
                 });
             });
+            dcetakView.setOnClickListener(v->{
+                String url = "http://192.168.100.205/SISURAT/api/surat-selesai/export/"+ipengajuan;
+                downloadPDF(getContext(),url,title,ipengajuan);
+            });
         }
         return view;
     }
@@ -202,5 +208,42 @@ public class DataPopup extends DialogFragment {
         });
 
     }
+
+    private void downloadPDF(Context context, String url, String title, int ipengajuan) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        if (downloadManager != null) {
+            Uri uri = Uri.parse(url);
+
+            // Tentukan subdirektori
+            String folderName = "Surat Badean";
+            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), folderName);
+
+            // Buat folder jika belum ada
+            if (!directory.exists()) {
+                boolean isCreated = directory.mkdirs();
+                if (!isCreated) {
+                    Toast.makeText(context, "Gagal membuat folder untuk unduhan.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            // Tentukan jalur file di subdirektori
+            File file = new File(directory, title + "(" + ipengajuan + ").pdf");
+
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setTitle("Mengunduh PDF");
+            request.setDescription("File sedang diunduh...");
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+            // Set URI tujuan dengan subdirektori
+            request.setDestinationUri(Uri.fromFile(file));
+
+            // Enqueue request ke DownloadManager
+            downloadManager.enqueue(request);
+
+            Toast.makeText(context, "Unduhan dimulai...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 

@@ -59,50 +59,37 @@ public class AktivasiXreqActivity extends AppCompatActivity {
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful()&& response.body() != null) {
                         try {
                             // Mendapatkan respons API
                             String responseBody = response.body().string();
-                            Log.d("API Response", responseBody);
-
-                            // Validasi format respons
-                            if (responseBody.trim().startsWith("{")) {
                                 JSONObject jsonObject = new JSONObject(responseBody);
-                                JSONObject data = jsonObject.getJSONObject("data");
+                                String message = jsonObject.getString("message");
+                            if (!jsonObject.isNull("status")) {
+                                boolean status = jsonObject.getBoolean("status");
 
-                                boolean status = data.getBoolean("status");
-                                String message = data.getString("msg");
-
-                                // Menangani jika NIK ditemukan
                                 if (status) {
+                                    // Jika status true, arahkan ke RegisterActivity
                                     Toast.makeText(AktivasiXreqActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(AktivasiXreqActivity.this, ActivasiActivity.class));
+                                    Intent intent = new Intent(AktivasiXreqActivity.this, ActivasiActivity.class);
+                                    intent.putExtra("nik", nik);
+                                    startActivity(intent);
                                     finish();
                                 } else {
-                                    // Jika NIK tidak ditemukan, arahkan ke RegisterActivity
+                                    // Jika status false, arahkan ke ActivasiActivity
                                     Toast.makeText(AktivasiXreqActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(AktivasiXreqActivity.this, RegisterActivity.class));
+                                    Intent intent = new Intent(AktivasiXreqActivity.this, RegisterActivity.class);
+                                    intent.putExtra("nik", nik);
+                                    startActivity(intent);
                                     finish();
                                 }
                             } else {
-                                // Jika respons bukan JSON yang valid
-                                Log.e("API Error", "Respons bukan JSON: " + responseBody);
-                                Toast.makeText(AktivasiXreqActivity.this, "Kesalahan server: format respons tidak valid", Toast.LENGTH_SHORT).show();
+                                // Jika status null, tidak ada tindakan (hanya tampilkan pesan)
+                                Toast.makeText(AktivasiXreqActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                             Toast.makeText(AktivasiXreqActivity.this, "Kesalahan parsing data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        // Jika respons gagal, menampilkan pesan error
-                        try {
-                            String errorBody = response.errorBody().string();
-                            JSONObject errorObject = new JSONObject(errorBody);
-                            String errorMessage = errorObject.getString("msg");
-                            Toast.makeText(AktivasiXreqActivity.this, "Verifikasi gagal: " + errorMessage, Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(AktivasiXreqActivity.this, "Verifikasi gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

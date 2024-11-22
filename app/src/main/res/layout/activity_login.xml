@@ -87,7 +87,8 @@
                 android:drawableStart="@drawable/ic_nik"
                 android:drawablePadding="16dp"
                 android:hint="Nomor Induk Kependudukan"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="16"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
