@@ -86,6 +86,7 @@ public class DataPopup extends DialogFragment {
             if ("pending".equals(status)) {
                 dbatalView.setVisibility(View.VISIBLE);
             }
+
             if ("selesai".equals(status)) {
                 dcetakView.setVisibility(View.VISIBLE);
             }

@@ -1,5 +1,7 @@
 package com.nixie.sisuratmob.View.PengajuanSurat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -72,7 +74,9 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fetchData("0123456789012345");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+       String nik =  sharedPreferences.getString("nik",null);
+        fetchData(nik);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -94,15 +98,24 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
 
     private void fetchData(String nik) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+
         String status = "pending";
+
         Call<ResponModel> call = apiService.getListPengajuan(nik,status);
+
         String jsonResponse = "";
+
         call.enqueue(new Callback<ResponModel>() {
+
             @Override
             public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+
                     Log.d("Response Api",new Gson().toJson(response.body()));
+
                 if (response.isSuccessful() && response.body() != null) {
+
                     List<PengajuanSuratModel> suratList = response.body().getData().getDataListPengajuan();
+
                     if (suratList != null) {
                         pengajuanSuratList.clear();
                         pengajuanSuratList.addAll(suratList);
@@ -110,8 +123,11 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
                     } else {
                         Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
                     }
+
                 } else {
+
                     Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+
                 }
             }
 

@@ -1,5 +1,7 @@
 package com.nixie.sisuratmob.View.PengajuanSurat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -72,7 +74,9 @@ private ApprovalPengajuanItemAdapter statusPengajuanAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fetchData("0123456789012345");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String nik =  sharedPreferences.getString("nik",null);
+        fetchData(nik);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
