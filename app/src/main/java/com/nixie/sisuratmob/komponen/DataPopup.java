@@ -1,8 +1,11 @@
 package com.nixie.sisuratmob.komponen;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.BiodataModel;
@@ -26,9 +30,21 @@ import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.LampiranAdapter;
 import com.nixie.sisuratmob.View.Adapter.PopupAdapter;
+import com.nixie.sisuratmob.View.DiajukanFragment;
+import com.nixie.sisuratmob.View.StatusSuratFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,15 +82,16 @@ public class DataPopup extends DialogFragment {
         if (getArguments() != null) {
             String title = getArguments().getString("title");
             String status = getArguments().getString("status");
-            View dbatalView = view.findViewById(R.id.dbatal);
+            View dbatalView = view.findViewById(R.id.btnbatalkansurat);
             View dcetakView = view.findViewById(R.id.dcetak);
 
-            if ("pendding".equals(status)) {
+            if ("pending".equals(status)) {
                 dbatalView.setVisibility(View.VISIBLE);
             }
             if ("selesai".equals(status)) {
                 dcetakView.setVisibility(View.VISIBLE);
             }
+
             String date = getArguments().getString("date");
             String nik = getArguments().getString("nik");
             int ipengajuan = getArguments().getInt("idpengajuan");
@@ -82,7 +99,51 @@ public class DataPopup extends DialogFragment {
             fetchDataFromApi(ipengajuan);
             titlejsurat.setText(title);
             dateText.setText(date);
+            dbatalView.setOnClickListener(v -> {
 
+                Log.d("TAG", String.valueOf(ipengajuan));
+                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+                Call<ResponseBody> call = apiService.batalkanpengajuan(String.valueOf(ipengajuan));
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            String responseBody = null;
+                            try {
+                                responseBody = response.body().string();
+                                JSONObject jsonObject = new JSONObject(responseBody);
+                                boolean status = jsonObject.getBoolean("status");
+                                if(status){
+                                    if (getParentFragment() != null) {
+                                        ((DiajukanFragment) getParentFragment()).refreshFragment();
+                                    }
+                                    dismiss();
+                                }else{
+                                    Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("API Response", responseBody);
+
+                        } else {
+                            // Menangani error dari respons
+                            Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("TAG", t.getMessage());
+                        Toast.makeText(getContext(),"Gagal",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            });
+            dcetakView.setOnClickListener(v->{
+                String url = "http://192.168.100.205/SISURAT/api/surat-selesai/export/"+ipengajuan;
+                downloadPDF(getContext(),url,title,ipengajuan);
+            });
         }
         return view;
     }
@@ -101,6 +162,8 @@ public class DataPopup extends DialogFragment {
             getDialog().getWindow().setLayout(width, height);
         }
     }
+
+
     private void fetchDataFromApi(int ipengajuan) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponModel> call = apiService.getdetailhistory(ipengajuan);
@@ -145,5 +208,42 @@ public class DataPopup extends DialogFragment {
         });
 
     }
+
+    private void downloadPDF(Context context, String url, String title, int ipengajuan) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        if (downloadManager != null) {
+            Uri uri = Uri.parse(url);
+
+            // Tentukan subdirektori
+            String folderName = "Surat Badean";
+            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), folderName);
+
+            // Buat folder jika belum ada
+            if (!directory.exists()) {
+                boolean isCreated = directory.mkdirs();
+                if (!isCreated) {
+                    Toast.makeText(context, "Gagal membuat folder untuk unduhan.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            // Tentukan jalur file di subdirektori
+            File file = new File(directory, title + "(" + ipengajuan + ").pdf");
+
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setTitle("Mengunduh PDF");
+            request.setDescription("File sedang diunduh...");
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+            // Set URI tujuan dengan subdirektori
+            request.setDestinationUri(Uri.fromFile(file));
+
+            // Enqueue request ke DownloadManager
+            downloadManager.enqueue(request);
+
+            Toast.makeText(context, "Unduhan dimulai...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 

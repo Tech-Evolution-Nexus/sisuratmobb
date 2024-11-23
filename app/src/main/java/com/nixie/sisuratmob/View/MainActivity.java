@@ -1,12 +1,17 @@
 package com.nixie.sisuratmob.View;
 
 import android.Manifest;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
            boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
            String role = sharedPreferences.getString("role", "");
-
            if (!isLoggedIn) {
                Intent intent = new Intent(MainActivity.this,TutorialActivity.class);
                startActivity(intent);
@@ -59,4 +63,6 @@ public class MainActivity extends AppCompatActivity {
         }, 5000 );
 
     }
+
+
 }

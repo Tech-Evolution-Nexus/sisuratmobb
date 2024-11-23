@@ -1,15 +1,13 @@
 package com.nixie.sisuratmob.Models;
 
 public class RiwayatSurat {
-    private int id,id_surat;
+    private int id, id_surat;
     private String nomor_surat;
-    private String no_pengantar;
+    private String no_pengantar_rt;
+    private String no_pengantar_rw;
     private String status;
     private String keterangan;
     private String keterangan_ditolak;
-    private String file_pdf;
-    private String pengantar_rt;
-    private String pengantar_rw;
     private String nik;
     private String kode_kelurahan;
     private String nomor_surat_tambahan;
@@ -18,17 +16,15 @@ public class RiwayatSurat {
     private String nama_surat;
     private String image;
 
-    public RiwayatSurat(int id, int id_surat, String nomor_surat, String no_pengantar, String status, String keterangan, String keterangan_ditolak, String file_pdf, String pengantar_rt, String pengantar_rw, String nik, String kode_kelurahan, String nomor_surat_tambahan, String created_at, String updated_at, String nama_surat, String image) {
+    public RiwayatSurat(int id, int id_surat, String nomor_surat, String no_pengantar_rt, String no_pengantar_rw, String status, String keterangan, String keterangan_ditolak,  String nik, String kode_kelurahan, String nomor_surat_tambahan, String created_at, String updated_at, String nama_surat, String image) {
         this.id = id;
         this.id_surat = id_surat;
         this.nomor_surat = nomor_surat;
-        this.no_pengantar = no_pengantar;
+        this.no_pengantar_rt = no_pengantar_rt;
+        this.no_pengantar_rw = no_pengantar_rw;
         this.status = status;
         this.keterangan = keterangan;
         this.keterangan_ditolak = keterangan_ditolak;
-        this.file_pdf = file_pdf;
-        this.pengantar_rt = pengantar_rt;
-        this.pengantar_rw = pengantar_rw;
         this.nik = nik;
         this.kode_kelurahan = kode_kelurahan;
         this.nomor_surat_tambahan = nomor_surat_tambahan;
@@ -36,14 +32,6 @@ public class RiwayatSurat {
         this.updated_at = updated_at;
         this.nama_surat = nama_surat;
         this.image = image;
-    }
-
-    public int getId_surat() {
-        return id_surat;
-    }
-
-    public void setId_surat(int id_surat) {
-        this.id_surat = id_surat;
     }
 
     public int getId() {
@@ -54,6 +42,14 @@ public class RiwayatSurat {
         this.id = id;
     }
 
+    public int getId_surat() {
+        return id_surat;
+    }
+
+    public void setId_surat(int id_surat) {
+        this.id_surat = id_surat;
+    }
+
     public String getNomor_surat() {
         return nomor_surat;
     }
@@ -62,12 +58,20 @@ public class RiwayatSurat {
         this.nomor_surat = nomor_surat;
     }
 
-    public String getNo_pengantar() {
-        return no_pengantar;
+    public String getNo_pengantar_rt() {
+        return no_pengantar_rt;
     }
 
-    public void setNo_pengantar(String no_pengantar) {
-        this.no_pengantar = no_pengantar;
+    public void setNo_pengantar_rt(String no_pengantar_rt) {
+        this.no_pengantar_rt = no_pengantar_rt;
+    }
+
+    public String getNo_pengantar_rw() {
+        return no_pengantar_rw;
+    }
+
+    public void setNo_pengantar_rw(String no_pengantar_rw) {
+        this.no_pengantar_rw = no_pengantar_rw;
     }
 
     public String getStatus() {
@@ -92,30 +96,6 @@ public class RiwayatSurat {
 
     public void setKeterangan_ditolak(String keterangan_ditolak) {
         this.keterangan_ditolak = keterangan_ditolak;
-    }
-
-    public String getFile_pdf() {
-        return file_pdf;
-    }
-
-    public void setFile_pdf(String file_pdf) {
-        this.file_pdf = file_pdf;
-    }
-
-    public String getPengantar_rt() {
-        return pengantar_rt;
-    }
-
-    public void setPengantar_rt(String pengantar_rt) {
-        this.pengantar_rt = pengantar_rt;
-    }
-
-    public String getPengantar_rw() {
-        return pengantar_rw;
-    }
-
-    public void setPengantar_rw(String pengantar_rw) {
-        this.pengantar_rw = pengantar_rw;
     }
 
     public String getNik() {

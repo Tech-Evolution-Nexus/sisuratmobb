@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.AktivasiModel;
 import com.nixie.sisuratmob.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
@@ -24,7 +26,7 @@ import retrofit2.Response;
 
 public class ActivasiActivity extends AppCompatActivity {
 
-    private TextInputEditText textNik, textPassword, notelfon;
+    private TextInputEditText textNik, textPassword, notelfon,textcPassword;
     private Button buttonActivasi;
     private TextView masuklogin;
 
@@ -37,10 +39,11 @@ public class ActivasiActivity extends AppCompatActivity {
         masuklogin = findViewById(R.id.Activasi_log);
         textNik = findViewById(R.id.activasi_NIK);
         textPassword = findViewById(R.id.activasi_password);
+        textcPassword = findViewById(R.id.activasi_confirpasword);
         notelfon = findViewById(R.id.activasi_Nohp);
         buttonActivasi = findViewById(R.id.activasi_masuk);
+        textNik.setText(getIntent().getStringExtra("nik"));
 
-        // Listener untuk masuk login
         masuklogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,15 +58,44 @@ public class ActivasiActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nik = textNik.getText().toString().trim();
                 String password = textPassword.getText().toString().trim();
+                String cpassword = textcPassword.getText().toString().trim();
                 String noTelpon = notelfon.getText().toString().trim();
 
                 // Validasi input
-                if (nik.isEmpty() || password.isEmpty() || noTelpon.isEmpty()) {
-                    Toast.makeText(ActivasiActivity.this, "Semua field harus diisi", Toast.LENGTH_SHORT).show();
+                if (nik.isEmpty()) {
+                    textNik.setError("NIK tidak boleh kosong");
                     return;
                 }
 
-                // Membuat model untuk aktivasi
+                if (password.isEmpty()) {
+                    textPassword.setError("Password tidak boleh kosong");
+                    return;
+                }
+                if (cpassword.isEmpty()) {
+                    textcPassword.setError("Konfirmasi Password tidak boleh kosong");
+                    return;
+                }
+                if (noTelpon.isEmpty()) {
+                    notelfon.setError("no Telfon tidak boleh kosong");
+                    return;
+                }
+                if (nik.length() != 16) {
+                    textPassword.setError("NIK harus memiliki panjang 16 karakter");
+                    return;
+                }
+                if (noTelpon.length() <=9||noTelpon.length()>=14) {
+                    notelfon.setError("format no telfon salah");
+                    return;
+                }
+                if (password.length() < 8) {
+                    textPassword.setError("Password harus memiliki minimal 8 karakter");
+                    return;
+                }
+                Log.d("TAG", "onClick: "+password+" "+cpassword);
+                if (!password.equals(cpassword)) {
+                    textcPassword.setError("Password Tidak sama");
+                    return;
+                }
                AktivasiModel userAktivasi = new AktivasiModel(nik, password, noTelpon);
                 ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
                 Call<ResponseBody> call = apiService.reqAktivasi(userAktivasi);
@@ -73,23 +105,20 @@ public class ActivasiActivity extends AppCompatActivity {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             try {
-                                // Ambil respons sebagai JSON
                                 String responseBody = response.body().string();
                                 JSONObject jsonObject = new JSONObject(responseBody);
 
                                 // Ambil data dari JSON
-                                JSONObject data = jsonObject.getJSONObject("data");
-                                boolean status = data.getBoolean("status");
-                                String message = data.getString("msg");
+                                boolean status = jsonObject.getBoolean("status");
+                                String message = jsonObject.getString("message");
 
                                 if (status) {
-                                    // Aktivasi berhasil
-                                    Toast.makeText(ActivasiActivity.this, "Akun berhasil diaktivasi!", Toast.LENGTH_SHORT).show();
-                                    // Pindah ke halaman login
-                                    startActivity(new Intent(ActivasiActivity.this, LoginActivity.class));
+                                    Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ActivasiActivity.this, LoginActivity.class);
+                                    intent.putExtra("nik", nik);
+                                    startActivity(intent);
                                     finish();
                                 } else {
-                                    // Aktivasi gagal
                                     Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (Exception e) {

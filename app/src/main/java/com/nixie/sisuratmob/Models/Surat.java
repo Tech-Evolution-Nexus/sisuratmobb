@@ -6,6 +6,7 @@ public class Surat {
     private String image;
     private String nama_surat;
 
+
     public String getId() {
         return id;
     }

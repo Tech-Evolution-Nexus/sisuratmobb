@@ -76,7 +76,7 @@
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_status_tosca"
+        android:background="@color/black"
         android:padding="6dp"
         android:text="Diproses"
         android:textColor="#FFFFFF"

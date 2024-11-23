@@ -35,13 +35,22 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>(){
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Log.w("as", "Fetching FCM registration token failed", task.getException());
+                    return;
+                }
+                token= task.getResult();
+            }
+        });
         register = findViewById(R.id.textregister);
         lupaSandi = findViewById(R.id.textfor);
         editTextNIK = findViewById(R.id.Login_NIK);
         editTextPassword = findViewById(R.id.login_password);
         buttonLogin = findViewById(R.id.login_masuk);
-
+        editTextNIK.setText(getIntent().getStringExtra("nik"));
         register.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, AktivasiXreqActivity.class);
             startActivity(intent);
@@ -52,38 +61,26 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         buttonLogin.setOnClickListener(view -> {
-            // Mendapatkan NIK dan Password dari input pengguna
             String nik = editTextNIK.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
-
-            // Validasi input
             if (nik.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "NIK tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                editTextNIK.setError("NIK tidak boleh kosong");
                 return;
             }
-
             if (password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Password tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                editTextPassword.setError("Password tidak boleh kosong");
+                return;
+            }
+            if (nik.length() != 16) {
+                editTextNIK.setError("NIK harus memiliki panjang 16 karakter");
+                return;
+            }
+            if (password.length() < 8) {
+                editTextPassword.setError("Password harus memiliki minimal 8 karakter");
                 return;
             }
 
-            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>(){
-                @Override
-                public void onComplete(@NonNull Task<String> task) {
-                    if (!task.isSuccessful()) {
-                        Log.w("as", "Fetching FCM registration token failed", task.getException());
-                        return;
-                    }
-
-                    // Get new FCM registration token
-                    token= task.getResult();
-                    Log.d("TAG", "FCM Token: " + token);
-                }
-            });
-            // Membuat model login
             UserLoginModel loginModel = new UserLoginModel(nik, password,token);
-
-            // Menggunakan Retrofit untuk mengirim request login
             ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
             Call<ResponseBody> call = apiService.reqLogin(loginModel);
 
@@ -92,35 +89,26 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                         try {
-                            // Mendapatkan respons API
                             String responseBody = response.body().string();
-                            Log.d("API Response", responseBody);
-
-                            // Validasi format respons JSON
-                            if (responseBody.trim().startsWith("{")) {
-
                                 JSONObject jsonObject = new JSONObject(responseBody);
                                 JSONObject data = jsonObject.getJSONObject("data");
-
-                                boolean status = data.getBoolean("status");
-                                String message = data.getString("msg");
-
-                                // Menangani jika login berhasil
+                                boolean status = jsonObject.getBoolean("status");
+                                String message = jsonObject.getString("message");
                                 if (status) {
                                     SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putBoolean("isLoggedIn", true);
-                                    editor.putString("nik", data.getJSONObject("dataUserLogin").getString("nik"));
-                                    editor.putString("role", data.getJSONObject("dataUserLogin").getString("role"));
-                                    editor.putString("nokk", data.getJSONObject("dataUserLogin").getString("no_kk"));
-
+                                    editor.putString("nik", data.getString("nik"));
+                                    editor.putString("role", data.getString("role"));
+                                    editor.putString("usename", data.getString("role"));
+                                    editor.putString("nokk", data.getString("no_kk"));
                                     editor.apply();
 
-                                    if(data.getJSONObject("dataUserLogin").getString("role").equals("masyarakat")){
+                                    if(data.getString("role").equals("masyarakat")){
                                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                                         finish();
-                                    }else if(data.getJSONObject("dataUserLogin").getString("role").equals("rt")||data.getJSONObject("dataUserLogin").getString("role").equals("rw")){
+                                    }else if(data.getString("role").equals("rt")||data.getString("role").equals("rw")){
                                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(LoginActivity.this, DashboardRtActivity.class));
                                         finish();
@@ -129,14 +117,8 @@ public class LoginActivity extends AppCompatActivity {
                                     }
 
                                 } else {
-                                    // Jika login gagal, menampilkan pesan kesalahan
                                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                // Jika respons bukan JSON yang valid
-                                Log.e("API Error", "Respons bukan JSON: " + responseBody);
-                                Toast.makeText(LoginActivity.this, "Kesalahan server: format respons tidak valid", Toast.LENGTH_SHORT).show();
-                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                             Toast.makeText(LoginActivity.this, "Kesalahan parsing data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -146,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             String errorBody = response.errorBody().string();
                             JSONObject errorObject = new JSONObject(errorBody);
-                            String errorMessage = errorObject.getString("msg");
+                            String errorMessage = errorObject.getString("message");
                             Toast.makeText(LoginActivity.this, "Login gagal: " + errorMessage, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             e.printStackTrace();

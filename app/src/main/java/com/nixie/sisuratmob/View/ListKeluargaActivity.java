@@ -23,12 +23,19 @@ import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.ResponModel;
+import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.ListKkAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,27 +75,52 @@ public class ListKeluargaActivity extends AppCompatActivity {
     }
     private void fetchDataFromAPI(String nokk) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getkk(nokk);
-        call.enqueue(new Callback<ResponModel>(){
+        Call<ResponseBody> call = apiService.getkk(nokk);
+        call.enqueue(new Callback<ResponseBody>(){
             @Override
-            public void onResponse(@NonNull Call<ResponModel> call, @NonNull Response<ResponModel> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<ListKkModel> suratList = response.body().getData().getDatakk();
-                    if (suratList != null) {
-                        Log.d("TAG", "onResponse: "+response.body().getData());
-                        dataList.clear();
-                        dataList.addAll(suratList);
-                        listKeluargaAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
-                    } else {
-                        Toast.makeText(ListKeluargaActivity.this, "No data available", Toast.LENGTH_SHORT).show();
+                    try {
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        boolean st = jsonObject.getBoolean("status");
+                        String msg = jsonObject.getString("message");
+                        if(st){
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject dataObject = dataArray.getJSONObject(i);
+                                ListKkModel listkk = new ListKkModel(
+                                        dataObject.getString("nik"),
+                                        dataObject.getString("nama_lengkap")
+                                );
+
+                                dataList.add(listkk);
+                                listKeluargaAdapter.notifyDataSetChanged();
+                            }
+                        }else{
+                            Toast.makeText(ListKeluargaActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException | IOException e) {
+                        throw new RuntimeException(e);
                     }
+
+//                    List<ListKkModel> suratList = response.body().getData().getDatakk();
+//                    if (suratList != null) {
+//                        Log.d("TAG", "onResponse: "+response.body().getData());
+//                        dataList.clear();
+//                        dataList.addAll(suratList);
+//                        listKeluargaAdapter.notifyDataSetChanged();  // Refresh RecyclerView with new data
+//                    } else {
+//                        Toast.makeText(ListKeluargaActivity.this, "No data available", Toast.LENGTH_SHORT).show();
+//                    }
                 } else {
                     Toast.makeText(ListKeluargaActivity.this, "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Log.e("API Error", "Error: " + t.getMessage());
                 Toast.makeText(ListKeluargaActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
