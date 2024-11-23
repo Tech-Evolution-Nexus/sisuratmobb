@@ -41,7 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Bind semua komponen
         bindViews();
-
+        EditNik = findViewById(R.id.registrasi_nik);
+        EditNik.setText(getIntent().getStringExtra("nik"));
         // Setup tanggal lahir dan KK
         setupDatePickers();
 
@@ -112,7 +113,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
 
                                     if (status) {
-                                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                        intent.putExtra("nik", nik);
+                                        startActivity(intent);
                                         finish();
                                     }
                                 } else {

@@ -90,7 +90,6 @@ public class SelesaiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_selesai, container, false);
         recyclerViewRiwayatSurat = view.findViewById(R.id.recselesai);
         recyclerViewRiwayatSurat.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -101,19 +100,21 @@ public class SelesaiFragment extends Fragment {
     private void fetchData(String nik,String status) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getPengajuan(nik, status);
-        String jsonResponse = ""; // Replace with API response
+        String jsonResponse = "";
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
+
                     try {
                         String responseBody = response.body().string();
                         Log.d("TAG", responseBody);
                         JSONObject jsonObject = new JSONObject(responseBody);
-                        JSONArray dataArray = jsonObject.getJSONArray("data");
+
                         boolean st = jsonObject.getBoolean("status");
                         String msg = jsonObject.getString("message");
                         if(st){
+                            JSONArray dataArray = jsonObject.getJSONArray("data");
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject dataObject = dataArray.getJSONObject(i);
                                 RiwayatSurat listkk = new RiwayatSurat(
@@ -138,7 +139,7 @@ public class SelesaiFragment extends Fragment {
                                 statusPengajuanAdapter.notifyDataSetChanged();
                             }
                         }else{
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException | IOException e) {
@@ -152,8 +153,6 @@ public class SelesaiFragment extends Fragment {
 //                    } else {
 //                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
 //                    }
-                } else {
-                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
 

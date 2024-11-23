@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.View;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailBritaActivity extends AppCompatActivity {
-    TextView title, tgl, des;
+    TextView title, tgl;
+    WebView des;
     ImageView img;
 
     @Override
@@ -46,7 +48,7 @@ public class DetailBritaActivity extends AppCompatActivity {
         });
         title = findViewById(R.id.titleberitadetail);
         tgl = findViewById(R.id.tglberitadetail);
-        des = findViewById(R.id.deskripsidetail);
+        des = findViewById(R.id.webview);
         img = findViewById(R.id.detailimage);
 
 
@@ -72,7 +74,8 @@ public class DetailBritaActivity extends AppCompatActivity {
                         if(st){
                             title.setText(dataArray.getString("judul"));
                             tgl.setText(dataArray.getString("created_at"));
-                            des.setText(dataArray.getString("deskripsi"));
+                            des.loadData(dataArray.getString("deskripsi"), "text/html", "UTF-8");
+//                            des.setText();
 
                             Glide.with(DetailBritaActivity.this)
                                     .load("http://192.168.100.205/SISURAT/admin/assetsberita/" + dataArray.getString("gambar"))
