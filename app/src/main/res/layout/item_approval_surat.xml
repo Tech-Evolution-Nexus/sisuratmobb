@@ -75,23 +75,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Ilham Nur isnaini bj"
         android:textColor="#000000"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/profileImage"
-        app:layout_constraintTop_toTopOf="@id/profileImage" />
+        app:layout_constraintTop_toBottomOf="@+id/dividerLine" />
 
     <TextView
         android:id="@+id/nikText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:text="23123123213"
         android:textColor="#7A7A7A"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@id/nameText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/nameText"
-        app:layout_constraintTop_toBottomOf="@id/nameText" />
+        app:layout_constraintTop_toBottomOf="@+id/nameText" />
 
     <!-- Info Icon -->
 
