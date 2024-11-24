@@ -85,6 +85,8 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
             bundle.putString("status", pengajuan.getStatus());
             bundle.putString("date", pengajuan.getTanggal_pengajuan());
             bundle.putString("nik", pengajuan.getNik());
+            bundle.putString("keterangan", pengajuan.getKeterangan());
+            bundle.putString("keterangan_ditolak", pengajuan.getKeterangan_ditolak());
             bundle.putInt("idpengajuan", pengajuan.getId_surat());
 
             biodataDialog.setArguments(bundle);

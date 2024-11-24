@@ -10,10 +10,14 @@ public class PengajuanSuratModel {
     private String nik;
     private String nama_lengkap;
     private String tanggal_pengajuan;
+    private String keterangan;
+    private String keterangan_ditolak;
     private String[] lampiran;
 
+
+
     // Constructor
-    public PengajuanSuratModel(int id_surat, String nama_surat, String tanggal_surat, String status, String nik, String nama_lengkap, String tanggal_pengajuan, String[] lampiran) {
+    public PengajuanSuratModel(int id_surat, String nama_surat, String tanggal_surat, String status, String nik, String nama_lengkap, String tanggal_pengajuan, String[] lampiran,String keterangan,String keterangan_ditolak) {
         this.id_surat = id_surat;
         this.nama_surat = nama_surat;
         this.tanggal_surat = tanggal_surat;
@@ -22,6 +26,24 @@ public class PengajuanSuratModel {
         this.nama_lengkap = nama_lengkap;
         this.tanggal_pengajuan = tanggal_pengajuan;
         this.lampiran = lampiran;
+        this.keterangan = keterangan;
+        this.keterangan_ditolak = keterangan_ditolak;
+    }
+
+      public String getKeterangan() {
+        return keterangan;
+    }
+
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
+    }
+
+    public String getKeterangan_ditolak() {
+        return keterangan_ditolak;
+    }
+
+    public void setKeterangan_ditolak(String keterangan_ditolak) {
+        this.keterangan_ditolak = keterangan_ditolak;
     }
 
     // Getters and Setters (tidak berubah)

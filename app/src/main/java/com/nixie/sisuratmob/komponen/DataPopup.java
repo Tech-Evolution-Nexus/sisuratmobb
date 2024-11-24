@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Helpers.Helpers;
@@ -45,52 +46,62 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DataPopup extends DialogFragment {
-    private TextView titlejsurat, title_page, dateText, status, nama_lengkap, nik, alamat;
-    private TextInputEditText detNamaLengkap, detNoKk, detKkTgl, detNik, detAlamat, detRt, detRw, detKodePos, detKelurahan, detKecamatan, detKabupaten, detProvinsi, detKeterangan;
+    private TextView title_page, dateText, status, nama_lengkap, nik, alamat, keterangan, keterangan_label, keterangan_ditolak_txt, keterangan_ditolak_label;
     private RecyclerView recyclerViewLampiran;
     private PopupAdapter popupAdapter;
-    private List<DetailHistoriModel> lampiranList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate layout dialog_biodata
         View view = inflater.inflate(R.layout.dialog_biodata, container, false);
-//        titlejsurat = view.findViewById(R.id.titlejsurat);
         alamat = view.findViewById(R.id.alamat);
         nama_lengkap = view.findViewById(R.id.nama_lengkap);
         nik = view.findViewById(R.id.nik);
         title_page = view.findViewById(R.id.title_page);
         dateText = view.findViewById(R.id.datejsurat);
-
+        keterangan = view.findViewById(R.id.keterangan);
+        keterangan_label = view.findViewById(R.id.keterangan_label);
+        keterangan_ditolak_txt = view.findViewById(R.id.keterangan_ditolak_txt);
+        keterangan_ditolak_label = view.findViewById(R.id.keterangan_ditolak_label);
         recyclerViewLampiran = view.findViewById(R.id.recyclerViewpopup);
         recyclerViewLampiran.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (getArguments() != null) {
             String title = getArguments().getString("title");
             String status = getArguments().getString("status");
+            String date = getArguments().getString("date");
+            String nik = getArguments().getString("nik");
+            String keteranganPengajuan = getArguments().getString("keterangan");
+            String keteranganDitolakPengajuan = getArguments().getString("keterangan_ditolak");
+            int ipengajuan = getArguments().getInt("idpengajuan");
+
             View dbatalView = view.findViewById(R.id.btnbatalkansurat);
             View dcetakView = view.findViewById(R.id.dcetak);
             View btn_terima = view.findViewById(R.id.btn_terima);
 
+
             if ("pending".equals(status)) {
                 dbatalView.setVisibility(View.VISIBLE);
                 btn_terima.setVisibility(View.VISIBLE);
-
+                ((TextInputLayout) view.findViewById(R.id.keterangan_ditolak_wrapper)).setVisibility(View.VISIBLE);
+            } else {
+                keterangan_ditolak_txt.setVisibility(View.VISIBLE);
+                keterangan_ditolak_label.setVisibility(View.VISIBLE);
             }
-
-
-            String date = getArguments().getString("date");
-            String nik = getArguments().getString("nik");
-            int ipengajuan = getArguments().getInt("idpengajuan");
 
             fetchDataFromApi(ipengajuan);
             title_page.setText(title);
+            keterangan.setText(keteranganPengajuan != null ? keteranganPengajuan : "-");
+            keterangan_ditolak_txt.setText(keteranganDitolakPengajuan != null ? keteranganDitolakPengajuan : "-");
+
+
             dateText.setText(Helpers.formatTanggal(date));
             dbatalView.setOnClickListener(v -> {
-                approvalPengajuan(nik, ipengajuan, "ditolak");
+                String keteranganDitolak = ((TextInputEditText) view.findViewById(R.id.keterangan_ditolak)).getText().toString();
+                approvalPengajuan(nik, ipengajuan, "ditolak", keteranganDitolak);
             });
             btn_terima.setOnClickListener(v -> {
-                approvalPengajuan(nik, ipengajuan, "diterima");
+                approvalPengajuan(nik, ipengajuan, "diterima", null);
             });
             dcetakView.setOnClickListener(v -> {
                 String url = "http://192.168.1.7/SISURAT/api/surat-selesai/export/" + ipengajuan;
@@ -101,10 +112,11 @@ public class DataPopup extends DialogFragment {
     }
 
 
-    private void approvalPengajuan(String nik, int ipengajuan, String status) {
+    private void approvalPengajuan(String nik, int ipengajuan, String status, String keteranganDitolak) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         RequestBody statusApproval = RequestBody.create(MediaType.parse("text/plain"), status);
-        Call<ResponseBody> call = apiService.approvalPengajuan(nik, ipengajuan, statusApproval);
+        RequestBody keteranganDitolakApproval = RequestBody.create(MediaType.parse("text/plain"), keteranganDitolak);
+        Call<ResponseBody> call = apiService.approvalPengajuan(nik, ipengajuan, statusApproval, keteranganDitolakApproval);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -115,7 +127,7 @@ public class DataPopup extends DialogFragment {
                         JSONObject jsonObject = new JSONObject(responseBody);
                         dismiss();
                         if (getParentFragment() != null) {
-                         ((ApprovalFragment)   getParentFragment()).refresh();
+                            ((ApprovalFragment) getParentFragment()).refresh();
                         }
 
                     } catch (IOException | JSONException e) {
