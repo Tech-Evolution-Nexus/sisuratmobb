@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:backgroundTint="#008080"
+        android:backgroundTint="#6E2B2B"
         android:paddingVertical="4dp"
         android:text="Diproses"
         android:textColor="#FFFFFF"

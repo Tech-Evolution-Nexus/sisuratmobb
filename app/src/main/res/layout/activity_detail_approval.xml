@@ -7,6 +7,7 @@
     android:onClick="onSubmit">
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,6 +61,7 @@
                 android:text="Surat Keterangan Tidak Mampu Untuk Syarat Pengajuan KIP Kuliah"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/alamat_label"
                 android:layout_width="match_parent"
@@ -102,7 +104,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-<TextView
+            <TextView
                 android:id="@+id/lampiran_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,12 +127,18 @@
                 android:layout_marginBottom="16dp" />
 
 
-           <LinearLayout
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btnbatalkansurat"
@@ -167,14 +175,11 @@
             android:visibility="gone" />
     </LinearLayout>
 
-        </LinearLayout>
-    </ScrollView>
-
     <TextView
         android:id="@+id/title_page"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="50dp"
         android:padding="12dp"
         android:text="Detail Pengajuan"
         android:textAlignment="center"

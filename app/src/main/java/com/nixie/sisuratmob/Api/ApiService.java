@@ -70,4 +70,7 @@ public interface ApiService {
     @POST("pengajuanpembatalan")
     Call<ResponseBody> batalkanpengajuan(@Body String idpengajuan);
 
+    @POST("approval-pengajuan/{nik}/{id_pengajuan}")
+    Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan,@Body RequestBody status );
+
 }

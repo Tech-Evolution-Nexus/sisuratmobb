@@ -22,13 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
-import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.BiodataModel;
 import com.nixie.sisuratmob.Models.DetailHistoriModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.PopupAdapter;
-import com.nixie.sisuratmob.View.PengajuanSurat.ApprovalFragment;
+import com.nixie.sisuratmob.View.DiajukanFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,31 +36,38 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DataPopup extends DialogFragment {
-    private TextView titlejsurat, title_page, dateText, status, nama_lengkap, nik, alamat;
-    private TextInputEditText detNamaLengkap, detNoKk, detKkTgl, detNik, detAlamat, detRt, detRw, detKodePos, detKelurahan, detKecamatan, detKabupaten, detProvinsi, detKeterangan;
+public class DataPopup2 extends DialogFragment {
+    private TextView titlejsurat,dateText,status;
+    private TextInputEditText detNamaLengkap, detNoKk,detKkTgl, detNik, detAlamat, detRt, detRw, detKodePos, detKelurahan, detKecamatan, detKabupaten, detProvinsi,detKeterangan;
     private RecyclerView recyclerViewLampiran;
     private PopupAdapter popupAdapter;
     private List<DetailHistoriModel> lampiranList;
+    private String nik, idSurat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate layout dialog_biodata
-        View view = inflater.inflate(R.layout.dialog_biodata, container, false);
-//        titlejsurat = view.findViewById(R.id.titlejsurat);
-        alamat = view.findViewById(R.id.alamat);
-        nama_lengkap = view.findViewById(R.id.nama_lengkap);
-        nik = view.findViewById(R.id.nik);
-        title_page = view.findViewById(R.id.title_page);
+        View view =  inflater.inflate(R.layout.dialog_biodata, container, false);
+        titlejsurat = view.findViewById(R.id.titlejsurat);
         dateText = view.findViewById(R.id.datejsurat);
-
+        detNamaLengkap = view.findViewById(R.id.detNamaLengkap);
+        detNoKk = view.findViewById(R.id.detNoKk);
+        detNik = view.findViewById(R.id.detNik);
+        detAlamat = view.findViewById(R.id.detAlamat);
+        detRt = view.findViewById(R.id.detRt);
+        detRw = view.findViewById(R.id.detRw);
+        detKodePos = view.findViewById(R.id.detKodePos);
+        detKelurahan = view.findViewById(R.id.detKelurahan);
+        detKecamatan = view.findViewById(R.id.detKecamatan);
+        detKabupaten = view.findViewById(R.id.detKabupaten);
+        detProvinsi = view.findViewById(R.id.detProvinsi);
+        detKkTgl = view.findViewById(R.id.detKkTgl);
+        detKeterangan = view.findViewById(R.id.detketerangan);
         recyclerViewLampiran = view.findViewById(R.id.recyclerViewpopup);
         recyclerViewLampiran.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -70,71 +76,68 @@ public class DataPopup extends DialogFragment {
             String status = getArguments().getString("status");
             View dbatalView = view.findViewById(R.id.btnbatalkansurat);
             View dcetakView = view.findViewById(R.id.dcetak);
-            View btn_terima = view.findViewById(R.id.btn_terima);
 
             if ("pending".equals(status)) {
                 dbatalView.setVisibility(View.VISIBLE);
-                btn_terima.setVisibility(View.VISIBLE);
-
             }
 
+            if ("selesai".equals(status)) {
+                dcetakView.setVisibility(View.VISIBLE);
+            }
 
             String date = getArguments().getString("date");
             String nik = getArguments().getString("nik");
             int ipengajuan = getArguments().getInt("idpengajuan");
 
             fetchDataFromApi(ipengajuan);
-            title_page.setText(title);
-            dateText.setText(Helpers.formatTanggal(date));
+            titlejsurat.setText(title);
+            dateText.setText(date);
             dbatalView.setOnClickListener(v -> {
-                approvalPengajuan(nik, ipengajuan, "ditolak");
+
+                Log.d("TAG", String.valueOf(ipengajuan));
+                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+                Call<ResponseBody> call = apiService.batalkanpengajuan(String.valueOf(ipengajuan));
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            String responseBody = null;
+                            try {
+                                responseBody = response.body().string();
+                                JSONObject jsonObject = new JSONObject(responseBody);
+                                boolean status = jsonObject.getBoolean("status");
+                                if(status){
+                                    if (getParentFragment() != null) {
+                                        ((DiajukanFragment) getParentFragment()).refreshFragment();
+                                    }
+                                    dismiss();
+                                }else{
+                                    Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("API Response", responseBody);
+
+                        } else {
+                            // Menangani error dari respons
+                            Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("TAG", t.getMessage());
+                        Toast.makeText(getContext(),"Gagal",Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
-            btn_terima.setOnClickListener(v -> {
-                approvalPengajuan(nik, ipengajuan, "diterima");
-            });
-            dcetakView.setOnClickListener(v -> {
-                String url = "http://192.168.1.7/SISURAT/api/surat-selesai/export/" + ipengajuan;
-                downloadPDF(getContext(), url, title, ipengajuan);
+            dcetakView.setOnClickListener(v->{
+                String url = "http://192.168.100.205/SISURAT/api/surat-selesai/export/"+ipengajuan;
+                downloadPDF(getContext(),url,title,ipengajuan);
             });
         }
         return view;
-    }
-
-
-    private void approvalPengajuan(String nik, int ipengajuan, String status) {
-        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        RequestBody statusApproval = RequestBody.create(MediaType.parse("text/plain"), status);
-        Call<ResponseBody> call = apiService.approvalPengajuan(nik, ipengajuan, statusApproval);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    String responseBody = null;
-                    try {
-                        responseBody = response.body().string();
-                        JSONObject jsonObject = new JSONObject(responseBody);
-                        dismiss();
-                        if (getParentFragment() != null) {
-                         ((ApprovalFragment)   getParentFragment()).refresh();
-                        }
-
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Log.d("API Response", responseBody);
-
-                } else {
-                    // Menangani error dari respons
-                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", t.getMessage());
-                Toast.makeText(getContext(), "Gagal", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -165,9 +168,18 @@ public class DataPopup extends DialogFragment {
 
                     if (!biodataList.isEmpty()) {
                         BiodataModel biodata = biodataList.get(0);
-                        nama_lengkap.setText(biodata.getNamaLengkap());
-                        alamat.setText(biodata.getAlamat());
-                        nik.setText(biodata.getNik());
+                        detNamaLengkap.setText(biodata.getNamaLengkap());
+                        detNoKk.setText(biodata.getNoKk());
+                        detNik.setText(biodata.getNik());
+                        detAlamat.setText(biodata.getAlamat());
+                        detKkTgl.setText(biodata.getKkTgl());
+                        detRt.setText(String.valueOf(biodata.getRt()));
+                        detRw.setText(String.valueOf(biodata.getRw()));
+                        detKodePos.setText(String.valueOf(biodata.getKodePos()));
+                        detKelurahan.setText(biodata.getKelurahan());
+                        detKecamatan.setText(biodata.getKecamatan());
+                        detKabupaten.setText(biodata.getKabupaten());
+                        detProvinsi.setText(biodata.getProvinsi());
                     } else {
                         Toast.makeText(getContext(), "Data biodata kosong", Toast.LENGTH_SHORT).show();
                     }
@@ -210,7 +222,7 @@ public class DataPopup extends DialogFragment {
             File file = new File(directory, title + "(" + ipengajuan + ").pdf");
 
             DownloadManager.Request request = new DownloadManager.Request(uri);
-            request.setTitle(title);
+            request.setTitle("Mengunduh PDF");
             request.setDescription("File sedang diunduh...");
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
