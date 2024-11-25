@@ -81,7 +81,7 @@ public class PopupAdapter extends RecyclerView.Adapter<PopupAdapter.ViewHolder> 
             if (imageUri != null) {
                 // Gunakan Glide untuk memuat gambar
                 Glide.with(imageViewLampiran.getContext())
-                        .load("http://192.168.100.205/SISURAT/admin/assetsmasyarakat/"+imageUri)
+                        .load("http://192.168.1.7/SISURAT/admin/assetsmasyarakat/"+imageUri)
                         .into(imageViewLampiran);
 
                 imageViewLampiran.setVisibility(View.VISIBLE);

@@ -6,10 +6,8 @@ public class Helpers {
     try {
         // Format tanggal asli (dari database)
         SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
-
         // Format yang diinginkan
         SimpleDateFormat desiredFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy", new Locale("id", "ID"));
-
         // Parse dan format ulang
         return desiredFormat.format(originalFormat.parse(tanggalAsli));
     } catch (Exception e) {
