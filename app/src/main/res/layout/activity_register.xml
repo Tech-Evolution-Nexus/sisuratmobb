@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Nama Lengkap"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_lock"
+                    android:drawableStart="@drawable/ic_nama"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Jenis Kelamin"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_agama"
+                    android:drawableStart="@drawable/ic_jk"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Tempat Lahir"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_surat"
+                    android:drawableStart="@drawable/ic_home"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Tanggal Lahir"
                     android:inputType="none"
-                    android:drawableStart="@drawable/ic_agama"
+                    android:drawableStart="@drawable/ic_tgllahir"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -281,7 +281,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Status Perkawinan"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_agama"
+                    android:drawableStart="@drawable/ic_perkawinan"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -301,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Status Keluarga"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_agama"
+                    android:drawableStart="@drawable/ic_keluarga"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -321,7 +321,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Kewarganegaraan"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_agama"
+                    android:drawableStart="@drawable/ic_kewarganegaraan"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -341,7 +341,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Nama Ayah"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_search"
+                    android:drawableStart="@drawable/ic_man"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -361,7 +361,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Nama Ibu"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawableStart="@drawable/ic_woman"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -401,7 +401,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Alamat"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_search"
+                    android:drawableStart="@drawable/ic_adddres"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -461,7 +461,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Kode Pos"
                     android:inputType="number"
-                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawableStart="@drawable/ic_kodepos"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -481,7 +481,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Kelurahan"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawableStart="@drawable/ic_kelurahan"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -501,7 +501,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Kecamatan"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_lock"
+                    android:drawableStart="@drawable/ic_rom"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -521,7 +521,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Kabupaten"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawableStart="@drawable/ic_kecamatan"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -541,7 +541,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Provinsi"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_lock"
+                    android:drawableStart="@drawable/ic_kabupaten"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -561,7 +561,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Tanggal KK"
                     android:inputType="none"
-                    android:drawableStart="@drawable/ic_lanjut"
+                    android:drawableStart="@drawable/ic_tgllahir"
                     android:drawablePadding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
