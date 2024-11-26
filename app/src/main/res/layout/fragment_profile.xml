@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEF1F6"
-    android:theme="@style/AppTheme"
-    tools:context=".UI.fragment.ProfileFragment">
+  >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView12"
@@ -348,7 +347,6 @@
                             android:backgroundTint="#052158"
                             android:text="Keluar"
                             android:textColor="#ffffff"
-                            android:fontFamily="@font/poppins_semibold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
