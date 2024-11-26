@@ -27,8 +27,12 @@ public class RegistrasiModel {
     private String kabupaten;
     private String provinsi;
     private String kk_tgl;
+    private String email;
 
-    public RegistrasiModel(String nik, String password, String no_hp, String nama_lengkap, String jenis_kelamin, String tempat_lahir, String tgl_lahir, String agama, String pendidikan, String pekerjaan, String status_perkawinan, String status_keluarga, String kewarganegaraan, String nama_ayah, String nama_ibu, String no_kk, String alamat, String rt, String rw, String kode_pos, String kelurahan, String kecamatan, String kabupaten, String provinsi, String kk_tgl) {
+
+
+
+    public RegistrasiModel(String nik, String password, String no_hp, String nama_lengkap, String jenis_kelamin, String tempat_lahir, String tgl_lahir, String agama, String pendidikan, String pekerjaan, String status_perkawinan, String status_keluarga, String kewarganegaraan, String nama_ayah, String nama_ibu, String no_kk, String alamat, String rt, String rw, String kode_pos, String kelurahan, String kecamatan, String kabupaten, String provinsi, String kk_tgl,String email) {
         this.nik = nik;
         this.password = password;
         this.no_hp = no_hp;
@@ -54,8 +58,24 @@ public class RegistrasiModel {
         this.kabupaten = kabupaten;
         this.provinsi = provinsi;
         this.kk_tgl = kk_tgl;
+        this.email = email;
+
+    }
+    public String getKk_tgl() {
+        return kk_tgl;
     }
 
+    public void setKk_tgl(String kk_tgl) {
+        this.kk_tgl = kk_tgl;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getNik() {
         return nik;

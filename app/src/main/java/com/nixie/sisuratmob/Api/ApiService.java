@@ -1,8 +1,6 @@
 package com.nixie.sisuratmob.Api;
 
-import com.google.gson.JsonObject;
 import com.nixie.sisuratmob.Models.AktivasiModel;
-import com.nixie.sisuratmob.Models.RegistrasiModel;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.UserLoginModel;
 import com.nixie.sisuratmob.Models.VerivModel;
@@ -14,6 +12,8 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -49,8 +49,10 @@ public interface ApiService {
     Call<ResponseBody> reqAktivasi(@Body AktivasiModel userRegister);
 
     // Register Request
+    @Multipart
     @POST("register")
-    Call<ResponseBody> reqRegister(@Body RegistrasiModel userRegister);
+    Call<ResponseBody> reqRegister( @Part("data") RequestBody data,
+                                    @Part MultipartBody.Part images);
 
 
     @GET("getberita/{data}")
@@ -70,4 +72,11 @@ public interface ApiService {
     @POST("pengajuanpembatalan")
     Call<ResponseBody> batalkanpengajuan(@Body String idpengajuan);
 
+    @FormUrlEncoded
+    @POST("sendemail")
+    Call<ResponseBody> reqSendEmail(@Field("email") String email);
+
+    @FormUrlEncoded
+    @POST("reset-password")
+    Call<ResponseBody> reqResetpass(@Field("email") String email,@Field("token") String token,@Field("password") String password);
 }
