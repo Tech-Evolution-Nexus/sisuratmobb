@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
@@ -22,7 +23,7 @@ public class ApprovalPengajuanFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view,@Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Inisialisasi komponen dari layout
@@ -36,7 +37,6 @@ public class ApprovalPengajuanFragment extends Fragment {
         // Hubungkan ViewPager2 dengan TabLayout
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
-
                     switch (position) {
                         case 0:
                             tab.setText("Surat Masuk");
@@ -48,5 +48,27 @@ public class ApprovalPengajuanFragment extends Fragment {
                     }
                 }
         ).attach();
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                switch (position) {
+                    case 0:
+                        Fragment fragment = adapter.getFragment(position);
+                        if (fragment instanceof ApprovalFragment && fragment.isAdded()) {
+                            ((ApprovalFragment) fragment).refresh();
+                        }
+                        break;
+
+                    case 1:
+                        Fragment fragment2 = adapter.getFragment(position);
+                        if (fragment2 instanceof ApprovalFragment && fragment2.isAdded()) {
+                            ((ApprovalFragment) fragment2).refresh();
+                        }
+                        break;
+                }
+            }
+        });
     }
 }
