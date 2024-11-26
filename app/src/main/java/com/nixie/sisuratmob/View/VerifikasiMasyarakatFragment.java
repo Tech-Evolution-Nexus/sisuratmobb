@@ -1,4 +1,4 @@
-package com.nixie.sisuratmob;
+package com.nixie.sisuratmob.View;
 
 import android.os.Bundle;
 
@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;import com.nixie.sisuratmob.View.TutorialActivity;
+import android.view.ViewGroup;
+
+import com.nixie.sisuratmob.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TutorialActivity.VerifikasiMasyarakatFragment#newInstance} factory method to
+ * Use the {@link VerifikasiMasyarakatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class VerifikasiMasyarakatFragment extends Fragment {
@@ -37,8 +39,8 @@ public class VerifikasiMasyarakatFragment extends Fragment {
      * @return A new instance of fragment VerifikasiMasyarakatFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TutorialActivity.VerifikasiMasyarakatFragment newInstance(String param1, String param2) {
-        TutorialActivity.VerifikasiMasyarakatFragment fragment = new TutorialActivity.VerifikasiMasyarakatFragment();
+    public static VerifikasiMasyarakatFragment newInstance(String param1, String param2) {
+        VerifikasiMasyarakatFragment fragment = new VerifikasiMasyarakatFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
