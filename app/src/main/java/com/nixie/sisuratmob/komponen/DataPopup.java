@@ -104,7 +104,7 @@ public class DataPopup extends DialogFragment {
                 approvalPengajuan(nik, ipengajuan, "diterima", null);
             });
             dcetakView.setOnClickListener(v -> {
-                String url = "http://192.168.1.7/SISURAT/api/surat-selesai/export/" + ipengajuan;
+                String url = Helpers.API_URL+"surat-selesai/export/" + ipengajuan;
                 downloadPDF(getContext(), url, title, ipengajuan);
             });
         }

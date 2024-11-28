@@ -1,11 +1,14 @@
 package com.nixie.sisuratmob.Api;
 
+import com.nixie.sisuratmob.Helpers.Helpers;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://192.168.1.7/SISURAT/api/"; // Ganti dengan URL API Anda
+
+    private static final String BASE_URL = Helpers.API_URL; // Ganti dengan URL API Anda
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance() {
