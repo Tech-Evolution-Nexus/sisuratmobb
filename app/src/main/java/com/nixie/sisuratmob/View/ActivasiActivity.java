@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.AktivasiModel;
@@ -27,6 +28,7 @@ import retrofit2.Response;
 public class ActivasiActivity extends AppCompatActivity {
 
     private TextInputEditText textNik, textPassword, notelfon,textcPassword;
+    TextInputLayout ltxtnik,ltxtnohp, ltxtpass, lktxtpass;
     private Button buttonActivasi;
     private TextView masuklogin;
 
@@ -41,7 +43,13 @@ public class ActivasiActivity extends AppCompatActivity {
         textPassword = findViewById(R.id.activasi_password);
         textcPassword = findViewById(R.id.activasi_confirpasword);
         notelfon = findViewById(R.id.activasi_Nohp);
+        ltxtnik = findViewById(R.id.textactivasi1);
+        ltxtnohp = findViewById(R.id.textactivasi2);
+        ltxtpass = findViewById(R.id.textactivasi3);
+        lktxtpass = findViewById(R.id.textactivasi4);
         buttonActivasi = findViewById(R.id.activasi_masuk);
+
+
         textNik.setText(getIntent().getStringExtra("nik"));
 
         masuklogin.setOnClickListener(new View.OnClickListener() {
@@ -60,38 +68,76 @@ public class ActivasiActivity extends AppCompatActivity {
                 String password = textPassword.getText().toString().trim();
                 String cpassword = textcPassword.getText().toString().trim();
                 String noTelpon = notelfon.getText().toString().trim();
-
-                // Validasi input
+                boolean hasError = false;
+                StringBuilder nikErrors = new StringBuilder();
+                StringBuilder nohpErrors = new StringBuilder();
+                StringBuilder passErrors = new StringBuilder();
+                StringBuilder kpasswordErrors = new StringBuilder();
+                ltxtnik.setError(null);
+                ltxtnohp.setError(null);
+                ltxtpass.setError(null);
+                lktxtpass.setError(null);
                 if (nik.isEmpty()) {
-                    textNik.setError("NIK tidak boleh kosong");
-                    return;
+                    nikErrors.append("NIK tidak boleh kosong.\n");
+                    hasError = true;
+                }
+                if (nik.length() != 16) {
+                    nikErrors.append("NIK Harus Memiliki Panjang 16 Karakter.\n");
+                    hasError = true;
+                }
+                if (nikErrors.length() > 0) {
+                    ltxtnik.setError(nikErrors.toString().trim());
+                    ltxtnik.setErrorIconDrawable(null);
+                }
+                if (noTelpon.isEmpty()) {
+                    nohpErrors.append("No Telpon tidak boleh kosong.\n");
+                    hasError = true;
+                }
+                if (noTelpon.length() <= 11 || noTelpon.length() >13) {
+                    nohpErrors.append("No Telpon Harus Memiliki Panjang Lebih Dari 11 Dan Kurang Dari 13 Karakter.\n");
+                    hasError = true;
+                }
+                if (nohpErrors.length() > 0) {
+                    ltxtnohp.setError(nohpErrors.toString().trim());
+                    ltxtnohp.setErrorIconDrawable(null);
                 }
 
                 if (password.isEmpty()) {
-                    textPassword.setError("Password tidak boleh kosong");
-                    return;
+                    passErrors.append("Password tidak boleh kosong.\n");
+                    hasError = true;
                 }
+                if (password.length() <8) {
+                    passErrors.append("Password Harus Memiliki Panjang Lebih Dari 8 Karakter.\n");
+                    hasError = true;
+                }
+                if (passErrors.length() > 0) {
+                    ltxtpass.setError(passErrors.toString().trim());
+                    ltxtpass.setErrorIconDrawable(null);
+                }
+
+                // Validate Password
                 if (cpassword.isEmpty()) {
-                    textcPassword.setError("Konfirmasi Password tidak boleh kosong");
+                    kpasswordErrors.append("Konfirmasi Password tidak boleh kosong.\n");
+                    hasError = true;
+                }
+                if (cpassword.length() < 8) {
+                    kpasswordErrors.append("Password Harus Memiliki Panjang Lebih Dari 8 Karakter.\n");
+                    hasError = true;
+                }
+                if (kpasswordErrors.length() > 0) {
+                    lktxtpass.setError(kpasswordErrors.toString().trim());
+                    lktxtpass.setErrorIconDrawable(null);
+                }
+
+                // Stop execution if there's any error
+                if (hasError) {
                     return;
                 }
-                if (noTelpon.isEmpty()) {
-                    notelfon.setError("no Telfon tidak boleh kosong");
-                    return;
+                if(!password.equals(cpassword)){
+                    lktxtpass.setError("Password Tidak Sama");
+                    lktxtpass.setErrorIconDrawable(null);
                 }
-                if (nik.length() != 16) {
-                    textPassword.setError("NIK harus memiliki panjang 16 karakter");
-                    return;
-                }
-                if (noTelpon.length() <=9||noTelpon.length()>=14) {
-                    notelfon.setError("format no telfon salah");
-                    return;
-                }
-                if (password.length() < 8) {
-                    textPassword.setError("Password harus memiliki minimal 8 karakter");
-                    return;
-                }
-                Log.d("TAG", "onClick: "+password+" "+cpassword);
+
                 if (!password.equals(cpassword)) {
                     textcPassword.setError("Password Tidak sama");
                     return;

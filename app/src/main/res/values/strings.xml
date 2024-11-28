@@ -20,4 +20,48 @@
         <item>RT</item>
         <item>RW</item>
     </string-array>
+    <string-array name="status_hubungan">
+        <item>KK</item>
+        <item>Istri</item>
+        <item>Anak</item>
+        <item>Wali</item>
+    </string-array>
+
+    <!-- Agama -->
+    <string-array name="agama">
+        <item>Islam</item>
+        <item>Kristen Protestan</item>
+        <item>Katolik</item>
+        <item>Hindu</item>
+        <item>Buddha</item>
+        <item>Konghucu</item>
+    </string-array>
+
+    <!-- Pendidikan -->
+    <string-array name="pendidikan">
+        <item>Tidak/Belum Sekolah</item>
+        <item>Belum Tamat SD/Sederajat</item>
+        <item>Tamat SD/Sederajat</item>
+        <item>SLTP/Sederajat</item>
+        <item>SLTA/Sederajat</item>
+        <item>Diploma I/II</item>
+        <item>Diploma III/S.Muda</item>
+        <item>Diploma IV/Strata I</item>
+        <item>Strata II</item>
+        <item>Strata III</item>
+    </string-array>
+
+    <!-- Kewarganegaraan -->
+    <string-array name="kewarganegaraan">
+        <item>WNI</item>
+        <item>WNA</item>
+    </string-array>
+
+    <!-- Status Perkawinan -->
+    <string-array name="status_perkawinan">
+        <item>Belum Kawin</item>
+        <item>Kawin</item>
+        <item>Cerai Hidup</item>
+        <item>Cerai Mati</item>
+    </string-array>
 </resources>

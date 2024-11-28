@@ -20,6 +20,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imagesurataju"
+        app:layout_constraintEnd_toStartOf="@+id/infoIcon"
         app:layout_constraintStart_toEndOf="@+id/imagesurataju"
         app:layout_constraintTop_toTopOf="@+id/imagesurataju" />
 
