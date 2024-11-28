@@ -22,6 +22,15 @@
         android:theme="@style/Theme.Sisuratmob"
         tools:targetApi="31">
         <activity
+            android:name=".View.UbahPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.UbahNoTeleponActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.InformasiAkunActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.PengajuanSurat.DetailApprovalActivity"
             android:exported="false" />
         <activity
@@ -35,11 +44,11 @@
             android:exported="true" />
         <activity
             android:name=".View.DashboardRwActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".View.DashboardRtActivity"
             android:exported="true"
-            android:theme="@style/Theme.Sisuratmob"></activity>
+            android:theme="@style/Theme.Sisuratmob" />
         <activity
             android:name=".View.ListKeluargaActivity"
             android:exported="true" />
@@ -58,7 +67,7 @@
         <activity
             android:name=".View.DashboardActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".View.ActivasiActivity"
             android:exported="false" />
