@@ -46,7 +46,7 @@ public class DashboardRtActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.surat) {
                 selectedFragment = new ApprovalPengajuanFragment();
             } else if (item.getItemId() == R.id.rekap) {
-                selectedFragment = new ProfileFragment();
+                selectedFragment = new VerifikasiMasyarakatFragment();
             }
 
             if (selectedFragment != null) {

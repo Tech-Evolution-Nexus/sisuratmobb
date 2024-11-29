@@ -52,7 +52,7 @@ public class DataPopup2 extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate layout dialog_biodata
-        View view =  inflater.inflate(R.layout.dialog_biodata, container, false);
+        View view =  inflater.inflate(R.layout.dialog_biodata2, container, false);
         titlejsurat = view.findViewById(R.id.titlejsurat);
         dateText = view.findViewById(R.id.datejsurat);
         detNamaLengkap = view.findViewById(R.id.detNamaLengkap);

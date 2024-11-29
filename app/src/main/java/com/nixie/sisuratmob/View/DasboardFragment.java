@@ -155,8 +155,6 @@ public class DasboardFragment extends Fragment {
     }
 
     private void fetchdata() {
-        Log.d("TAG", "sda");
-
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getsurat("s");
         call.enqueue(new Callback<ResponseBody>() {

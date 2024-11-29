@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putBoolean("isLoggedIn", true);
                                     editor.putString("nik", data.getString("nik"));
                                     editor.putString("role", data.getString("role"));
-                                    editor.putString("usename", data.getString("role"));
+                                    editor.putString("namalengkap", data.getString("nama_lengkap"));
                                     editor.putString("nokk", data.getString("no_kk"));
                                     editor.apply();
 

@@ -175,7 +175,7 @@
                         android:padding="8dp">
 
                         <TextView
-                            android:id="@+id/suratmasuk"
+                            android:id="@+id/suratMasuk"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
@@ -217,7 +217,7 @@
                         android:padding="8dp">
 
                         <TextView
-                            android:id="@+id/suratKeluar"
+                            android:id="@+id/suratSelesai"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"

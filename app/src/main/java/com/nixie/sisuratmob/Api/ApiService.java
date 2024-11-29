@@ -71,7 +71,7 @@ public interface ApiService {
 
     @POST("pengajuanpembatalan")
     Call<ResponseBody> batalkanpengajuan(@Body String idpengajuan);
- @Multipart
+    @Multipart
     @POST("approval-pengajuan/{nik}/{id_pengajuan}")
     Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan,@Part("status") RequestBody status,@Part("keterangan") RequestBody keteranganDitolak );
 
@@ -82,4 +82,22 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("reset-password")
     Call<ResponseBody> reqResetpass(@Field("email") String email,@Field("token") String token,@Field("password") String password);
+
+    @GET("getverifmasyarakat")
+    Call<ResponseBody> getVerifikasimas();
+
+    @GET("getdash/{nik}")
+    Call<ResponseBody> getDash(@Path("nik") String nik);
+
+    @GET("getdetailver/{nik}")
+    Call<ResponseBody> getVerifikasimasDetail(@Path("nik") String nik);
+
+    @FormUrlEncoded
+    @POST("accverifmasyarakat")
+    Call<ResponseBody> reqAccvermas(@Field("nik") String nik);
+
+    @FormUrlEncoded
+    @POST("tolakverifmasyarakat")
+    Call<ResponseBody> reqCancelvermas(@Field("nik") String nik);
+
 }

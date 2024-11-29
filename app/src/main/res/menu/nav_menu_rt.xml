@@ -10,5 +10,5 @@
 
     <item android:id="@+id/rekap"
         android:icon="@drawable/ic_rekap"
-        android:title="Rekap"/>
+        android:title="Verifikasi"/>
 </menu>
