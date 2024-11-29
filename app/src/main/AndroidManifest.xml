@@ -48,11 +48,11 @@
             android:exported="true" />
         <activity
             android:name=".View.DashboardRwActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".View.DashboardRtActivity"
             android:exported="true"
-            android:theme="@style/Theme.Sisuratmob"/>
+            android:theme="@style/Theme.Sisuratmob" />
         <activity
             android:name=".View.ListKeluargaActivity"
             android:exported="true" />
@@ -71,7 +71,7 @@
         <activity
             android:name=".View.DashboardActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".View.ActivasiActivity"
             android:exported="false" />
