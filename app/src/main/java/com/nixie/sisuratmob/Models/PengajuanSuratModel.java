@@ -3,7 +3,7 @@ package com.nixie.sisuratmob.Models;
 import com.google.gson.annotations.SerializedName;
 
 public class PengajuanSuratModel {
-    private int id_surat;
+    private int id,id_surat;
     private String nama_surat;
     private String tanggal_surat;
     private String status;
@@ -12,12 +12,38 @@ public class PengajuanSuratModel {
     private String tanggal_pengajuan;
     private String keterangan;
     private String keterangan_ditolak;
+    private String image;
+    private String no_pengantar_rt;
     private String[] lampiran;
 
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNo_pengantar_rt() {
+        return no_pengantar_rt;
+    }
+
+    public void setNo_pengantar_rt(String no_pengantar_rt) {
+        this.no_pengantar_rt = no_pengantar_rt;
+    }
 
     // Constructor
-    public PengajuanSuratModel(int id_surat, String nama_surat, String tanggal_surat, String status, String nik, String nama_lengkap, String tanggal_pengajuan, String[] lampiran,String keterangan,String keterangan_ditolak) {
+    public PengajuanSuratModel(int id,int id_surat, String nama_surat, String tanggal_surat, String status, String nik, String nama_lengkap, String tanggal_pengajuan, String[] lampiran,String keterangan,String keterangan_ditolak,String image,String no_pengantar_rt) {
+        this.id = id;
         this.id_surat = id_surat;
         this.nama_surat = nama_surat;
         this.tanggal_surat = tanggal_surat;
@@ -28,6 +54,8 @@ public class PengajuanSuratModel {
         this.lampiran = lampiran;
         this.keterangan = keterangan;
         this.keterangan_ditolak = keterangan_ditolak;
+        this.image = image;
+        this.no_pengantar_rt=no_pengantar_rt;
     }
 
       public String getKeterangan() {

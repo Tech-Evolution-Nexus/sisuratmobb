@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.BiodataModel;
 import com.nixie.sisuratmob.Models.DetailHistoriModel;
 import com.nixie.sisuratmob.Models.ResponModel;
@@ -195,7 +196,7 @@ public class DataPopup3 extends DialogFragment {
                         detKecamatan.setText(dataobject.getString("kecamatan"));
                         Log.d("TAG",dataobject.getString("kk_file") );
                         Glide.with(getContext())
-                                .load("http://192.168.100.205/SISURAT/admin/assetsverif/"+dataobject.getString("kk_file"))
+                                .load(Helpers.BASE_URL+"admin/assetsverif/"+dataobject.getString("kk_file"))
                                 .into(img);
 //                        detKabupaten.setText(dataobject.getString("nama_lengkap"));
 //                        detProvinsi.setText(biodata.getProvinsi());

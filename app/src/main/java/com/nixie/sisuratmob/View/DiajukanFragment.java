@@ -130,13 +130,11 @@ public class DiajukanFragment extends Fragment {
                                         dataObject.getString("keterangan_ditolak"),
                                         dataObject.getString("nik"),
                                         dataObject.getString("kode_kelurahan"),
-                                        dataObject.getString("nomor_surat_tambahan"),
                                         dataObject.getString("created_at"),
                                         dataObject.getString("updated_at"),
                                         dataObject.getString("nama_surat"),
                                         dataObject.getString("image")
                                 );
-
                                 riwayatSuratList.add(listkk);
                                 statusPengajuanAdapter.notifyDataSetChanged();
                             }
@@ -168,6 +166,7 @@ public class DiajukanFragment extends Fragment {
     public void refreshFragment() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
         String nik = sharedPreferences.getString("nik", "");
+        riwayatSuratList.clear();
         fetchData(nik,"pending");
     }
 }

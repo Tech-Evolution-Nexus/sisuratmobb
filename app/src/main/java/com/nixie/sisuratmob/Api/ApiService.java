@@ -64,10 +64,10 @@ public interface ApiService {
     @Multipart
     @POST("sendpengajuansuratmasyarakat")
 //    Call<JsonObject> submitFormData(@Part List<MultipartBody.Part> images);
-    Call<ResponseBody> submitFormData(@Part("nik") RequestBody nik, @Part("idsurat") RequestBody idsurat, @Part("keterangan") RequestBody keterangan, @Part List<MultipartBody.Part> images);
+    Call<ResponseBody> submitFormData(@Part("nik") RequestBody nik, @Part("idsurat") RequestBody idsurat, @Part("keterangan") RequestBody keterangan, @Part List<MultipartBody.Part> images,@Part List<MultipartBody.Part> fields );
 
     @GET("detailhistory/{idpengajuan}")
-    Call<ResponModel> getdetailhistory(@Path("idpengajuan") int idpengajuan);
+    Call<ResponseBody> getdetailhistory(@Path("idpengajuan") int idpengajuan);
 
     @POST("pengajuanpembatalan")
     Call<ResponseBody> batalkanpengajuan(@Body String idpengajuan);

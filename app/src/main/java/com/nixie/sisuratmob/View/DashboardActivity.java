@@ -1,6 +1,7 @@
 package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -76,6 +77,13 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         } else if (item.getItemId() == R.id.nav_about) {
             selectedFragment = new AboutFragment();
         } else if (item.getItemId() == R.id.nav_logout) {
+            SharedPreferences sharedPreferences = DashboardActivity.this.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("isLoggedIn");
+                editor.remove("nik");
+                editor.remove("nokk");
+                editor.remove("role");
+                editor.apply();
             Intent intent = new Intent(DashboardActivity.this,LoginActivity.class);
             startActivity(intent);
             Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();

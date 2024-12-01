@@ -66,20 +66,20 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        view.findViewById(R.id.btn_LogOut).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("isLoggedIn");
-                editor.remove("nik");
-                editor.remove("nokk");
-                editor.remove("role");
-                editor.apply();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+//        view.findViewById(R.id.btn_LogOut).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.remove("isLoggedIn");
+//                editor.remove("nik");
+//                editor.remove("nokk");
+//                editor.remove("role");
+//                editor.apply();
+//                Intent intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         view.findViewById(R.id.informasiAkun).setOnClickListener(new View.OnClickListener() {
             @Override

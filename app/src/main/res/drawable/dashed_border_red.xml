@@ -4,7 +4,7 @@
     <corners android:radius="8dp"/> <!-- Rounded corners -->
     <stroke
         android:width="2dp"
-        android:color="#000000"
+        android:color="#EB0606"
         android:dashWidth="10dp"
         android:dashGap="5dp"/> <!-- Dashed border -->
 </shape>
