@@ -68,13 +68,14 @@ public interface ApiService {
     @Multipart
     @POST("sendpengajuansuratmasyarakat")
 //    Call<JsonObject> submitFormData(@Part List<MultipartBody.Part> images);
-    Call<ResponseBody> submitFormData(@Part("nik") RequestBody nik, @Part("idsurat") RequestBody idsurat, @Part("keterangan") RequestBody keterangan, @Part List<MultipartBody.Part> images,@Part List<MultipartBody.Part> fields );
+    Call<ResponseBody> submitFormData(@Part("nik") RequestBody nik, @Part("idsurat") RequestBody idsurat, @Part("keterangan") RequestBody keterangan, @Part List<MultipartBody.Part> images, @Part List<MultipartBody.Part> fields);
 
     @GET("detailhistory/{idpengajuan}")
     Call<ResponseBody> getdetailhistory(@Path("idpengajuan") int idpengajuan);
 
     @POST("pengajuanpembatalan")
     Call<ResponseBody> batalkanpengajuan(@Body String idpengajuan);
+
     @Multipart
     @POST("approval-pengajuan/{nik}/{id_pengajuan}")
     Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan, @Part("status") RequestBody status, @Part("keterangan") RequestBody keteranganDitolak);
@@ -89,7 +90,7 @@ public interface ApiService {
 
     @GET("get-user-info/{nik}")
     Call<ResponseBody> getinfouser(@Path("nik") String nik);
-    
+
     @GET("getverifmasyarakat")
     Call<ResponseBody> getVerifikasimas();
 
@@ -107,4 +108,7 @@ public interface ApiService {
     @POST("tolakverifmasyarakat")
     Call<ResponseBody> reqCancelvermas(@Field("nik") String nik);
 
+    @FormUrlEncoded
+    @POST("ganti-password")
+    Call<ResponseBody> reqgantiPassword(@Field("nik") String nik, @Field("password") String password, @Field("new_pass") String new_pass);
 }
