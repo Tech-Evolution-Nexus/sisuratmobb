@@ -68,14 +68,13 @@ public interface ApiService {
     @Multipart
     @POST("sendpengajuansuratmasyarakat")
 //    Call<JsonObject> submitFormData(@Part List<MultipartBody.Part> images);
-    Call<ResponseBody> submitFormData(@Part("nik") RequestBody nik, @Part("idsurat") RequestBody idsurat, @Part("keterangan") RequestBody keterangan, @Part List<MultipartBody.Part> images);
+    Call<ResponseBody> submitFormData(@Part("nik") RequestBody nik, @Part("idsurat") RequestBody idsurat, @Part("keterangan") RequestBody keterangan, @Part List<MultipartBody.Part> images,@Part List<MultipartBody.Part> fields );
 
     @GET("detailhistory/{idpengajuan}")
-    Call<ResponModel> getdetailhistory(@Path("idpengajuan") int idpengajuan);
+    Call<ResponseBody> getdetailhistory(@Path("idpengajuan") int idpengajuan);
 
     @POST("pengajuanpembatalan")
     Call<ResponseBody> batalkanpengajuan(@Body String idpengajuan);
-
     @Multipart
     @POST("approval-pengajuan/{nik}/{id_pengajuan}")
     Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan, @Part("status") RequestBody status, @Part("keterangan") RequestBody keteranganDitolak);
@@ -90,4 +89,22 @@ public interface ApiService {
 
     @GET("get-user-info/{nik}")
     Call<ResponseBody> getinfouser(@Path("nik") String nik);
+    
+    @GET("getverifmasyarakat")
+    Call<ResponseBody> getVerifikasimas();
+
+    @GET("getdash/{nik}")
+    Call<ResponseBody> getDash(@Path("nik") String nik);
+
+    @GET("getdetailver/{nik}")
+    Call<ResponseBody> getVerifikasimasDetail(@Path("nik") String nik);
+
+    @FormUrlEncoded
+    @POST("accverifmasyarakat")
+    Call<ResponseBody> reqAccvermas(@Field("nik") String nik);
+
+    @FormUrlEncoded
+    @POST("tolakverifmasyarakat")
+    Call<ResponseBody> reqCancelvermas(@Field("nik") String nik);
+
 }

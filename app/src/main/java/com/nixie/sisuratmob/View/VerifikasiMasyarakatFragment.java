@@ -1,14 +1,40 @@
 package com.nixie.sisuratmob.View;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.nixie.sisuratmob.Api.ApiClient;
+import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Models.Surat;
+import com.nixie.sisuratmob.Models.VericikasimasModel;
 import com.nixie.sisuratmob.R;
+import com.nixie.sisuratmob.View.Adapter.ListJenisSuratAdapter;
+import com.nixie.sisuratmob.View.Adapter.VerivikasimasAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +42,9 @@ import com.nixie.sisuratmob.R;
  * create an instance of this fragment.
  */
 public class VerifikasiMasyarakatFragment extends Fragment {
-
+    private RecyclerView recyclerView;
+    private VerivikasimasAdapter verAdapter;
+    private List<VericikasimasModel> dataList = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +89,58 @@ public class VerifikasiMasyarakatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_verifikasi_masyarakat, container, false);
+        View view =  inflater.inflate(R.layout.fragment_verifikasi_masyarakat, container, false);
+        recyclerView = view.findViewById(R.id.recvermas);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        verAdapter = new VerivikasimasAdapter(getContext(), dataList,this);
+        recyclerView.setAdapter(verAdapter);
+        fetchDataFromAPI();
+        return view;
+    }
+    private void fetchDataFromAPI() {
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.getVerifikasimas();
+        call.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        boolean st = jsonObject.getBoolean("status");
+                        String msg = jsonObject.getString("message");
+                        if(st){
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject dataObject = dataArray.getJSONObject(i);
+                                VericikasimasModel surat = new VericikasimasModel(
+                                        dataObject.getString("nik"),
+                                        dataObject.getString("nama_lengkap")
+                                );
+
+                                dataList.add(surat);
+                                verAdapter.notifyDataSetChanged();
+                            }
+                        }else{
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.e("API Error", "Error: " + t.getMessage());
+                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void refreshFragment() {
+        fetchDataFromAPI();
     }
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.ListKkModel;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
@@ -66,7 +67,7 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
             );
         }
         Glide.with(context)
-                .load("http://192.168.100.205/SISURAT/admin/assetssurat/"+data.getImage())
+                .load(Helpers.BASE_URL+"admin/assetssurat/"+data.getImage())
                 .placeholder(R.drawable.baground_rtrw)
                 .error(R.drawable.baground_rtrw)
                 .into(holder.imageView);

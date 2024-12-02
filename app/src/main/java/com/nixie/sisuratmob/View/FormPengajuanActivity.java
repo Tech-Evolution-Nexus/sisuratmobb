@@ -7,36 +7,25 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.JsonObject;
+import com.google.android.material.textfield.TextInputLayout;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
-import com.nixie.sisuratmob.Models.BiodataModel;
+import com.nixie.sisuratmob.Models.FieldModel;
 import com.nixie.sisuratmob.Models.LampiranSuratModel;
-import com.nixie.sisuratmob.Models.ListKkModel;
-import com.nixie.sisuratmob.Models.ResponModel;
-import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
+import com.nixie.sisuratmob.View.Adapter.FieldAdapter;
 import com.nixie.sisuratmob.View.Adapter.LampiranAdapter;
 import com.nixie.sisuratmob.komponen.ImagePickerCallback;
 
@@ -49,11 +38,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FormPengajuanActivity extends AppCompatActivity implements ImagePickerCallback {
-    private TextInputEditText etNamaLengkap, etNoKk,etKkTgl, etNik, etAlamat, etRt, etRw, etKodePos, etKelurahan, etKecamatan, etKabupaten, etProvinsi,etKeterangan;
-    private RecyclerView recyclerViewLampiran;
+    private TextInputEditText etNamaLengkap, etNoKk, etKkTgl, etNik, etAlamat, etRt, etRw, etKodePos, etKelurahan, etKecamatan, etKabupaten, etProvinsi, etKeterangan;
+    private TextInputLayout lketform;
+    private RecyclerView recyclerViewLampiran, recyclerViewField;
     private LampiranAdapter lampiranAdapter;
+    private FieldAdapter fieldAdapter;
     private List<LampiranSuratModel> lampiranList = new ArrayList<>();
+    private List<FieldModel> fieldList = new ArrayList<>();
     private static final int IMAGE_PICK_CODE = 1000;
     private int selectedPosition = -1;
     private String nik, idSurat;
@@ -81,12 +81,15 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
         etProvinsi = findViewById(R.id.etProvinsi);
         etKkTgl = findViewById(R.id.etKkTgl);
         etKeterangan = findViewById(R.id.etketerangan);
+        lketform = findViewById(R.id.lketform);
 
-        recyclerViewLampiran = findViewById(R.id.recyclerViewpopup);
+
+        recyclerViewLampiran = findViewById(R.id.recimgform);
+        recyclerViewField = findViewById(R.id.recfield);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         recyclerViewLampiran.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerViewField.setLayoutManager(new LinearLayoutManager(this));
 
         idSurat = getIntent().getStringExtra("id_surat");
         nik = getIntent().getStringExtra("nik");
@@ -96,8 +99,9 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
                 onBackPressed();
             }
         });
-        fetchDataFromApi(nik,idSurat);
+        fetchDataFromApi(nik, idSurat);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,31 +121,66 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
             }
         }
     }
+
     public void onSubmit(View view) {
+        boolean hasError = false;
+        lketform.setError(null);
+        StringBuilder nikErrors = new StringBuilder();
+        if (etKeterangan.getText().toString().isEmpty()) {
+            nikErrors.append("Keterangan tidak boleh kosong.\n");
+            hasError = true;
+        }
+        if (nikErrors.length() > 0) {
+            lketform.setError(nikErrors.toString().trim());
+        }
+        if (fieldAdapter != null) {
+            if (!fieldAdapter.validateFields()) {
+                hasError = true;
+            }
+        }
+        if (!lampiranAdapter.validateImageFields()) {
+            hasError = true;
+        }
+        if (hasError) {
+            return;
+        }
+
         String ket = String.valueOf(etKeterangan.getText());
         List<LampiranSuratModel> lampiranData = lampiranAdapter.getLampiranList();
+
+        List<MultipartBody.Part> partList = new ArrayList<>();
+        if (fieldAdapter != null) {
+            List<FieldModel> dataField = fieldAdapter.getList();
+            if (dataField != null && !dataField.isEmpty()) {
+                for (FieldModel field : dataField) {
+                    RequestBody value = RequestBody.create(MediaType.parse("text/plain"), field.getValue());
+                    MultipartBody.Part valuePart = MultipartBody.Part.createFormData("fields[]", field.getValue(), value);
+                    partList.add(valuePart);
+                }
+            }
+        }
+
+        if (partList.isEmpty()) {
+            RequestBody emptyBody = RequestBody.create(MediaType.parse("text/plain"), "");
+            MultipartBody.Part emptyPart = MultipartBody.Part.createFormData("fields[]", "", emptyBody);
+            partList.add(emptyPart);
+        }
         List<MultipartBody.Part> imageParts = new ArrayList<>();
         for (LampiranSuratModel lampiran : lampiranData) {
             Uri imageUri = lampiran.getImageUri(); // Assuming LampiranSuratModel has getImageUri()
             if (imageUri != null) {
                 String realPath = getRealPathFromURI(imageUri);
                 File imageFile = new File(realPath);
-                RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"),imageFile);
+                RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
                 MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images[]", imageFile.getName(), imageBody);
                 imageParts.add(imagePart);
             }
         }
-
-//        Gson gson = new Gson();
-//        String lampiranJson = gson.toJson(lampiranData);
-//        RequestBody lampiranInfo = RequestBody.create(MediaType.parse("application/json"), lampiranJson);
-
-//        FormModel formData = new FormModel(lampiranData);
-        RequestBody nikBody = RequestBody.create(MediaType.parse("text/plain"),nik);
-        RequestBody keteranganBody = RequestBody.create(MediaType.parse("text/plain"),ket);
-        RequestBody idsurBody = RequestBody.create(MediaType.parse("text/plain"),idSurat);
+        RequestBody nikBody = RequestBody.create(MediaType.parse("text/plain"), nik);
+        RequestBody keteranganBody = RequestBody.create(MediaType.parse("text/plain"), ket);
+        RequestBody idsurBody = RequestBody.create(MediaType.parse("text/plain"), idSurat);
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponseBody> call = apiService.submitFormData(nikBody,idsurBody, keteranganBody,imageParts);
+        Call<ResponseBody> call = apiService.submitFormData(nikBody, idsurBody, keteranganBody, imageParts, partList);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -152,12 +191,12 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
                         JSONObject jsonObject = new JSONObject(responseBody);
                         boolean st = jsonObject.getBoolean("status");
                         String msg = jsonObject.getString("message");
-                        if(st){
+                        if (st) {
                             Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(FormPengajuanActivity.this, DashboardActivity.class);
-                            startActivity(i);
-                            finish();
-                        }else{
+//                            Intent i = new Intent(FormPengajuanActivity.this, DashboardActivity.class);
+//                            startActivity(i);
+//                            finish();
+                        } else {
                             Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
 
@@ -171,7 +210,7 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", "onFailure: "+t.getMessage());
+                Log.d("TAG", "onFailure: " + t.getMessage());
 //                Toast.makeText(FormPengajuanActivity.this, "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -186,7 +225,8 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
         pickImageIntent.setType("image/*");
         startActivityForResult(pickImageIntent, IMAGE_PICK_CODE);
     }
-    private void fetchDataFromApi(String nik,String idsur) {
+
+    private void fetchDataFromApi(String nik, String idsur) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getDataForm(nik, Integer.parseInt(idsur));
 
@@ -198,12 +238,14 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
                         String responseBody = response.body().string();
                         JSONObject jsonObject = new JSONObject(responseBody);
                         JSONObject biodataObject = jsonObject.getJSONObject("data");
-                        JSONObject databiodata =  biodataObject.getJSONObject("biodata");
-                        JSONArray lampirandata =  biodataObject.getJSONArray("datalampiran");
+                        JSONObject databiodata = biodataObject.getJSONObject("biodata");
+                        JSONArray lampirandata = biodataObject.getJSONArray("datalampiran");
+                        JSONArray fielddata = biodataObject.getJSONArray("datafield");
+
 
                         boolean st = jsonObject.getBoolean("status");
                         String msg = jsonObject.getString("message");
-                        if(st){
+                        if (st) {
                             etNamaLengkap.setText(databiodata.getString("nama_lengkap"));
                             etNoKk.setText(databiodata.getString("no_kk"));
                             etNik.setText(databiodata.getString("nik"));
@@ -218,21 +260,28 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
                             etProvinsi.setText(databiodata.getString("provinsi"));
                             for (int i = 0; i < lampirandata.length(); i++) {
                                 JSONObject dataObject = lampirandata.getJSONObject(i);
-                                LampiranSuratModel listlampiran = new LampiranSuratModel(
-                                        dataObject.getInt("id_surat"),
-                                        dataObject.getInt("id"),
-                                        dataObject.getString("nama_lampiran"),
-                                        dataObject.getString("image")
+                                LampiranSuratModel listlampiran = new LampiranSuratModel(dataObject.getInt("id_surat"), dataObject.getInt("id"), dataObject.getString("nama_lampiran")
+//                                        dataObject.getString("image")
                                 );
 
                                 lampiranList.add(listlampiran);
-                                lampiranAdapter = new LampiranAdapter(lampiranList,FormPengajuanActivity.this);
+                                lampiranAdapter = new LampiranAdapter(lampiranList, FormPengajuanActivity.this, recyclerViewLampiran);
                                 recyclerViewLampiran.setAdapter(lampiranAdapter);
                                 recyclerViewLampiran.setNestedScrollingEnabled(false);
                                 lampiranAdapter.notifyDataSetChanged();
                             }
+                            for (int i = 0; i < fielddata.length(); i++) {
+                                JSONObject dataObject = fielddata.getJSONObject(i);
+                                FieldModel listlampiran = new FieldModel(dataObject.getString("id"), dataObject.getString("id_surat"), dataObject.getString("nama_field"), dataObject.getString("tipe"));
 
-                        }else{
+                                fieldList.add(listlampiran);
+                                fieldAdapter = new FieldAdapter(fieldList, recyclerViewField);
+                                recyclerViewField.setAdapter(fieldAdapter);
+                                recyclerViewField.setNestedScrollingEnabled(false);
+                                fieldAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
                             Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
 
@@ -273,8 +322,9 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
         });
 
     }
+
     public String getRealPathFromURI(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();

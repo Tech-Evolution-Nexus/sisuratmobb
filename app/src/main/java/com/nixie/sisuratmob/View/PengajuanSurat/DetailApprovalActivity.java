@@ -79,38 +79,38 @@ public class DetailApprovalActivity extends AppCompatActivity {
     }
 
     private void fetchDataFromApi(int ipengajuan) {
-        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getdetailhistory(ipengajuan);
-
-        call.enqueue(new Callback<ResponModel>() {
-            @Override
-            public void onResponse(Call<ResponModel> call, Response<ResponModel> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<BiodataModel> biodataList = response.body().getData().getBiodata();
-                    List<DetailHistoriModel> lampiranList = response.body().getData().getDatahistori();
-
-                    if (!biodataList.isEmpty()) {
-                        BiodataModel biodata = biodataList.get(0);
-                        nama_lengkap.setText(biodata.getNamaLengkap());
-                        alamat.setText(biodata.getAlamat());
-                        nik.setText(biodata.getNik());
-                    } else {
-                        Toast.makeText(getBaseContext(), "Data biodata kosong", Toast.LENGTH_SHORT).show();
-                    }
-
-                    popupAdapter = new PopupAdapter(lampiranList);
-                    recyclerViewLampiran.setAdapter(popupAdapter);
-                    recyclerViewLampiran.setNestedScrollingEnabled(false);
-                } else {
-                    Toast.makeText(getBaseContext(), "Gagal mengambil data", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponModel> call, Throwable t) {
-                Toast.makeText(getBaseContext(), "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+//        Call<ResponModel> call = apiService.getdetailhistory(ipengajuan);
+//
+//        call.enqueue(new Callback<ResponModel>() {
+//            @Override
+//            public void onResponse(Call<ResponModel> call, Response<ResponModel> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    List<BiodataModel> biodataList = response.body().getData().getBiodata();
+//                    List<DetailHistoriModel> lampiranList = response.body().getData().getDatahistori();
+//
+//                    if (!biodataList.isEmpty()) {
+//                        BiodataModel biodata = biodataList.get(0);
+//                        nama_lengkap.setText(biodata.getNamaLengkap());
+//                        alamat.setText(biodata.getAlamat());
+//                        nik.setText(biodata.getNik());
+//                    } else {
+//                        Toast.makeText(getBaseContext(), "Data biodata kosong", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    popupAdapter = new PopupAdapter(lampiranList);
+//                    recyclerViewLampiran.setAdapter(popupAdapter);
+//                    recyclerViewLampiran.setNestedScrollingEnabled(false);
+//                } else {
+//                    Toast.makeText(getBaseContext(), "Gagal mengambil data", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponModel> call, Throwable t) {
+//                Toast.makeText(getBaseContext(), "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

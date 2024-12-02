@@ -2,7 +2,9 @@
 package com.nixie.sisuratmob.View;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nixie.sisuratmob.Api.ApiClient;
@@ -47,7 +50,7 @@ public class DashboardRtFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private BeritaAdapter beritaAdapter;
-
+    private TextView suratMasuk,suratSelesai;
     private ImageView icon;
     private List<Berita> dberitaList = new ArrayList<>();
     public DashboardRtFragment() {
@@ -65,7 +68,8 @@ public class DashboardRtFragment extends Fragment {
         beritaAdapter = new BeritaAdapter(getContext(), dberitaList);
         recyclerView.setAdapter(beritaAdapter);
         recyclerView.setHasFixedSize(true);
-
+        suratMasuk = view.findViewById(R.id.suratMasuk);
+        suratSelesai = view.findViewById(R.id.suratSelesai);
         icon = view.findViewById(R.id.iconn);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +121,41 @@ public class DashboardRtFragment extends Fragment {
         dialog.show();
     }
     private void fetchdata() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.getDash(sharedPreferences.getString("nik",""));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        if(jsonObject.getBoolean("status")){
+                            JSONObject dataArray = jsonObject.getJSONObject("data");
+                            suratMasuk.setText(dataArray.getString("masuk"));
+                            suratSelesai.setText(dataArray.getString("selesai"));
+                        }else{
+                            Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (IOException | JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.e("API Error", "Error: " + t.getMessage());
+                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Call<ResponseBody> call2 = apiService.getberita("s");
         call2.enqueue(new Callback<ResponseBody>() {
             @Override

@@ -18,56 +18,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp">
-
-                <TextView
-                    android:id="@+id/datejsurat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="tgl"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/titlejsurat" />
-
-                <TextView
-                    android:id="@+id/titlejsurat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:text="textj"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/datejsurat"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jenis Surat"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Nama Lengkap">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detNamaLengkap"
+                    android:id="@+id/vetNamaLengkap"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false" />
@@ -77,13 +37,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Nomor KK">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detNoKk"
+                    android:id="@+id/vetNoKk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -96,15 +56,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Nomor Induk Kependudukan">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detNik"
+                    android:id="@+id/vetNik"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_nik"
                     android:drawablePadding="16dp"
                     android:enabled="false"
                     android:inputType="number" />
@@ -114,13 +75,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Alamat">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detAlamat"
+                    android:id="@+id/vetAlamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false" />
@@ -129,13 +90,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="RT">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detRt"
+                    android:id="@+id/vetRt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -146,13 +107,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="RW">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detRw"
+                    android:id="@+id/vetRw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -163,13 +124,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Kode Pos">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detKodePos"
+                    android:id="@+id/vetKodePos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -180,13 +141,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Kelurahan">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detKelurahan"
+                    android:id="@+id/vetKelurahan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false" />
@@ -196,13 +157,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Kecamatan">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detKecamatan"
+                    android:id="@+id/vetKecamatan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false" />
@@ -212,60 +173,61 @@
 
             <!-- Provinsi -->
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="18dp"
-                android:hint="Keterangan">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/detketerangan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <!-- Button Pilih File untuk Lampiran -->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recpopupfieldstatus"
+
+            <io.getstream.photoview.PhotoView
+                android:id="@+id/imgverif"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="12dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recpopupstatuspengajuan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginBottom="16dp" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
 
+                <Button
+                    android:id="@+id/btnaccverifmas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rectangelradius"
+                    android:padding="12dp"
+                    android:text="Terima Verifikasi"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/dcetak"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="12dp"
-                android:background="@drawable/rectangelradius"
-                android:padding="12dp"
-                android:text="Cetak"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btnbatalkansurat"
-                android:layout_width="106dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="#CE1C1C"
-                android:text="Batalkan"
-                android:visibility="gone" />
+                <Button
+                    android:id="@+id/btnbatalkanverifmas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/rectanggelredradius"
+                    android:padding="12dp"
+                    android:text="Tolak Verifikasi"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline3"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>
@@ -276,11 +238,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="12dp"
-        android:text="Detail Pengajuan"
+        android:text="Biodata Verifikasi Masyarakat"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

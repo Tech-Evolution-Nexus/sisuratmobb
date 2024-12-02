@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 
@@ -78,7 +79,7 @@ public class DetailBritaActivity extends AppCompatActivity {
 //                            des.setText();
 
                             Glide.with(DetailBritaActivity.this)
-                                    .load("http://192.168.100.205/SISURAT/admin/assetsberita/" + dataArray.getString("gambar"))
+                                    .load(Helpers.BASE_URL+"admin/assetsberita/" + dataArray.getString("gambar"))
                                     .placeholder(R.drawable.baground_rtrw)
                                     .error(R.drawable.baground_rtrw)
                                     .into(img);

@@ -1,5 +1,7 @@
 package com.nixie.sisuratmob.Api;
 
+import com.nixie.sisuratmob.Helpers.Helpers;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -8,13 +10,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://192.168.43.148/SISURAT/api/"; // Ganti dengan URL API Anda
+    private static final String BASE_URL = Helpers.BASE_URL+"api/";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY); // Mengatur level log
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             // Menambahkan interceptor ke OkHttpClient
             OkHttpClient client = new OkHttpClient.Builder()
@@ -33,7 +35,6 @@ public class ApiClient {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY); // Mengatur level log
 
-            // Menambahkan interceptor ke OkHttpClient
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(30, TimeUnit.SECONDS)  // Waktu timeout untuk koneksi
                     .readTimeout(30, TimeUnit.SECONDS)     // Waktu timeout untuk pembacaan respons

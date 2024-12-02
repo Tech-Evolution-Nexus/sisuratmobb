@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:onClick="onSubmit">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,8 +22,8 @@
                 android:id="@+id/nama_lengkap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
                 android:text="Muhammad Nor Kholit"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -33,8 +32,8 @@
                 android:id="@+id/nik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
                 android:text="3604021210870002"
                 android:textSize="16dp"
                 android:textStyle="normal" />
@@ -43,9 +42,9 @@
                 android:id="@+id/keterangan_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="18dp"
                 android:text="Keterangan"
                 android:textSize="16dp"
                 android:textStyle="normal" />
@@ -54,13 +53,13 @@
                 android:id="@+id/keterangan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
                 android:text="Surat Keterangan Tidak Mampu Untuk Syarat Pengajuan KIP Kuliah"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-             <TextView
+            <TextView
                 android:id="@+id/keterangan_ditolak_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,8 +68,8 @@
                 android:layout_marginEnd="20dp"
                 android:text="Keterangan Ditolak"
                 android:textSize="16dp"
-                 android:visibility="gone"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/keterangan_ditolak_txt"
@@ -80,16 +79,16 @@
                 android:layout_marginEnd="20dp"
                 android:text="Surat Keterangan Tidak Mampu Untuk Syarat Pengajuan KIP Kuliah"
                 android:textSize="16dp"
-                android:visibility="gone"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/alamat_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="18dp"
                 android:text="Alamat"
                 android:textSize="16dp"
                 android:textStyle="normal" />
@@ -98,8 +97,8 @@
                 android:id="@+id/alamat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
                 android:text="Desa Bataan, Kecamatan Tenggarang, Kabupaten Bondowoso"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -108,9 +107,9 @@
                 android:id="@+id/tanggal_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="18dp"
                 android:text="Tanggal Pengajuan"
                 android:textSize="16dp"
                 android:textStyle="normal" />
@@ -119,24 +118,43 @@
                 android:id="@+id/datejsurat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
                 android:text="Senin,20 November 2024"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/lampiran_label"
+                android:id="@+id/field_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="18dp"
+                android:text="Informasi Tambahan"
+                android:textSize="16dp"
+                android:textStyle="normal"
+                android:visibility="gone" />
+
+            <!-- Button Pilih File untuk Lampiran -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recfieldacc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp" />
+
+            <TextView
+                android:id="@+id/lampiran_label2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="18dp"
                 android:text="Lampiran Pendukung"
                 android:textSize="16dp"
                 android:textStyle="normal" />
-
-            <!-- Button Pilih File untuk Lampiran -->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewpopup"
@@ -147,6 +165,22 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="16dp" />
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nopengantar_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
+                android:hint="Nomor Pengantar RT">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nopengantar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/keterangan_ditolak_wrapper"
@@ -172,6 +206,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/btnbatalkansurat"
                     android:layout_width="0dp"
@@ -182,6 +217,7 @@
                     android:backgroundTint="#CE1C1C"
                     android:text="Tolak"
                     android:visibility="gone" />
+
                 <Button
                     android:id="@+id/btn_terima"
                     android:layout_width="0dp"
@@ -193,6 +229,7 @@
                     android:backgroundTint="@color/teal_700"
                     android:text="Terima"
                     android:visibility="gone" />
+
                 <Button
                     android:id="@+id/dcetak"
                     android:layout_width="match_parent"

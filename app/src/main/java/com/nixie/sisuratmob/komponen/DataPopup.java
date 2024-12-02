@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.komponen;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,16 +27,20 @@ import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.BiodataModel;
 import com.nixie.sisuratmob.Models.DetailHistoriModel;
+import com.nixie.sisuratmob.Models.FieldValue;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
+import com.nixie.sisuratmob.View.Adapter.FieldValueAddapter;
 import com.nixie.sisuratmob.View.Adapter.PopupAdapter;
 import com.nixie.sisuratmob.View.PengajuanSurat.ApprovalFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -46,10 +51,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DataPopup extends DialogFragment {
-    private TextView title_page, dateText, status, nama_lengkap, nik, alamat, keterangan, keterangan_label, keterangan_ditolak_txt, keterangan_ditolak_label;
-    private RecyclerView recyclerViewLampiran;
+    private TextView title_page, dateText, status, nama_lengkap, nik, alamat, keterangan, keterangan_label, keterangan_ditolak_txt, keterangan_ditolak_label,field_label;
+    private RecyclerView recyclerViewLampiran, recyclerViewField;
     private PopupAdapter popupAdapter;
-
+    private FieldValueAddapter fieldAdapter;
+    private List<DetailHistoriModel> lampiranList = new ArrayList<>();
+    private List<FieldValue> fieldvalueList = new ArrayList<>();
+    private TextInputLayout txtnopegantar;
+    private TextInputEditText txtpengantar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate layout dialog_biodata
@@ -63,8 +72,14 @@ public class DataPopup extends DialogFragment {
         keterangan_label = view.findViewById(R.id.keterangan_label);
         keterangan_ditolak_txt = view.findViewById(R.id.keterangan_ditolak_txt);
         keterangan_ditolak_label = view.findViewById(R.id.keterangan_ditolak_label);
+        field_label = view.findViewById(R.id.field_label);
+        txtnopegantar = view.findViewById(R.id.nopengantar_wrapper);
+        txtpengantar= view.findViewById(R.id.nopengantar);
+
         recyclerViewLampiran = view.findViewById(R.id.recyclerViewpopup);
         recyclerViewLampiran.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewField = view.findViewById(R.id.recfieldacc);
+        recyclerViewField.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (getArguments() != null) {
             String title = getArguments().getString("title");
@@ -73,17 +88,30 @@ public class DataPopup extends DialogFragment {
             String nik = getArguments().getString("nik");
             String keteranganPengajuan = getArguments().getString("keterangan");
             String keteranganDitolakPengajuan = getArguments().getString("keterangan_ditolak");
+            String nprt = getArguments().getString("no_prt");
+            if(nprt!=null){
+                txtpengantar.setText(nprt);
+            }
             int ipengajuan = getArguments().getInt("idpengajuan");
 
             View dbatalView = view.findViewById(R.id.btnbatalkansurat);
             View dcetakView = view.findViewById(R.id.dcetak);
             View btn_terima = view.findViewById(R.id.btn_terima);
 
-
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getActivity().MODE_PRIVATE);
+            String role = sharedPreferences.getString("role", "");
+            String snik = sharedPreferences.getString("nik", "");
             if ("pending".equals(status)) {
-                dbatalView.setVisibility(View.VISIBLE);
+
+
+                if(role.equals("rt")){
+                    dbatalView.setVisibility(View.VISIBLE);
+                    ((TextInputLayout) view.findViewById(R.id.keterangan_ditolak_wrapper)).setVisibility(View.VISIBLE);
+                }else{
+                    txtpengantar.setEnabled(false);
+                }
                 btn_terima.setVisibility(View.VISIBLE);
-                ((TextInputLayout) view.findViewById(R.id.keterangan_ditolak_wrapper)).setVisibility(View.VISIBLE);
+                txtnopegantar.setVisibility(View.VISIBLE);
             } else {
                 keterangan_ditolak_txt.setVisibility(View.VISIBLE);
                 keterangan_ditolak_label.setVisibility(View.VISIBLE);
@@ -98,13 +126,20 @@ public class DataPopup extends DialogFragment {
             dateText.setText(Helpers.formatTanggal(date));
             dbatalView.setOnClickListener(v -> {
                 String keteranganDitolak = ((TextInputEditText) view.findViewById(R.id.keterangan_ditolak)).getText().toString();
-                approvalPengajuan(nik, ipengajuan, "ditolak", keteranganDitolak);
+                approvalPengajuan(snik, ipengajuan, "ditolak", keteranganDitolak);
             });
             btn_terima.setOnClickListener(v -> {
-                approvalPengajuan(nik, ipengajuan, "diterima", null);
+                String nopengantar = txtpengantar.getText().toString();
+                if (nopengantar.isEmpty()) {
+                    txtnopegantar.setError("No Pengantar Wajib Diisi");
+                    return;
+                }
+                Log.d("TAG", snik);
+
+                approvalPengajuan(snik, ipengajuan, "diterima", null);
             });
             dcetakView.setOnClickListener(v -> {
-                String url = "http://192.168.1.7/SISURAT/api/surat-selesai/export/" + ipengajuan;
+                String url = Helpers.BASE_URL+"api/surat-selesai/export/" + ipengajuan;
                 downloadPDF(getContext(), url, title, ipengajuan);
             });
         }
@@ -115,7 +150,7 @@ public class DataPopup extends DialogFragment {
     private void approvalPengajuan(String nik, int ipengajuan, String status, String keteranganDitolak) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         RequestBody statusApproval = RequestBody.create(MediaType.parse("text/plain"), status);
-        RequestBody keteranganDitolakApproval = RequestBody.create(MediaType.parse("text/plain"), keteranganDitolak);
+        RequestBody keteranganDitolakApproval = RequestBody.create(MediaType.parse("text/plain"),  keteranganDitolak != null ? keteranganDitolak : "");
         Call<ResponseBody> call = apiService.approvalPengajuan(nik, ipengajuan, statusApproval, keteranganDitolakApproval);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -166,34 +201,69 @@ public class DataPopup extends DialogFragment {
 
     private void fetchDataFromApi(int ipengajuan) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponModel> call = apiService.getdetailhistory(ipengajuan);
+        Call<ResponseBody> call = apiService.getdetailhistory(ipengajuan);
 
-        call.enqueue(new Callback<ResponModel>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponModel> call, Response<ResponModel> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<BiodataModel> biodataList = response.body().getData().getBiodata();
-                    List<DetailHistoriModel> lampiranList = response.body().getData().getDatahistori();
+                    String responseBody = null;
+                    try {
+                        responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        boolean st = jsonObject.getBoolean("status");
+                        String msg = jsonObject.getString("message");
+                        if (st) {
 
-                    if (!biodataList.isEmpty()) {
-                        BiodataModel biodata = biodataList.get(0);
-                        nama_lengkap.setText(biodata.getNamaLengkap());
-                        alamat.setText(biodata.getAlamat());
-                        nik.setText(biodata.getNik());
-                    } else {
-                        Toast.makeText(getContext(), "Data biodata kosong", Toast.LENGTH_SHORT).show();
+                            JSONObject dataObject = jsonObject.getJSONObject("data");
+                            JSONObject databiodata = dataObject.getJSONObject("biodata");
+                            JSONArray lampirandata = dataObject.getJSONArray("datalampiran");
+                            JSONArray fielddata = dataObject.getJSONArray("datafield");
+                            nama_lengkap.setText(databiodata.getString("nama_lengkap"));
+                            alamat.setText(databiodata.getString("alamat"));
+                            nik.setText(databiodata.getString("nik"));
+
+                            if(fielddata.length()>0){
+                                field_label.setVisibility(View.VISIBLE);
+                                for (int i = 0; i < fielddata.length(); i++) {
+                                    JSONObject fieldObject = fielddata.getJSONObject(i);
+                                    FieldValue listfield = new FieldValue(
+                                            fieldObject.getString("id"),
+                                            fieldObject.getString("nama_field"),
+                                            fieldObject.getString("value"));
+                                    Log.d("TAG",  fieldObject.getString("value"));
+                                    fieldvalueList.add(listfield);
+                                    fieldAdapter = new FieldValueAddapter(fieldvalueList);
+                                    recyclerViewField.setAdapter(fieldAdapter);
+                                    recyclerViewField.setNestedScrollingEnabled(false);
+                                }
+                            }
+                            for (int i = 0; i < lampirandata.length(); i++) {
+                                JSONObject lampiranobject = lampirandata.getJSONObject(i);
+                                DetailHistoriModel lisstlampiran = new DetailHistoriModel(
+                                        lampiranobject.getInt("id"),
+                                        lampiranobject.getString("nama_lampiran"),
+                                        lampiranobject.getString("url")
+                                );
+                                lampiranList.add(lisstlampiran);
+                                popupAdapter = new PopupAdapter(lampiranList);
+                                recyclerViewLampiran.setAdapter(popupAdapter);
+                                recyclerViewLampiran.setNestedScrollingEnabled(false);
+                            }
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
 
-                    popupAdapter = new PopupAdapter(lampiranList);
-                    recyclerViewLampiran.setAdapter(popupAdapter);
-                    recyclerViewLampiran.setNestedScrollingEnabled(false);
                 } else {
                     Toast.makeText(getContext(), "Gagal mengambil data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponModel> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

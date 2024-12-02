@@ -61,4 +61,5 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.1.2")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("io.getstream:photoview:1.0.2")
 }

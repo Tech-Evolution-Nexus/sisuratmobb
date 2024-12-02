@@ -16,7 +16,7 @@ public class RiwayatSurat {
     private String nama_surat;
     private String image;
 
-    public RiwayatSurat(int id, int id_surat, String nomor_surat, String no_pengantar_rt, String no_pengantar_rw, String status, String keterangan, String keterangan_ditolak,  String nik, String kode_kelurahan, String nomor_surat_tambahan, String created_at, String updated_at, String nama_surat, String image) {
+    public RiwayatSurat(int id, int id_surat, String nomor_surat, String no_pengantar_rt, String no_pengantar_rw, String status, String keterangan, String keterangan_ditolak,  String nik, String kode_kelurahan, String created_at, String updated_at, String nama_surat, String image) {
         this.id = id;
         this.id_surat = id_surat;
         this.nomor_surat = nomor_surat;
@@ -27,7 +27,6 @@ public class RiwayatSurat {
         this.keterangan_ditolak = keterangan_ditolak;
         this.nik = nik;
         this.kode_kelurahan = kode_kelurahan;
-        this.nomor_surat_tambahan = nomor_surat_tambahan;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.nama_surat = nama_surat;

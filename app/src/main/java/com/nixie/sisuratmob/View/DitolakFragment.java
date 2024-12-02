@@ -126,7 +126,6 @@ public class DitolakFragment extends Fragment {
                                         dataObject.getString("keterangan_ditolak"),
                                         dataObject.getString("nik"),
                                         dataObject.getString("kode_kelurahan"),
-                                        dataObject.getString("nomor_surat_tambahan"),
                                         dataObject.getString("created_at"),
                                         dataObject.getString("updated_at"),
                                         dataObject.getString("nama_surat"),
