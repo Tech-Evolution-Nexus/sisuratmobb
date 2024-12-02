@@ -16,9 +16,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.RiwayatSurat;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.komponen.DataPopup;
+import com.nixie.sisuratmob.komponen.DataPopup2;
 
 import java.util.List;
 
@@ -86,17 +88,18 @@ public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuan
         holder.createdAtText.setText(riwayatSurat.getCreated_at());
         holder.jenistext.setText(riwayatSurat.getNama_surat());
         Glide.with(context)
-                .load("http://192.168.100.205/SISURAT/admin/assetssurat/"+riwayatSurat.getImage())
+                .load(Helpers.BASE_URL+"admin/assetssurat/"+riwayatSurat.getImage())
                 .placeholder(R.drawable.baground_rtrw)
                 .error(R.drawable.baground_rtrw)
                 .into(holder.img);
         holder.icbtn.setOnClickListener(v -> {
-            DataPopup biodataDialog = new DataPopup();
+            DataPopup2 biodataDialog = new DataPopup2();
             Bundle bundle = new Bundle();
             bundle.putString("title", riwayatSurat.getNama_surat());
             bundle.putString("status", riwayatSurat.getStatus());
             bundle.putString("date", riwayatSurat.getCreated_at());
             bundle.putString("nik", riwayatSurat.getNik());
+            bundle.putString("keterangan", riwayatSurat.getKeterangan());
             bundle.putInt("idpengajuan", riwayatSurat.getId());
 
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.PengajuanSuratModel;
 import com.nixie.sisuratmob.R;
@@ -68,6 +70,11 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
         holder.tanggal_pengajuan.setText(Helpers.formatTanggal(formattedDate));
         holder.nama_surat.setText(pengajuan.getNama_surat());
         holder.nama_lengkap.setText(pengajuan.getNama_lengkap());
+        Glide.with(context)
+                .load(Helpers.BASE_URL+"admin/assetssurat/"+pengajuan.getImage())
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
+                .into(holder.detailIcon);
         holder.statusText.setOnClickListener(v -> {
             DataPopup biodataDialog = new DataPopup();
             Bundle bundle = new Bundle();
@@ -82,13 +89,13 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
 
 //            //jika menggunakan popup
             bundle.putString("title", pengajuan.getNama_surat());
-            bundle.putString("status", pengajuan.getStatus());
+            bundle.putString("status", this.type);
             bundle.putString("date", pengajuan.getTanggal_pengajuan());
             bundle.putString("nik", pengajuan.getNik());
             bundle.putString("keterangan", pengajuan.getKeterangan());
             bundle.putString("keterangan_ditolak", pengajuan.getKeterangan_ditolak());
-            bundle.putInt("idpengajuan", pengajuan.getId_surat());
-
+            bundle.putString("no_prt", pengajuan.getNo_pengantar_rt());
+            bundle.putInt("idpengajuan", pengajuan.getId());
             biodataDialog.setArguments(bundle);
             biodataDialog.show(fragment.getChildFragmentManager(), "BiodataDialog");
         });
@@ -111,7 +118,8 @@ public class ApprovalPengajuanItemAdapter extends RecyclerView.Adapter<ApprovalP
             tanggal_pengajuan = itemView.findViewById(R.id.dateText);
             nama_lengkap = itemView.findViewById(R.id.nameText);
             nama_surat = itemView.findViewById(R.id.jenisText);
-            detailIcon = itemView.findViewById(R.id.infoIcon);
+            detailIcon = itemView.findViewById(R.id.Imgsuratstatusrt);
+
         }
     }
 

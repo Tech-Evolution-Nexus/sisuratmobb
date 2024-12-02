@@ -8,11 +8,10 @@ public class LampiranSuratModel {
     private String nama_lampiran,image;
     private Uri imageUri;
 
-    public LampiranSuratModel(int id_surat, int id, String nama_lampiran, String image) {
+    public LampiranSuratModel(int id_surat, int id, String nama_lampiran) {
         this.id_surat = id_surat;
         this.id = id;
         this.nama_lampiran = nama_lampiran;
-        this.image = image;
     }
 
     public String getImage() {

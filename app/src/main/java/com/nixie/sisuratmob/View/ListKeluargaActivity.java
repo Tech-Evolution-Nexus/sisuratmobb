@@ -71,6 +71,7 @@ public class ListKeluargaActivity extends AppCompatActivity {
         });
         SharedPreferences sharedPreferences = getBaseContext().getSharedPreferences("UserPrefs", getBaseContext().MODE_PRIVATE);
         String nokk = sharedPreferences.getString("nokk", "");
+        Log.d("TAG", nokk);
         fetchDataFromAPI(nokk);
     }
     private void fetchDataFromAPI(String nokk) {

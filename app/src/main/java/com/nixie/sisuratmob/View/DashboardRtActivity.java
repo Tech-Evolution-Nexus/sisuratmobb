@@ -1,6 +1,10 @@
 package com.nixie.sisuratmob.View;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -19,41 +23,51 @@ public class DashboardRtActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityDashboardRtBinding binding;
     private BottomNavigationView bottomNavigationView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Inflate the layout and set content view
         binding = ActivityDashboardRtBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // Initialize BottomNavigationView after setting the content view
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String role = sharedPreferences.getString("role", "");
         bottomNavigationView = findViewById(R.id.btm_viewRt);
+        if(role.equals("rw")){
+            bottomNavigationView.getMenu().findItem(R.id.menuverifmas).setVisible(false);
+        }
 
-        // Load DashboardFragment as the default fragment
         if (savedInstanceState == null) {
-            loadFragment(new DashboardRtFragment()); // Correct the closing parenthesis
-            bottomNavigationView.setSelectedItemId(R.id.home); // Correct method to select item
+            loadFragment(new DashboardRtFragment());
+            bottomNavigationView.setSelectedItemId(R.id.home);
         }
 
         // Set up navigation item selection listener
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             Fragment selectedFragment = null;
-
-            if (item.getItemId() == R.id.home) {
-                selectedFragment = new DashboardRtFragment();
-            } else if (item.getItemId() == R.id.surat) {
-                selectedFragment = new ApprovalPengajuanFragment();
-            } else if (item.getItemId() == R.id.rekap) {
-                selectedFragment = new ProfileFragment();
+            if(role.equals("rt")){
+                if (item.getItemId() == R.id.home) {
+                    selectedFragment = new DashboardRtFragment();
+                } else if (item.getItemId() == R.id.surat) {
+                    selectedFragment = new ApprovalPengajuanFragment();
+                } else if (item.getItemId() == R.id.menuverifmas) {
+                    selectedFragment = new VerifikasiMasyarakatFragment();
+                }
+            }else{
+                if (item.getItemId() == R.id.home) {
+                    selectedFragment = new DashboardRtFragment();
+                } else if (item.getItemId() == R.id.surat) {
+                    selectedFragment = new ApprovalPengajuanFragment();
+                }
             }
+
 
             if (selectedFragment != null) {
                 loadFragment(selectedFragment);
             }
             return true;
         });
+        invalidateOptionsMenu();
+
     }
 
     @Override

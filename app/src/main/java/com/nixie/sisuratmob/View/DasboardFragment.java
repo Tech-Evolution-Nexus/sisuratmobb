@@ -52,6 +52,7 @@ public class DasboardFragment extends Fragment {
     private List<Berita> dberitaList = new ArrayList<>();
     private List<Surat> dataList = new ArrayList<>();
     private List<Surat> filteredList = new ArrayList<>();
+    private List<Surat>  dataListsearch = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private MaterialAutoCompleteTextView etSearch;
     private static final String PREF_NAME = "userPrefs";
@@ -90,13 +91,9 @@ public class DasboardFragment extends Fragment {
         recyclerViewBerita.setHasFixedSize(true);
 
 
-        Log.d("TAG", "sda");
-
-        fetchdata();
-
-
         ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getSuratTitles());
         etSearch.setAdapter(autoCompleteAdapter);
+        fetchdata();
 
         etSearch.setOnItemClickListener((parent, v, position, id) -> {
             String selectedItem = parent.getItemAtPosition(position).toString();
@@ -106,27 +103,26 @@ public class DasboardFragment extends Fragment {
             startActivity(intent);
         });
 
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
-                filteredList.clear();
-                for (Surat surat : dataList) {
-                    if (surat.getNama_surat().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        filteredList.add(surat);
-                    }
-                }
-                jsuratAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
+//        etSearch.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+//                filteredList.clear();
+//                for (Surat surat : dataListsearch) {
+//                    if (surat.getNama_surat().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+////                        filteredList.add(surat);
+//                    }
+//                }
+//                jsuratAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//            }
+//        });
 
 //        btnsur.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -155,8 +151,6 @@ public class DasboardFragment extends Fragment {
     }
 
     private void fetchdata() {
-        Log.d("TAG", "sda");
-
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getsurat("s");
         call.enqueue(new Callback<ResponseBody>() {
@@ -182,6 +176,10 @@ public class DasboardFragment extends Fragment {
 
                                 dataList.add(surat);
                                 jsuratAdapter.notifyDataSetChanged();
+//                                ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getSuratTitles());
+//                                etSearch.setAdapter(autoCompleteAdapter);
+//                                etSearch.getText().clear();
+//                                autoCompleteAdapter.getFilter().filter("");
                             }
                         }else{
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
@@ -249,13 +247,7 @@ public class DasboardFragment extends Fragment {
                     } catch (IOException | JSONException e) {
                         throw new RuntimeException(e);
                     }
-//                    List<Berita> beritaList = response.body().getData().getDataberita();
-//                    if (beritaList != null) {
-//                        dberitaList.clear();
-//                        dberitaList.addAll(beritaList);
-//                    } else {
-//                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
-//                    }
+
                 } else {
                     Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
@@ -267,11 +259,72 @@ public class DasboardFragment extends Fragment {
                 Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
             }
         });
+        Call<ResponseBody> call3 = apiService.getsurat("all");
+        call3.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                    try {
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        boolean st = jsonObject.getBoolean("status");
+                        String msg = jsonObject.getString("message");
+                        if(st){
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject dataObject = dataArray.getJSONObject(i);
+                                Surat surat = new Surat(
+                                        dataObject.getString("id"),
+                                        dataObject.getString("image"),
+                                        dataObject.getString("nama_surat")
+                                );
+                                dataListsearch.add(surat);
+                                filteredList.add(surat);
+                                ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getSuratTitles());
+                                etSearch.setAdapter(autoCompleteAdapter);
+                                etSearch.getText().clear();
+                                autoCompleteAdapter.getFilter().filter("");
+                            }
+                        }else{
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException | JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+//                        List<Surat> suratList = response.body().getData().getDatasurat();
+//
+//                    if (suratList != null) {
+//                        dataList.clear();
+//                        filteredList.clear();
+//                        dataList.addAll(suratList);
+//                        filteredList.addAll(suratList);
+//                        jsuratAdapter.notifyDataSetChanged();
+//                        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getSuratTitles());
+//                        etSearch.setAdapter(autoCompleteAdapter);
+//                        etSearch.getText().clear();
+//                        autoCompleteAdapter.getFilter().filter("");
+//                    } else {
+//                        Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+//                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.d("TAG", "onFailure: " + t.getMessage());
+                Toast.makeText(getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private List<String> getSuratTitles() {
         List<String> titles = new ArrayList<>();
-        for (Surat surat : dataList) {
+        for (Surat surat : dataListsearch) {
             titles.add(surat.getNama_surat());
         }
         return titles;

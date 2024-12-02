@@ -1,6 +1,8 @@
 package com.nixie.sisuratmob.View;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -8,14 +10,26 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.nixie.sisuratmob.Api.ApiClient;
+import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Database.DbHelper;
 import com.nixie.sisuratmob.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    private TextInputEditText forgotnik;
-    private TextInputEditText forgotpass;
-    private Button forgot_akun;
+    private TextInputEditText forgotemail;
+    private Button btn;
     DbHelper dbHelper;
 
     @Override
@@ -23,38 +37,63 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_forgot_password);
-
-
-        forgotnik = findViewById(R.id.forgot_NIK);
-        forgotpass = findViewById(R.id.forgot_Password);
-        forgot_akun = findViewById(R.id.forgot_akun);
+        forgotemail = findViewById(R.id.textemailpass);
+        btn = findViewById(R.id.btnsendemail);
         dbHelper = new DbHelper(this);
-
-
-        forgot_akun.setOnClickListener(v -> forgot());
+        btn.setOnClickListener(v -> forgot());
     }
 
     public void forgot() {
-        String nik = forgotnik.getText().toString().trim();
-        String password = forgotpass.getText().toString().trim();
-
-        if (nik.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "semu kolom wajib diisi", Toast.LENGTH_SHORT);
+        String email = forgotemail.getText().toString().trim();
+        StringBuilder emailErrors = new StringBuilder();
+        TextInputLayout txt = findViewById(R.id.texmailpass);
+        boolean hasError = false;
+        txt.setError(null);
+        if (email.isEmpty()) {
+            emailErrors.append("Email Harus Diisi.\n");
+            hasError = true;
+        }
+        if( !email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+") ){
+            emailErrors.append("Masukkan format email yang valid.\n");
+            hasError = true;
+        }
+        if (emailErrors.length() > 0) {
+            txt.setError(emailErrors.toString().trim());
+            txt.setErrorIconDrawable(null);
+        }
+        if (hasError) {
             return;
         }
-
-        if (dbHelper.checkNIKExists(nik)) {
-            boolean isUpdated = dbHelper.updatePasswordByNIK(nik, password);
-            if (isUpdated) {
-                Toast.makeText(this, "Kata sandi berhasil dirubah", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                Toast.makeText(this, "Gagal mengubah kata sandi", Toast.LENGTH_SHORT).show();
+        ApiService apiService = ApiClient.getresetpassRetrofitInstance().create(ApiService.class);
+        apiService.reqSendEmail(email).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        assert response.body() != null;
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        boolean status = jsonObject.getBoolean("status");
+                        String message = jsonObject.getString("message");
+                        Toast.makeText(ForgotPasswordActivity.this, message, Toast.LENGTH_SHORT).show();
+                        if (status) {
+                            Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+//                            intent.putExtra("nik", nik);
+                            startActivity(intent);
+                            finish();
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
-        } else {
-            Toast.makeText(this, "NIK tidak ditemukan", Toast.LENGTH_SHORT).show();
-        }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(ForgotPasswordActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
 }

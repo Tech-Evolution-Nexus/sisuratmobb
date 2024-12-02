@@ -1,5 +1,6 @@
 package com.nixie.sisuratmob.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -59,12 +60,13 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        view.findViewById(R.id.btnlogout).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
@@ -74,11 +76,61 @@ public class ProfileFragment extends Fragment {
                 editor.remove("nokk");
                 editor.remove("role");
                 editor.apply();
-                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.informasiAkun).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.UbahNoTelepon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UbahNoTeleponActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.UbahPassword).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UbahPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.DaftarKeluarga).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.KelurahanBadean).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.SuratDibatalkan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
                 startActivity(intent);
             }
         });
 
         return view;
     }
+
+
 }

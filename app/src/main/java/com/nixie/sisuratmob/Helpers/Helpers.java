@@ -4,8 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class Helpers {
-     public static  final String API_URL = "http://192.168.1.7/SISURAT/api/";
-        public  static final String BASE_URL = "http://192.168.1.7/SISURAT/";
+    public  static final String BASE_URL = "http://192.168.103.95/SISURAT/";
     public static String formatTanggal(String tanggalAsli) {
         try {
             // Format tanggal asli (dari database)

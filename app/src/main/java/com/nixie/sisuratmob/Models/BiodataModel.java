@@ -5,6 +5,39 @@ public class BiodataModel {
     private String nama_lengkap	;
     private String no_kk;
     private String kk_tgl;
+
+    public String getNama_lengkap() {
+        return nama_lengkap;
+    }
+
+    public void setNama_lengkap(String nama_lengkap) {
+        this.nama_lengkap = nama_lengkap;
+    }
+
+    public String getNo_kk() {
+        return no_kk;
+    }
+
+    public void setNo_kk(String no_kk) {
+        this.no_kk = no_kk;
+    }
+
+    public String getKk_tgl() {
+        return kk_tgl;
+    }
+
+    public void setKk_tgl(String kk_tgl) {
+        this.kk_tgl = kk_tgl;
+    }
+
+    public int getKode_pos() {
+        return kode_pos;
+    }
+
+    public void setKode_pos(int kode_pos) {
+        this.kode_pos = kode_pos;
+    }
+
     private String nik;
     private String alamat;
     private int rt;
@@ -15,9 +48,9 @@ public class BiodataModel {
     private String kabupaten;
     private String provinsi;
 
-    public BiodataModel(int id, String nama_lengkap	, String no_kk, String kk_tgl, String nik, String alamat, int rt, int rw, int kode_pos, String kelurahan, String kecamatan, String kabupaten, String provinsi) {
+    public BiodataModel(int id, String nama_lengkap	, String no_kk, String kk_tgl, String nik, int rt, int rw, int kode_pos, String kelurahan, String kecamatan) {
         this.id = id;
-        this.nama_lengkap	 = nama_lengkap	;
+        this.nama_lengkap = nama_lengkap	;
         this.no_kk = no_kk;
         this.kk_tgl = kk_tgl;
         this.nik = nik;

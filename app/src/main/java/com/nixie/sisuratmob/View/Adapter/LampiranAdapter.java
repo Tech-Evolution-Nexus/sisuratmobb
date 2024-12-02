@@ -20,10 +20,11 @@ import java.util.List;
 public class LampiranAdapter extends RecyclerView.Adapter<LampiranAdapter.ViewHolder> {
     private final List<LampiranSuratModel> lampiranList;
     private final ImagePickerCallback callback;
-
-    public LampiranAdapter(List<LampiranSuratModel> lampiranList, ImagePickerCallback callback) {
+    private RecyclerView recyclerView;
+    public LampiranAdapter(List<LampiranSuratModel> lampiranList, ImagePickerCallback callback, RecyclerView recyclerView) {
         this.lampiranList = lampiranList;
         this.callback = callback;
+        this.recyclerView =recyclerView;
     }
 
     @NonNull
@@ -53,8 +54,13 @@ public class LampiranAdapter extends RecyclerView.Adapter<LampiranAdapter.ViewHo
         // Set the image if it exists
         if (lampiran.getImageUri() != null) {
             holder.setImage(lampiran.getImageUri());
+            holder.txterr.setVisibility(View.GONE);
+            holder.button.setBackgroundResource(R.drawable.dashed_border);
+
         } else {
             holder.setImage(null);  // No image, hide the ImageView
+            holder.txterr.setVisibility(View.GONE);
+            holder.button.setBackgroundResource(R.drawable.dashed_border);
         }
     }
 
@@ -75,7 +81,7 @@ public class LampiranAdapter extends RecyclerView.Adapter<LampiranAdapter.ViewHo
         ConstraintLayout button;
         TextView textTitle;
         TextView titlelampiran;
-        TextView textLabel;
+        TextView textLabel,txterr;
         ImageView imageViewLampiran;
 
         public ViewHolder(@NonNull View itemView) {
@@ -86,6 +92,7 @@ public class LampiranAdapter extends RecyclerView.Adapter<LampiranAdapter.ViewHo
             titlelampiran = itemView.findViewById(R.id.titlelampilarn);
             textLabel = itemView.findViewById(R.id.textView6);
             imageViewLampiran = itemView.findViewById(R.id.imageViewLampiran);
+            txterr = itemView.findViewById(R.id.errortxtimg);
         }
 
         public void setImage(Uri imageUri) {
@@ -112,6 +119,20 @@ public class LampiranAdapter extends RecyclerView.Adapter<LampiranAdapter.ViewHo
     }
     public List<LampiranSuratModel> getLampiranList() {
         return lampiranList;
+    }
+    public boolean validateImageFields() {
+        boolean isValid = true;
+        for (int i = 0; i < lampiranList.size(); i++) {
+            LampiranAdapter.ViewHolder holder = (LampiranAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+            LampiranSuratModel lampiran = lampiranList.get(i);
+            if (lampiran.getImageUri() == null) {
+                isValid = false;
+                holder.txterr.setVisibility(View.VISIBLE);
+                holder.button.setBackgroundResource(R.drawable.dashed_border_red);
+
+            }
+        }
+        return isValid;
     }
 }
 

@@ -8,7 +8,7 @@
         android:icon="@drawable/ic_suratrt"
         android:title="Surat"/>
 
-    <item android:id="@+id/rekap"
+    <item android:id="@+id/menuverifmas"
         android:icon="@drawable/ic_rekap"
-        android:title="Rekap"/>
+        android:title="Verifikasi"/>
 </menu>

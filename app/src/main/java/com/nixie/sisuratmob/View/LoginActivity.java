@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextNIK, editTextPassword;
+    private TextInputLayout lnik,lpass;
     private Button buttonLogin;
     private TextView register, lupaSandi;
     private String token;
@@ -50,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         editTextNIK = findViewById(R.id.Login_NIK);
         editTextPassword = findViewById(R.id.login_password);
         buttonLogin = findViewById(R.id.login_masuk);
+        lnik = findViewById(R.id.Lnik);
+        lpass = findViewById(R.id.Lpass);
         editTextNIK.setText(getIntent().getStringExtra("nik"));
         register.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, AktivasiXreqActivity.class);
@@ -63,20 +67,41 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(view -> {
             String nik = editTextNIK.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
+            boolean hasError = false;
+            lnik.setError(null);
+            lpass.setError(null);
+            StringBuilder nikErrors = new StringBuilder();
+            StringBuilder passwordErrors = new StringBuilder();
+            // Validate NIK
             if (nik.isEmpty()) {
-                editTextNIK.setError("NIK tidak boleh kosong");
-                return;
-            }
-            if (password.isEmpty()) {
-                editTextPassword.setError("Password tidak boleh kosong");
-                return;
+                nikErrors.append("NIK tidak boleh kosong.\n");
+                hasError = true;
             }
             if (nik.length() != 16) {
-                editTextNIK.setError("NIK harus memiliki panjang 16 karakter");
-                return;
+                nikErrors.append("NIK harus memiliki panjang 16 karakter.\n");
+                hasError = true;
+            }
+            if (nikErrors.length() > 0) {
+                lnik.setError(nikErrors.toString().trim());
+                lnik.setErrorIconDrawable(null);
+            }
+
+            // Validate Password
+            if (password.isEmpty()) {
+                passwordErrors.append("Password tidak boleh kosong.\n");
+                hasError = true;
             }
             if (password.length() < 8) {
-                editTextPassword.setError("Password harus memiliki minimal 8 karakter");
+                passwordErrors.append("Password harus memiliki minimal 8 karakter.\n");
+                hasError = true;
+            }
+            if (passwordErrors.length() > 0) {
+                lpass.setError(passwordErrors.toString().trim());
+                lpass.setErrorIconDrawable(null);
+            }
+
+            // Stop execution if there's any error
+            if (hasError) {
                 return;
             }
 
@@ -100,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putBoolean("isLoggedIn", true);
                                     editor.putString("nik", data.getString("nik"));
                                     editor.putString("role", data.getString("role"));
-                                    editor.putString("usename", data.getString("role"));
+                                    editor.putString("namalengkap", data.getString("nama_lengkap"));
                                     editor.putString("nokk", data.getString("no_kk"));
                                     editor.apply();
 

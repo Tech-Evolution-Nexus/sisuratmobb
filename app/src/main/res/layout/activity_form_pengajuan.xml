@@ -46,7 +46,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Nama Lengkap">
@@ -62,7 +62,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Nomor KK">
@@ -79,7 +79,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Tanggal KK">
@@ -95,7 +95,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Nomor Induk Kependudukan">
@@ -114,7 +114,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Alamat">
@@ -129,7 +129,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="RT">
@@ -146,7 +146,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="RW">
@@ -163,7 +163,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Kode Pos">
@@ -180,7 +180,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Kelurahan">
@@ -196,7 +196,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Kecamatan">
@@ -212,7 +212,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Kabupaten">
@@ -228,7 +228,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Provinsi">
@@ -239,10 +239,12 @@
                     android:layout_height="wrap_content"
                     android:enabled="false" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lketform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:hint="Keterangan">
@@ -250,14 +252,20 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etketerangan"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Button Pilih File untuk Lampiran -->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewpopup"
+                android:id="@+id/recfield"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recimgform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"

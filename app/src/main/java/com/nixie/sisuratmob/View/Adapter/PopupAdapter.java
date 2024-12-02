@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.DetailHistoriModel;
 import com.nixie.sisuratmob.Models.LampiranSuratModel;
 import com.nixie.sisuratmob.R;
@@ -43,7 +44,6 @@ public class PopupAdapter extends RecyclerView.Adapter<PopupAdapter.ViewHolder> 
         // Set the title of the lampiran
         holder.textTitle.setText("Silahkan Masukan " + lampiran.getNama_lampiran());
         holder.titlelampiran.setText(lampiran.getNama_lampiran());
-        Log.d("TAG", "onBindViewHolder: "+lampiran.getUrl());
         holder.setImage(lampiran.getUrl());
     }
 
@@ -81,7 +81,7 @@ public class PopupAdapter extends RecyclerView.Adapter<PopupAdapter.ViewHolder> 
             if (imageUri != null) {
                 // Gunakan Glide untuk memuat gambar
                 Glide.with(imageViewLampiran.getContext())
-                        .load("http://192.168.1.7/SISURAT/admin/assetsmasyarakat/"+imageUri)
+                            .load(Helpers.BASE_URL+"admin/assetsmasyarakat/"+imageUri)
                         .into(imageViewLampiran);
 
                 imageViewLampiran.setVisibility(View.VISIBLE);
