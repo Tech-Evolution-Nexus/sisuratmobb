@@ -48,7 +48,7 @@ public class BiodataModel {
     private String kabupaten;
     private String provinsi;
 
-    public BiodataModel(int id, String nama_lengkap	, String no_kk, String kk_tgl, String nik, int rt, int rw, int kode_pos, String kelurahan, String kecamatan, String kabupaten, String provinsi) {
+    public BiodataModel(int id, String nama_lengkap	, String no_kk, String kk_tgl, String nik, int rt, int rw, int kode_pos, String kelurahan, String kecamatan) {
         this.id = id;
         this.nama_lengkap = nama_lengkap	;
         this.no_kk = no_kk;

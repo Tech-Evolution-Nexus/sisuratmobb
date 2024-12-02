@@ -35,6 +35,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".View.InformasiAkunActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.PengajuanSurat.DetailApprovalActivity"
             android:exported="false" />
         <activity

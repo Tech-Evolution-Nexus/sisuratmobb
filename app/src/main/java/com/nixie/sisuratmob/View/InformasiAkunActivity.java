@@ -4,6 +4,7 @@ import static android.widget.Toast.*;
 import static java.security.AccessController.getContext;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InformasiAkunActivity extends AppCompatActivity {
-    private TextView infNamaLengkap, infNoKk, infNIK, infAlamat, infRT, infRW, infKodePos, infKelurahan, infKecamatan, infKabupaten, infProvinsi;
+    private TextView infNamaLengkap, infNoKk, infNIK, infAlamat, infRT, infRW, infKelurahan, infKecamatan;
     private RecyclerView recyclerViewLampiran;
     private static final int IMAGE_PICK_CODE = 1000;
     private int selectedPosition = -1;
@@ -51,20 +52,16 @@ public class InformasiAkunActivity extends AppCompatActivity {
         infAlamat = findViewById(R.id.infAlamat);
         infRT = findViewById(R.id.infRT);
         infRW = findViewById(R.id.infRW);
-        infKodePos = findViewById(R.id.infKodePos);
         infKelurahan = findViewById(R.id.infKelurahan);
-        infKecamatan = findViewById(R.id.infKecamatan);
-        infKabupaten = findViewById(R.id.infKabupaten);
-        infProvinsi = findViewById(R.id.infProvinsi);
-//        etKeterangan = findViewById(R.id.etketerangan);
 
     }
 
     private void fetchdata() {
         Log.d("TAG", "sda");
-
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String nik = sharedPreferences.getString("nik", "");
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponseBody> call = apiService.getsurat("s");
+        Call<ResponseBody> call = apiService.getinfouser(nik);
         call.enqueue(new Callback<ResponseBody>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -90,9 +87,7 @@ public class InformasiAkunActivity extends AppCompatActivity {
                                         dataObject.getInt("RW"),
                                         dataObject.getInt("kode_pos"),
                                         dataObject.getString("kelurahan"),
-                                        dataObject.getString("kecamatan"),
-                                        dataObject.getString("kabupaten"),
-                                        dataObject.getString("provinsi"));
+                                        dataObject.getString("kecamatan"));
 
                                 dataAkun.add(data);
                             }

@@ -30,12 +30,16 @@ public interface ApiService {
     Call<ResponseBody> getPengajuan(@Path("nik") String nik, @Path(value = "status", encoded = true) String status
 
     );
+
     @GET("list-pengajuan/{nik}/{status}")
     Call<ResponModel> getListPengajuan(@Path("nik") String nik, @Path("status") String status);
+
     @GET("getlistkk/{nokk}")
     Call<ResponseBody> getkk(@Path("nokk") String nokk);
+
     @GET("getlistsurat/{data}")
     Call<ResponseBody> getsurat(@Path("data") String data);
+
     // Login Request
     @POST("login")
     Call<ResponseBody> reqLogin(@Body UserLoginModel userLogin);
@@ -51,8 +55,8 @@ public interface ApiService {
     // Register Request
     @Multipart
     @POST("register")
-    Call<ResponseBody> reqRegister( @Part("data") RequestBody data,
-                                    @Part MultipartBody.Part images);
+    Call<ResponseBody> reqRegister(@Part("data") RequestBody data,
+                                   @Part MultipartBody.Part images);
 
 
     @GET("getberita/{data}")
@@ -71,9 +75,10 @@ public interface ApiService {
 
     @POST("pengajuanpembatalan")
     Call<ResponseBody> batalkanpengajuan(@Body String idpengajuan);
- @Multipart
+
+    @Multipart
     @POST("approval-pengajuan/{nik}/{id_pengajuan}")
-    Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan,@Part("status") RequestBody status,@Part("keterangan") RequestBody keteranganDitolak );
+    Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan, @Part("status") RequestBody status, @Part("keterangan") RequestBody keteranganDitolak);
 
     @FormUrlEncoded
     @POST("sendemail")
@@ -81,5 +86,8 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("reset-password")
-    Call<ResponseBody> reqResetpass(@Field("email") String email,@Field("token") String token,@Field("password") String password);
+    Call<ResponseBody> reqResetpass(@Field("email") String email, @Field("token") String token, @Field("password") String password);
+
+    @GET("get-user-info/{nik}")
+    Call<ResponseBody> getinfouser(@Path("nik") String nik);
 }
