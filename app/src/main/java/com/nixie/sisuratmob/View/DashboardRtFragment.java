@@ -206,9 +206,18 @@ public class DashboardRtFragment extends Fragment {
     }
 
     private void logoutUser() {
-        Toast.makeText(getActivity(), "Logout Berhasil", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("isLoggedIn");
+        editor.remove("nik");
+        editor.remove("role");
+        editor.remove("namalengkap");
+        editor.remove("nokk");
+        editor.remove("email");
+        editor.remove("no_hp");
+        editor.apply();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        getActivity().finish();
     }
 }

@@ -104,11 +104,9 @@ public class LoginActivity extends AppCompatActivity {
             if (hasError) {
                 return;
             }
-
             UserLoginModel loginModel = new UserLoginModel(nik, password,token);
             ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
             Call<ResponseBody> call = apiService.reqLogin(loginModel);
-
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -127,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("role", data.getString("role"));
                                     editor.putString("namalengkap", data.getString("nama_lengkap"));
                                     editor.putString("nokk", data.getString("no_kk"));
+                                    editor.putString("email", data.getString("email"));
+                                    editor.putString("no_hp", data.getString("no_hp"));
                                     editor.apply();
 
                                     if(data.getString("role").equals("masyarakat")){
@@ -169,8 +169,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         });
-
-
-
     }
 }

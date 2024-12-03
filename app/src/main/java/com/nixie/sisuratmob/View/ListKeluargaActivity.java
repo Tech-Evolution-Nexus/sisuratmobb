@@ -62,16 +62,11 @@ public class ListKeluargaActivity extends AppCompatActivity {
         dataList = new ArrayList<>();
         listKeluargaAdapter = new ListKkAdapter(getBaseContext(),dataList,idsurat);
         recyclerView.setAdapter(listKeluargaAdapter);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Fungsi yang dijalankan saat ikon navigasi diklik
-                onBackPressed(); // Misalnya kembali ke aktivitas sebelumnya
-            }
+        toolbar.setNavigationOnClickListener(v->{
+            onBackPressed();
         });
         SharedPreferences sharedPreferences = getBaseContext().getSharedPreferences("UserPrefs", getBaseContext().MODE_PRIVATE);
         String nokk = sharedPreferences.getString("nokk", "");
-        Log.d("TAG", nokk);
         fetchDataFromAPI(nokk);
     }
     private void fetchDataFromAPI(String nokk) {

@@ -27,8 +27,8 @@ import retrofit2.Response;
 
 public class ActivasiActivity extends AppCompatActivity {
 
-    private TextInputEditText textNik, textPassword, notelfon,textcPassword;
-    TextInputLayout ltxtnik,ltxtnohp, ltxtpass, lktxtpass;
+    private TextInputEditText textNik, textPassword, notelfon,textcPassword,textEmail;
+    private TextInputLayout ltxtnik,ltxtnohp, ltxtpass, lktxtpass,lemail;
     private Button buttonActivasi;
     private TextView masuklogin;
 
@@ -43,10 +43,14 @@ public class ActivasiActivity extends AppCompatActivity {
         textPassword = findViewById(R.id.activasi_password);
         textcPassword = findViewById(R.id.activasi_confirpasword);
         notelfon = findViewById(R.id.activasi_Nohp);
+        textEmail = findViewById(R.id.activasi_email);
+
         ltxtnik = findViewById(R.id.textactivasi1);
         ltxtnohp = findViewById(R.id.textactivasi2);
         ltxtpass = findViewById(R.id.textactivasi3);
         lktxtpass = findViewById(R.id.textactivasi4);
+        lemail = findViewById(R.id.textactivas62);
+
         buttonActivasi = findViewById(R.id.activasi_masuk);
 
 
@@ -65,11 +69,13 @@ public class ActivasiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String nik = textNik.getText().toString().trim();
+                String email = textEmail.getText().toString().trim();
                 String password = textPassword.getText().toString().trim();
                 String cpassword = textcPassword.getText().toString().trim();
                 String noTelpon = notelfon.getText().toString().trim();
                 boolean hasError = false;
                 StringBuilder nikErrors = new StringBuilder();
+                StringBuilder emailErrors = new StringBuilder();
                 StringBuilder nohpErrors = new StringBuilder();
                 StringBuilder passErrors = new StringBuilder();
                 StringBuilder kpasswordErrors = new StringBuilder();
@@ -77,6 +83,8 @@ public class ActivasiActivity extends AppCompatActivity {
                 ltxtnohp.setError(null);
                 ltxtpass.setError(null);
                 lktxtpass.setError(null);
+                lemail.setError(null);
+
                 if (nik.isEmpty()) {
                     nikErrors.append("NIK tidak boleh kosong.\n");
                     hasError = true;
@@ -88,6 +96,19 @@ public class ActivasiActivity extends AppCompatActivity {
                 if (nikErrors.length() > 0) {
                     ltxtnik.setError(nikErrors.toString().trim());
                     ltxtnik.setErrorIconDrawable(null);
+                }
+
+                if (email.isEmpty()) {
+                    emailErrors.append("Email tidak boleh kosong.\n");
+                    hasError = true;
+                }
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailErrors.append("Format email tidak valid.\n");
+                    hasError = true;
+                }
+                if (emailErrors.length() > 0) {
+                    lemail.setError(emailErrors.toString().trim());
+                    lemail.setErrorIconDrawable(null);
                 }
                 if (noTelpon.isEmpty()) {
                     nohpErrors.append("No Telpon tidak boleh kosong.\n");
@@ -142,7 +163,7 @@ public class ActivasiActivity extends AppCompatActivity {
                     textcPassword.setError("Password Tidak sama");
                     return;
                 }
-               AktivasiModel userAktivasi = new AktivasiModel(nik, password, noTelpon);
+               AktivasiModel userAktivasi = new AktivasiModel(nik,email, password, noTelpon);
                 ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
                 Call<ResponseBody> call = apiService.reqAktivasi(userAktivasi);
 

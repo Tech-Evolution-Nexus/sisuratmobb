@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-
-    <uses-permission android:name="android.permission.CAMERA"
+    <uses-permission
+        android:name="android.permission.CAMERA"
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
+
+    <queries>
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,16 +28,22 @@
         android:theme="@style/Theme.Sisuratmob"
         tools:targetApi="31">
         <activity
+            android:name=".View.DibatalkanActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.ResetPaswordActivity"
             android:exported="true"
             tools:ignore="AppLinkUrlError">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http"
+
+                <data
                     android:host="192.168.100.205"
-                    android:pathPrefix="/SISURAT/api/reset-password" />
+                    android:pathPrefix="/SISURAT/api/reset-password"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
@@ -48,17 +60,14 @@
             android:exported="false" />
         <activity
             android:name=".View.FormPengajuanActivity"
-            android:exported="true" />
-        <activity
-            android:name=".View.DashboardRwActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".View.DashboardRtActivity"
             android:exported="true"
             android:theme="@style/Theme.Sisuratmob" />
         <activity
             android:name=".View.ListKeluargaActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".View.ForgotPasswordActivity"
             android:exported="false" />
@@ -73,25 +82,36 @@
             android:exported="false" />
         <activity
             android:name=".View.DashboardActivity"
-            android:exported="true"
+            android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".View.ActivasiActivity"
             android:exported="false" />
         <activity
             android:name=".View.LoginActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".View.ListJenisSuratActivity"
-            android:exported="true" />
+            android:exported="false" />
+        <activity
+            android:name=".View.UbahPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.UbahNoTeleponActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.UbahEmailActivity"
+            android:exported="false" />
         <activity
             android:name=".View.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".Helpers.MyFirebaseMessagingService"
             android:exported="true">
@@ -99,6 +119,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

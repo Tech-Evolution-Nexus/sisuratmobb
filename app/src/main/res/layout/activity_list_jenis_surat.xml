@@ -42,8 +42,8 @@
             android:fontFamily="sans-serif"
             android:inputType="text"
             android:padding="10dp"
-            android:text="Cari.."
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:hint="Cari.."/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView

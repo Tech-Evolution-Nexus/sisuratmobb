@@ -2,7 +2,7 @@ package com.nixie.sisuratmob.Helpers;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 public class Helpers {
-    public  static final String BASE_URL = "http://192.168.103.95/SISURAT/";
+    public  static final String BASE_URL = "http://192.168.100.205/SISURAT/";
     public static String formatTanggal(String tanggalAsli) {
     try {
         // Format tanggal asli (dari database)

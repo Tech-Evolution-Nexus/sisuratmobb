@@ -133,7 +133,6 @@ public class SelesaiFragment extends Fragment {
                                         dataObject.getString("nama_surat"),
                                         dataObject.getString("image")
                                 );
-
                                 riwayatSuratList.add(listkk);
                                 statusPengajuanAdapter.notifyDataSetChanged();
                             }

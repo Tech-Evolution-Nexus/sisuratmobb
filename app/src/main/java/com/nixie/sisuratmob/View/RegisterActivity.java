@@ -75,8 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register); // Pastikan layout ini benar
-        imageViewLampiran = findViewById(R.id.imageViewLampiran);
-        buttonPilihFile = findViewById(R.id.button_pilih_file);
+        imageViewLampiran = findViewById(R.id.imageViewLampiranregis);
+        buttonPilihFile = findViewById(R.id.button_pilih_file_regis);
 
         // Listener pada tombol pilih file
         buttonPilihFile.setOnClickListener(v -> showImagePickerDialog());

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +12,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.RiwayatSurat;
 import com.nixie.sisuratmob.R;
-import com.nixie.sisuratmob.komponen.DataPopup;
 import com.nixie.sisuratmob.komponen.DataPopup2;
 
 import java.util.List;
 
-public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuanAdapter.StatusPengajuanViewHolder>{
+public class SuratbatalkAdapter extends RecyclerView.Adapter<SuratbatalkAdapter.StatusPengajuanViewHolder>{
     private List<RiwayatSurat> listRiwayat;
     private Context context;
-    private Fragment fragment;
-
-    public StatusPengajuanAdapter(Context context, List<RiwayatSurat> listRiwayat, Fragment fragment) {
+    private final FragmentActivity activity;
+    public SuratbatalkAdapter(Context context, List<RiwayatSurat> listRiwayat,FragmentActivity activity) {
         this.context = context;
         this.listRiwayat = listRiwayat;
-        this.fragment = fragment;
+        this.activity = activity;
     }
 
     @NonNull
@@ -101,11 +99,11 @@ public class StatusPengajuanAdapter extends RecyclerView.Adapter<StatusPengajuan
             bundle.putString("nik", riwayatSurat.getNik());
             bundle.putString("keterangan", riwayatSurat.getKeterangan());
             bundle.putInt("idpengajuan", riwayatSurat.getId());
-
-
-
             biodataDialog.setArguments(bundle);
-            biodataDialog.show(fragment.getChildFragmentManager(), "BiodataDialog");
+            biodataDialog.show(activity.getSupportFragmentManager(), "BiodataDialog");
+//
+//            biodataDialog.setArguments(bundle);
+//            biodataDialog.show(fragment.getChildFragmentManager(), "BiodataDialog");
             });
     }
 

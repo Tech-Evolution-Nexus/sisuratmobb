@@ -14,6 +14,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -49,7 +52,11 @@ public class InformasiAkunActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_informasi_akun);
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
         infimgKk = findViewById(R.id.infimgKk);
         infNoKk = findViewById(R.id.infNoKk);
 
@@ -58,15 +65,14 @@ public class InformasiAkunActivity extends AppCompatActivity {
         infAlamat = findViewById(R.id.infAlamat);
         infRT = findViewById(R.id.infRT);
         infRW = findViewById(R.id.infRW);
+        infKecamatan = findViewById(R.id.infKecamatan);
         infKelurahan = findViewById(R.id.infKelurahan);
         fetchdata();
     }
 
     private void fetchdata() {
-
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String nik = sharedPreferences.getString("nik", "");
-        Log.d("TAGTEAM", nik);
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getinfouser(nik);
         call.enqueue(new Callback<ResponseBody>() {
@@ -92,7 +98,7 @@ public class InformasiAkunActivity extends AppCompatActivity {
                             infKelurahan.setText(dataObject.getString("kelurahan"));
                             infKecamatan.setText(dataObject.getString("kecamatan"));
                             Glide.with(getBaseContext())
-                                    .load(Helpers.BASE_URL + "admin/assetsmasyarakat/" + dataObject.getString("Kk_file"))
+                                    .load(Helpers.BASE_URL + "admin/assets-kartu-keluarga/" + dataObject.getString("kk_file"))
                                     .into(infimgKk);
 
                         } else {

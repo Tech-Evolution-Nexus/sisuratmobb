@@ -111,4 +111,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("ganti-password")
     Call<ResponseBody> reqgantiPassword(@Field("nik") String nik, @Field("password") String password, @Field("new_pass") String new_pass);
+    @FormUrlEncoded
+    @POST("ubah-email")
+    Call<ResponseBody> reqUbahEmail(@Field("nik") String nik, @Field("emailbaru") String emailbaru, @Field("emaillama") String emaillama);
+    @FormUrlEncoded
+    @POST("ubah-nohp")
+    Call<ResponseBody> reqUbahNohp(@Field("nik") String nik, @Field("nohplama") String nohplama, @Field("nohpbaru") String nohpbaru);
 }

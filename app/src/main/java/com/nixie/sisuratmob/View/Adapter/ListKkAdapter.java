@@ -44,13 +44,19 @@ import java.util.List;
             ListKkModel data = dataList.get(position);
             holder.nikTextView.setText(data.getNik());
             holder.namaTextView.setText(data.getNama_lengkap());
-            holder.itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, FormPengajuanActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Replace with your desired activity
-                intent.putExtra("id_surat", datasurat);
-                intent.putExtra("nik", data.getNik());
-                context.startActivity(intent);
-            });
+            if(datasurat!=null) {
+                holder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, FormPengajuanActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// Replace with your desired activity
+                    intent.putExtra("id_surat", datasurat);
+                    intent.putExtra("nik", data.getNik());
+                    context.startActivity(intent);
+                });
+            }
+
+
+
+
         }
 
         @Override

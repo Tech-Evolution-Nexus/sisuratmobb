@@ -44,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DasboardFragment extends Fragment {
+public class    DasboardFragment extends Fragment {
     private ConstraintLayout Berita, Surat;
     private RecyclerView recyclerViewBerita, recyclerViewsurdash;
     private BeritaAdapter beritaAdapter;
@@ -55,8 +55,6 @@ public class DasboardFragment extends Fragment {
     private List<Surat>  dataListsearch = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private MaterialAutoCompleteTextView etSearch;
-    private static final String PREF_NAME = "userPrefs";
-    private static final String KEY_USER_NAME = "userName";
     private TextView txt5;
 
 
@@ -70,9 +68,9 @@ public class DasboardFragment extends Fragment {
         recyclerViewsurdash = view.findViewById(R.id.recjsurdash);
         etSearch = view.findViewById(R.id.carijsurdash);
         txt5 = view.findViewById(R.id.textView5);
-        sharedPreferences = getActivity().getSharedPreferences(PREF_NAME, getActivity().MODE_PRIVATE);
-
-        txt5.setText("Hallo ");
+        sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getActivity().MODE_PRIVATE);
+        String nama = sharedPreferences.getString("namalengkap", "");
+        txt5.setText("Hallo "+nama);
 
         recyclerViewBerita.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewsurdash.setLayoutManager(new GridLayoutManager(getContext(), 2));
