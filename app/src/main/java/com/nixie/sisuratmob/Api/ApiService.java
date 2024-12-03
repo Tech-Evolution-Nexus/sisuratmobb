@@ -80,10 +80,6 @@ public interface ApiService {
     @POST("approval-pengajuan/{nik}/{id_pengajuan}")
     Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan, @Part("status") RequestBody status, @Part("keterangan") RequestBody keteranganDitolak);
 
-    @Multipart
-    @POST("approval-pengajuan/{nik}/{id_pengajuan}")
-    Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan, @Part("status") RequestBody status, @Part("keterangan") RequestBody keteranganDitolak);
-
     @FormUrlEncoded
     @POST("sendemail")
     Call<ResponseBody> reqSendEmail(@Field("email") String email);
