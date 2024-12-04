@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,11 +23,13 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.Berita;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.Surat;
@@ -74,51 +77,39 @@ public class DashboardRtFragment extends Fragment {
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showOptionsDialog();
+                showOptionsDialog(v);
             }
         });
         fetchdata();
         return view;
     }
 
-    private void showOptionsDialog() {
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.options_dialog);
-        dialog.setCancelable(true);
 
-        Button aboutAppButton = dialog.findViewById(R.id.aboutAppButton);
-        Button logoutButton = dialog.findViewById(R.id.logoutButton);
+    private void showOptionsDialog(View anchorView) {
+         PopupMenu popupMenu = new PopupMenu(getActivity(), anchorView);
 
-        aboutAppButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+    // Memasukkan menu dari XML ke PopupMenu
+    popupMenu.getMenuInflater().inflate(R.menu.top_menu, popupMenu.getMenu());
+
+    // Menangani klik item menu
+    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            if(item.getItemId() == R.id.aboutAppButton){
                 showAboutApp();
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+                return true;
+            }else if(R.id.logoutButton == item.getItemId()){
                 logoutUser();
+                return true;
             }
-        });
 
+                return false;
 
-        Window window = dialog.getWindow();
-        if (window != null) {
-            // Mengatur posisi dialog di kanan atas
-            window.setGravity(Gravity.TOP | Gravity.RIGHT);
-
-            // Mengatur margin atau jarak dari tepi
-            WindowManager.LayoutParams layoutParams = window.getAttributes();
-            layoutParams.x = 30; // Jarak dari kanan (untuk memberi jarak dengan ikon)
-            layoutParams.y = 40; // Jarak dari atas (ubah sesuai keinginan)
-            window.setAttributes(layoutParams);
         }
+    });
 
-        dialog.show();
+    // Tampilkan menu
+    popupMenu.show();
     }
     private void fetchdata() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
@@ -172,7 +163,7 @@ public class DashboardRtFragment extends Fragment {
                                     dataObject.getString("sub_judul"),
                                     dataObject.getString("deskripsi"),
                                     dataObject.getString("gambar"),
-                                    dataObject.getString("created_at"));
+                                    Helpers.formatTanggal(dataObject.getString("created_at")));
                             dberitaList.add(berita);
                             beritaAdapter.notifyDataSetChanged();
                         }

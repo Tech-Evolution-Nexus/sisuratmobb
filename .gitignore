@@ -14,3 +14,39 @@
 .cxx
 local.properties
 google-services.json
+# Gradle files
+.gradle/
+build/
+*/build/
+
+# Local configuration file (e.g. Android Studio, etc.)
+local.properties
+
+# User-specific files
+.idea/
+*.iml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Log files
+*.log
+
+# Android Studio specific files
+/.idea/workspace.xml
+/.idea/tasks.xml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# APK files
+*.apk
+*.aab
+
+# IntelliJ IDEA project files
+*.iml
+
+# Gradle wrapper jar
+gradle-wrapper.jar

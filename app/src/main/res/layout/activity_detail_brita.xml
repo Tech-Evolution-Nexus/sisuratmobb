@@ -64,6 +64,7 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="18dp"
+                android:maxHeight="261dp"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <WebView
