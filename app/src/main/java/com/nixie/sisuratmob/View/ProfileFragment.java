@@ -3,6 +3,7 @@ package com.nixie.sisuratmob.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nixie.sisuratmob.R;
 
@@ -64,8 +67,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        TextView nik = view.findViewById(R.id.textnikf);
+        TextView nama = view.findViewById(R.id.txt_namaprofilef);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getActivity().MODE_PRIVATE);
+        String namalengkap = sharedPreferences.getString("namalengkap", "");
+        String niks = sharedPreferences.getString("nik", "");
+        nik.setText(niks);
+        nama.setText(namalengkap);
         view.findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,11 +82,15 @@ public class ProfileFragment extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove("isLoggedIn");
                 editor.remove("nik");
-                editor.remove("nokk");
                 editor.remove("role");
+                editor.remove("namalengkap");
+                editor.remove("nokk");
+                editor.remove("email");
+                editor.remove("no_hp");
                 editor.apply();
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -85,6 +98,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
+                startActivity(intent);
+            }
+        });
+        view.findViewById(R.id.iubahemal).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UbahEmailActivity.class);
                 startActivity(intent);
             }
         });
@@ -108,7 +128,7 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.DaftarKeluarga).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
+                Intent intent = new Intent(getActivity(), ListKeluargaActivity.class);
                 startActivity(intent);
             }
         });
@@ -116,15 +136,25 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.KelurahanBadean).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
-                startActivity(intent);
+                double latitude = -7.9181419;
+                double longitude = 113.8151781;  // Ganti dengan longitude yang diinginkan
+                String label = "KANTOR KELURAHAN BADEAN";  // Ganti dengan nama lokasi yang diinginkan
+                
+                String geoUri = "geo:0,0?q=" + latitude + "," + longitude + "(" + label + ")";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+
+                if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Google Maps tidak ditemukan!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         view.findViewById(R.id.SuratDibatalkan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), InformasiAkunActivity.class);
+                Intent intent = new Intent(getActivity(), DibatalkanActivity.class);
                 startActivity(intent);
             }
         });

@@ -78,12 +78,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             selectedFragment = new AboutFragment();
         } else if (item.getItemId() == R.id.nav_logout) {
             SharedPreferences sharedPreferences = DashboardActivity.this.getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("isLoggedIn");
-                editor.remove("nik");
-                editor.remove("nokk");
-                editor.remove("role");
-                editor.apply();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("isLoggedIn");
+            editor.remove("nik");
+            editor.remove("nokk");
+            editor.remove("role");
+            editor.apply();
             Intent intent = new Intent(DashboardActivity.this,LoginActivity.class);
             startActivity(intent);
             Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();

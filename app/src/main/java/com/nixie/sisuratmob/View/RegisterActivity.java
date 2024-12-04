@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -63,20 +64,22 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText EditNamaibu, EditNokk, EditAlamat, EditRt, EditRw, EditKodepos, EditKelurahan;
     private TextInputEditText EditKecamatan, EditKabupaten, EditProvinsi, EditKkTanggal;
     private Spinner selectagama, selectpendidikan, selectperkawinan, selectstatuskeluarga;
+    private TextView errortxtimg;
     private RadioGroup registrasi_jenis_kelamin, registrasi_kewarganegaraan;
     private Button btn_register;
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int CAMERA_REQUEST = 2;
+    private static final int CAMERA_REQUEST = 100;
     MultipartBody.Part imagePart;
     private ImageView imageViewLampiran;
     private ConstraintLayout buttonPilihFile;
     private Uri imageUri;
+    private File photoFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register); // Pastikan layout ini benar
-        imageViewLampiran = findViewById(R.id.imageViewLampiran);
-        buttonPilihFile = findViewById(R.id.button_pilih_file);
+        imageViewLampiran = findViewById(R.id.imageViewLampiranregis);
+        buttonPilihFile = findViewById(R.id.button_pilih_file_regis);
 
         // Listener pada tombol pilih file
         buttonPilihFile.setOnClickListener(v -> showImagePickerDialog());
@@ -138,7 +141,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String provinsi = EditProvinsi.getText().toString().trim();
                 String kkTanggal = EditKkTanggal.getText().toString().trim();
                 String email = EditEmail.getText().toString().trim();
-//                validateFields();
+                errortxtimg.setVisibility(View.GONE);
+                validateFields();
 
                 if (imageUri != null) {
                     String filePath = getRealPathFromURI(imageUri);
@@ -188,6 +192,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                }else{
+                    errortxtimg.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -223,6 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditKkTanggal = findViewById(R.id.registrasi_kk_tgl);
         btn_register = findViewById(R.id.registrasi_button);
         EditEmail = findViewById(R.id.registrasi_email);
+        errortxtimg = findViewById(R.id.errortxtimg2);
         EditNik.setText(getIntent().getStringExtra("nik"));
     }
 
@@ -283,26 +290,22 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void captureImageWithCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
             try {
-                File photoFile = createImageFile();
-                imageUri = FileProvider.getUriForFile(
-                        this,
-                        getApplicationContext().getPackageName() + ".fileprovider",
-                        photoFile
-                );
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(intent, CAMERA_REQUEST);
+                photoFile = File.createTempFile("IMG_", ".jpg", getExternalFilesDir(null));
+                Uri photoURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".fileprovider", photoFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             } catch (IOException e) {
-                Toast.makeText(this, "Gagal membuat file gambar", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         }
     }
 
     private File createImageFile() throws IOException {
         String fileName = "IMG_" + System.currentTimeMillis();
-        File storageDir = getCacheDir();
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(fileName, ".jpg", storageDir);
     }
 
@@ -314,8 +317,9 @@ public class RegisterActivity extends AppCompatActivity {
             if (requestCode == PICK_IMAGE_REQUEST && data != null && data.getData() != null) {
                 Uri selectedImageUri = data.getData();
                 processImage(selectedImageUri);
-            } else if (requestCode == CAMERA_REQUEST && imageUri != null) {
-                processImage(imageUri);
+            } else if (requestCode == CAMERA_REQUEST && photoFile != null) {
+                Uri cameraUri = Uri.fromFile(photoFile);
+                processImage(cameraUri);
             }
         }
     }
@@ -323,9 +327,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void processImage(Uri imageUri) {
         try (InputStream inputStream = getContentResolver().openInputStream(imageUri)) {
             this.imageUri = imageUri;
-
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            bitmap = handleImageRotation(bitmap, imageUri); // Atur rotasi
+            bitmap = handleImageRotation(bitmap, imageUri);
             imageViewLampiran.setImageBitmap(bitmap);
             imageViewLampiran.setVisibility(ImageView.VISIBLE);
         } catch (IOException e) {

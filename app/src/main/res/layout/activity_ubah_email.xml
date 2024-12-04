@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".View.FormPengajuanActivity">
+    tools:context=".View.UbahEmailActivity">
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -26,7 +27,7 @@
             android:theme="?attr/actionBarTheme"
             app:layout_collapseMode="pin"
             app:navigationIcon="@drawable/ic_lanjutkiri"
-            app:title="Ubah No Telepon" />
+            app:title="Ubah Email" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -45,21 +46,20 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtinputuvahtlp"
+                android:id="@+id/txtinputubuahemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="Ubah Nomor Telepon">
+                android:hint="Ubah Email">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtubahNoHP"
+                    android:id="@+id/txtubahEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="13"/>
+                    android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -71,7 +71,7 @@
                 app:cardCornerRadius="8dp">
 
                 <Button
-                    android:id="@+id/btn_ubahnoHP"
+                    android:id="@+id/btn_ubahemail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#052158"
@@ -86,5 +86,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

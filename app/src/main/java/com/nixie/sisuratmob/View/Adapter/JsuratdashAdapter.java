@@ -53,17 +53,17 @@ public class JsuratdashAdapter extends RecyclerView.Adapter<JsuratdashAdapter.Da
             // Even index: MarginRight = 8dp, MarginLeft = 4dp
             layoutParams.setMargins(
                     dpToPx(context, 4),  // Left margin
-                    8,                   // Top margin
+                    12,                   // Top margin
                     dpToPx(context, 8),  // Right margin
-                    8                    // Bottom margin
+                    12                    // Bottom margin
             );
         } else {
             // Odd index: MarginLeft = 8dp, MarginRight = 4dp
             layoutParams.setMargins(
                     dpToPx(context, 8),  // Left margin
-                    8,                   // Top margin
+                    12,                   // Top margin
                     dpToPx(context, 4),  // Right margin
-                    8                    // Bottom margin
+                    12                    // Bottom margin
             );
         }
         Glide.with(context)

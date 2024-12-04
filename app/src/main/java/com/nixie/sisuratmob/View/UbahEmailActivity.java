@@ -2,10 +2,12 @@ package com.nixie.sisuratmob.View;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.Button;
+
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,43 +28,45 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UbahNoTeleponActivity extends AppCompatActivity {
-    private TextInputEditText ubah;
-    private TextInputLayout txtInputUbahNoHP;
-    private Button btnubahnoHP;
+public class UbahEmailActivity extends AppCompatActivity {
+
+
+    private TextInputEditText txtubahemail;
+    private TextInputLayout txtinputubahemail;
+    private Button btnubahemail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_ubah_no_telepon);
+        setContentView(R.layout.activity_ubah_email);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String nohp = sharedPreferences.getString("no_hp", "");
-        String nik = sharedPreferences.getString("nik", "");
+        txtubahemail = findViewById(R.id.txtubahEmail);
+        txtinputubahemail = findViewById(R.id.txtinputubuahemail);
+        btnubahemail = findViewById(R.id.btn_ubahemail);
 
-        ubah = findViewById(R.id.txtubahNoHP);
-        txtInputUbahNoHP = findViewById(R.id.txtinputuvahtlp);
-        btnubahnoHP = findViewById(R.id.btn_ubahnoHP);
-        ubah.setText(nohp);
-        btnubahnoHP.setOnClickListener(v->{
-            String nohpbaru = ubah.getText().toString();
-            if (nohpbaru.isEmpty()) {
-                txtInputUbahNoHP.setError("Nomor HP tidak boleh kosong");
-                txtInputUbahNoHP.setErrorIconDrawable(null);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        String nik = sharedPreferences.getString("nik", "");
+        txtubahemail.setText(email);
+        btnubahemail.setOnClickListener(v->{
+            String emailbaru = txtubahemail.getText().toString();
+            if (emailbaru.isEmpty()) {
+                txtinputubahemail.setError("Email Tidak Boleh Kosong");
+                txtinputubahemail.setErrorIconDrawable(null);
                 return;
-            } else if (!nohpbaru.matches("^08\\d{8,11}$")) {
-                txtInputUbahNoHP.setError("Format nomor HP tidak valid (harus dimulai dengan 08 dan 10-13 digit)");
-                txtInputUbahNoHP.setErrorIconDrawable(null);
+            }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailbaru).matches()) {
+                txtinputubahemail.setError("Format email tidak valid");
+                txtinputubahemail.setErrorIconDrawable(null);
                 return;
             } else {
-                txtInputUbahNoHP.setError(null);  // Hapus error jika valid
+                txtinputubahemail.setError(null); // Menghapus pesan kesalahan jika valid
             }
             ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-            Call<ResponseBody> call = apiService.reqUbahNohp(nik,nohp,nohpbaru);
+            Call<ResponseBody> call = apiService.reqUbahEmail(nik,emailbaru,email);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -75,8 +79,8 @@ public class UbahNoTeleponActivity extends AppCompatActivity {
                             if(st){
                                 JSONObject dataObject = jsonObject.getJSONObject("data");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.remove("no_hp");
-                                editor.putString("no_hp", dataObject.getString("no_hp"));
+                                editor.remove("email");
+                                editor.putString("email", dataObject.getString("email"));
                                 editor.apply();
                                 finish();
                             }
@@ -95,6 +99,8 @@ public class UbahNoTeleponActivity extends AppCompatActivity {
                 }
             });
 
+
         });
     }
+
 }
