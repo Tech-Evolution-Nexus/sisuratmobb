@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.Berita;
 import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.Models.Surat;
@@ -162,7 +163,7 @@ public class DashboardRtFragment extends Fragment {
                                     dataObject.getString("sub_judul"),
                                     dataObject.getString("deskripsi"),
                                     dataObject.getString("gambar"),
-                                    dataObject.getString("created_at"));
+                                    Helpers.formatTanggal(dataObject.getString("created_at")));
                             dberitaList.add(berita);
                             beritaAdapter.notifyDataSetChanged();
                         }
