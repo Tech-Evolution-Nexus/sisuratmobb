@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +65,7 @@ public class    DasboardFragment extends Fragment {
         recyclerViewBerita = view.findViewById(R.id.recyclerViewBerita);
         recyclerViewsurdash = view.findViewById(R.id.recjsurdash);
         etSearch = view.findViewById(R.id.carijsurdash);
-        txt5 = view.findViewById(R.id.textView5);
+        txt5 = view.findViewById(R.id.textnamedashrt);
         sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getActivity().MODE_PRIVATE);
         String nama = sharedPreferences.getString("namalengkap", "");
         txt5.setText("Hallo "+nama);

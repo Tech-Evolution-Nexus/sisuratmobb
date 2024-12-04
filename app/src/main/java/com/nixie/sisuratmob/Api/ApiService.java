@@ -78,7 +78,7 @@ public interface ApiService {
 
     @Multipart
     @POST("approval-pengajuan/{nik}/{id_pengajuan}")
-    Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan, @Part("status") RequestBody status, @Part("keterangan") RequestBody keteranganDitolak);
+    Call<ResponseBody> approvalPengajuan(@Path("nik") String nik, @Path("id_pengajuan") int id_pengajuan, @Part("status") RequestBody status, @Part("keterangan") RequestBody keteranganDitolak, @Part("nopegantarrt") RequestBody nopegantarrt);
 
     @FormUrlEncoded
     @POST("sendemail")

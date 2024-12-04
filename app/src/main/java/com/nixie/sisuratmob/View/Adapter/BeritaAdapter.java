@@ -41,7 +41,7 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
     public void onBindViewHolder(@NonNull BeritaViewHolder holder, int position) {
         Berita berita = beritaList.get(position);
         holder.judulTextView.setText(berita.getJudul());
-        holder.tglTextView.setText(berita.getCreated_at());
+        holder.tglTextView.setText(Helpers.formatTanggalnoday(berita.getCreated_at()));
 //        holder.gambarImageView.setImageResource(berita.getGambarUrl());
                 Glide.with(context)
                 .load(Helpers.BASE_URL+"admin/assetsberita/"+berita.getGambar())

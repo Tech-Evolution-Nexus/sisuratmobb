@@ -74,7 +74,7 @@ public class DetailBritaActivity extends AppCompatActivity {
                         String msg = jsonObject.getString("message");
                         if(st){
                             title.setText(dataArray.getString("judul"));
-                            tgl.setText(dataArray.getString("created_at"));
+                            tgl.setText(Helpers.formatTanggalalltime(dataArray.getString("created_at")));
                             des.loadData(dataArray.getString("deskripsi"), "text/html", "UTF-8");
 //                            des.setText();
 

@@ -141,6 +141,7 @@ public class VerifikasiMasyarakatFragment extends Fragment {
         });
     }
     public void refreshFragment() {
+        dataList.clear();
         fetchDataFromAPI();
     }
 }

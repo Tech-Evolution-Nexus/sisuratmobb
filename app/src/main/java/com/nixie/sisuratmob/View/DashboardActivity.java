@@ -20,7 +20,7 @@ import com.nixie.sisuratmob.R;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawerLayout;
+//    private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
 
 
@@ -31,19 +31,19 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.navi_view);  // NavigationView untuk drawer
+//        drawerLayout = findViewById(R.id.drawer_layout);
+//        NavigationView navigationView = findViewById(R.id.navi_view);  // NavigationView untuk drawer
         bottomNavigationView = findViewById(R.id.btm_view);  // BottomNavigationView untuk navigasi bawah
 
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
 
         if (savedInstanceState == null) {
             loadFragment(new DasboardFragment()); // Memuat DashboardFragment sebagai default
-            navigationView.setCheckedItem(R.id.nav_home);
+//            navigationView.setCheckedItem(R.id.nav_home);
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -93,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             loadFragment(selectedFragment);
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+//        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -103,12 +103,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         transaction.commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 }

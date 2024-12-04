@@ -195,7 +195,7 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
                             Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
 //                            Intent i = new Intent(FormPengajuanActivity.this, DashboardActivity.class);
 //                            startActivity(i);
-//                            finish();
+                            finish();
                         } else {
                             Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }

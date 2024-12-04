@@ -107,6 +107,7 @@ public class ApprovalFragment extends Fragment {
 
 
     public void refresh() {
+        pengajuanSuratList.clear();
         fetchData();
     }
 }
