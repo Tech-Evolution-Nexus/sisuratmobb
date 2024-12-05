@@ -1,5 +1,6 @@
 package com.nixie.sisuratmob.View;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -107,6 +108,7 @@ public class DiajukanFragment extends Fragment {
         Call<ResponseBody> call = apiService.getPengajuan(nik, status);
         String jsonResponse = ""; // Replace with API response
         call.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -138,8 +140,9 @@ public class DiajukanFragment extends Fragment {
                                 riwayatSuratList.add(listkk);
                                 statusPengajuanAdapter.notifyDataSetChanged();
                             }
+
                         }else{
-//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException | IOException e) {
@@ -164,9 +167,9 @@ public class DiajukanFragment extends Fragment {
         });
     }
     public void refreshFragment() {
+        riwayatSuratList.clear();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
         String nik = sharedPreferences.getString("nik", "");
-        riwayatSuratList.clear();
         fetchData(nik,"pending");
     }
 }

@@ -53,7 +53,7 @@ public class DashboardRtFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private BeritaAdapter beritaAdapter;
-    private TextView suratMasuk,suratSelesai;
+    private TextView suratMasuk,suratSelesai,textBerita,textdashrt;
     private ImageView icon;
     private List<Berita> dberitaList = new ArrayList<>();
     public DashboardRtFragment() {
@@ -73,11 +73,23 @@ public class DashboardRtFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         suratMasuk = view.findViewById(R.id.suratMasuk);
         suratSelesai = view.findViewById(R.id.suratSelesai);
+        textBerita = view.findViewById(R.id.textBerita);
+        textdashrt = view.findViewById(R.id.textnamedashrt);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        textdashrt.setText("Hallo"+sharedPreferences.getString("nama_lengkap",""));
+
         icon = view.findViewById(R.id.iconn);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showOptionsDialog(v);
+            }
+        });
+        textBerita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inten = new Intent(getActivity(), BritaallActivity.class);
+                startActivity(inten);
             }
         });
         fetchdata();
@@ -113,7 +125,6 @@ public class DashboardRtFragment extends Fragment {
     }
     private void fetchdata() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getDash(sharedPreferences.getString("nik",""));
         call.enqueue(new Callback<ResponseBody>() {

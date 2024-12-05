@@ -91,9 +91,9 @@ public class DataPopup3 extends DialogFragment {
                                 boolean status = jsonObject.getBoolean("status");
                                 if(status){
                                     if (getParentFragment() != null) {
+                                        dismiss();
                                         ((VerifikasiMasyarakatFragment) getParentFragment()).refreshFragment();
                                     }
-                                    dismiss();
                                 }else{
                                     Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 }

@@ -11,4 +11,8 @@
     <item android:id="@+id/menuverifmas"
         android:icon="@drawable/ic_rekap"
         android:title="Verifikasi"/>
+    <item android:id="@+id/menuprofile"
+        android:icon="@drawable/ic_rekap"
+        android:title="Profile"/>
+
 </menu>

@@ -98,8 +98,6 @@ public class DataPopup2 extends DialogFragment {
             dateText.setText(date);
             detKeterangan.setText(ket);
             dbatalView.setOnClickListener(v -> {
-
-                Log.d("TAG", String.valueOf(ipengajuan));
                 ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
                 Call<ResponseBody> call = apiService.batalkanpengajuan(String.valueOf(ipengajuan));
                 call.enqueue(new Callback<ResponseBody>() {
@@ -113,17 +111,15 @@ public class DataPopup2 extends DialogFragment {
                                 boolean status = jsonObject.getBoolean("status");
                                 if (status) {
                                     if (getParentFragment() != null) {
+                                        dismiss();
                                         ((DiajukanFragment) getParentFragment()).refreshFragment();
                                     }
-                                    dismiss();
                                 } else {
                                     Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
                             } catch (IOException | JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.d("API Response", responseBody);
-
                         } else {
                             // Menangani error dari respons
                             Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();

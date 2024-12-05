@@ -32,6 +32,7 @@ import com.nixie.sisuratmob.Models.ResponModel;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.Adapter.FieldValueAddapter;
 import com.nixie.sisuratmob.View.Adapter.PopupAdapter;
+import com.nixie.sisuratmob.View.DiajukanFragment;
 import com.nixie.sisuratmob.View.PengajuanSurat.ApprovalFragment;
 
 import org.json.JSONArray;
@@ -102,8 +103,6 @@ public class DataPopup extends DialogFragment {
             String role = sharedPreferences.getString("role", "");
             String snik = sharedPreferences.getString("nik", "");
             if ("pending".equals(status)) {
-
-
                 if(role.equals("rt")){
                     dbatalView.setVisibility(View.VISIBLE);
                     ((TextInputLayout) view.findViewById(R.id.keterangan_ditolak_wrapper)).setVisibility(View.VISIBLE);
@@ -113,6 +112,7 @@ public class DataPopup extends DialogFragment {
                 btn_terima.setVisibility(View.VISIBLE);
                 txtnopegantar.setVisibility(View.VISIBLE);
             } else {
+                txtpengantar.setEnabled(false);
                 keterangan_ditolak_txt.setVisibility(View.VISIBLE);
                 keterangan_ditolak_label.setVisibility(View.VISIBLE);
             }
@@ -126,7 +126,7 @@ public class DataPopup extends DialogFragment {
             dateText.setText(Helpers.formatTanggal(date));
             dbatalView.setOnClickListener(v -> {
                 String keteranganDitolak = ((TextInputEditText) view.findViewById(R.id.keterangan_ditolak)).getText().toString();
-                approvalPengajuan(snik, ipengajuan, "ditolak", keteranganDitolak);
+                approvalPengajuan(snik, ipengajuan, "ditolak", keteranganDitolak,null);
             });
             btn_terima.setOnClickListener(v -> {
                 String nopengantar = txtpengantar.getText().toString();
@@ -134,9 +134,7 @@ public class DataPopup extends DialogFragment {
                     txtnopegantar.setError("No Pengantar Wajib Diisi");
                     return;
                 }
-                Log.d("TAG", snik);
-
-                approvalPengajuan(snik, ipengajuan, "diterima", null);
+                approvalPengajuan(snik, ipengajuan, "diterima", null,nopengantar);
             });
             dcetakView.setOnClickListener(v -> {
                 String url = Helpers.BASE_URL+"api/surat-selesai/export/" + ipengajuan;
@@ -147,11 +145,12 @@ public class DataPopup extends DialogFragment {
     }
 
 
-    private void approvalPengajuan(String nik, int ipengajuan, String status, String keteranganDitolak) {
+    private void approvalPengajuan(String nik, int ipengajuan, String status, String keteranganDitolak,String nopengantar) {
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         RequestBody statusApproval = RequestBody.create(MediaType.parse("text/plain"), status);
         RequestBody keteranganDitolakApproval = RequestBody.create(MediaType.parse("text/plain"),  keteranganDitolak != null ? keteranganDitolak : "");
-        Call<ResponseBody> call = apiService.approvalPengajuan(nik, ipengajuan, statusApproval, keteranganDitolakApproval);
+        RequestBody nopengantarApproval = RequestBody.create(MediaType.parse("text/plain"),  nopengantar != null ? nopengantar : "");
+        Call<ResponseBody> call = apiService.approvalPengajuan(nik, ipengajuan, statusApproval, keteranganDitolakApproval,nopengantarApproval);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -160,18 +159,15 @@ public class DataPopup extends DialogFragment {
                     try {
                         responseBody = response.body().string();
                         JSONObject jsonObject = new JSONObject(responseBody);
-                        dismiss();
+
                         if (getParentFragment() != null) {
+                            dismiss();
                             ((ApprovalFragment) getParentFragment()).refresh();
                         }
-
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.d("API Response", responseBody);
-
                 } else {
-                    // Menangani error dari respons
                     Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }

@@ -52,11 +52,17 @@ public class DashboardRtActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.menuverifmas) {
                     selectedFragment = new VerifikasiMasyarakatFragment();
                 }
+                else if (item.getItemId() == R.id.menuprofile) {
+                    selectedFragment = new ProfileFragment();
+                }
             }else{
                 if (item.getItemId() == R.id.home) {
                     selectedFragment = new DashboardRtFragment();
                 } else if (item.getItemId() == R.id.surat) {
                     selectedFragment = new ApprovalPengajuanFragment();
+                }
+                else if (item.getItemId() == R.id.menuprofile) {
+                    selectedFragment = new ProfileFragment();
                 }
             }
 
