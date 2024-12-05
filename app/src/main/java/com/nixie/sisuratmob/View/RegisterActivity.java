@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -143,7 +144,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = EditEmail.getText().toString().trim();
                 errortxtimg.setVisibility(View.GONE);
                 validateFields();
-
+                SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.setTitleText("Loading...");
+                pDialog.setCancelable(false);
+                pDialog.show();
                 if (imageUri != null) {
                     String filePath = getRealPathFromURI(imageUri);
                     if (filePath != null) {
@@ -164,11 +168,11 @@ public class RegisterActivity extends AppCompatActivity {
                     apiService.reqRegister(data, imagePart).enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            pDialog.dismissWithAnimation();
                             if (response.isSuccessful()) {
                                 try {
                                     assert response.body() != null;
                                     String responseBody = response.body().string();
-                                    Log.d("TAG", responseBody);
                                     JSONObject jsonObject = new JSONObject(responseBody);
                                     boolean status = jsonObject.getBoolean("status");
                                     String message = jsonObject.getString("message");
@@ -189,6 +193,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            pDialog.dismissWithAnimation();
                             Toast.makeText(RegisterActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });

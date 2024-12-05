@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,11 +99,16 @@ public class DataPopup2 extends DialogFragment {
             dateText.setText(date);
             detKeterangan.setText(ket);
             dbatalView.setOnClickListener(v -> {
+                SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.setTitleText("Loading...");
+                pDialog.setCancelable(false);
+                pDialog.show();
                 ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
                 Call<ResponseBody> call = apiService.batalkanpengajuan(String.valueOf(ipengajuan));
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        pDialog.dismissWithAnimation();
                         if (response.isSuccessful() && response.body() != null) {
                             String responseBody = null;
                             try {
@@ -128,7 +134,7 @@ public class DataPopup2 extends DialogFragment {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("TAG", t.getMessage());
+                        pDialog.dismissWithAnimation();
                         Toast.makeText(getContext(), "Gagal", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -263,15 +269,15 @@ public class DataPopup2 extends DialogFragment {
     }
 
     private void downloadPDF(Context context, String url, String title, int ipengajuan) {
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         if (downloadManager != null) {
             Uri uri = Uri.parse(url);
-
-            // Tentukan subdirektori
             String folderName = "Surat Badean";
             File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), folderName);
-
-            // Buat folder jika belum ada
             if (!directory.exists()) {
                 boolean isCreated = directory.mkdirs();
                 if (!isCreated) {
@@ -287,15 +293,12 @@ public class DataPopup2 extends DialogFragment {
             request.setTitle("Mengunduh PDF");
             request.setDescription("File sedang diunduh...");
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-            // Set URI tujuan dengan subdirektori
             request.setDestinationUri(Uri.fromFile(file));
-
-            // Enqueue request ke DownloadManager
             downloadManager.enqueue(request);
 
             Toast.makeText(context, "Unduhan dimulai...", Toast.LENGTH_SHORT).show();
         }
+        pDialog.dismissWithAnimation();
     }
 
 }

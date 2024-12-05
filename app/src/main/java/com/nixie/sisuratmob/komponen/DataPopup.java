@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -125,6 +126,7 @@ public class DataPopup extends DialogFragment {
 
             dateText.setText(Helpers.formatTanggal(date));
             dbatalView.setOnClickListener(v -> {
+
                 String keteranganDitolak = ((TextInputEditText) view.findViewById(R.id.keterangan_ditolak)).getText().toString();
                 approvalPengajuan(snik, ipengajuan, "ditolak", keteranganDitolak,null);
             });
@@ -146,6 +148,10 @@ public class DataPopup extends DialogFragment {
 
 
     private void approvalPengajuan(String nik, int ipengajuan, String status, String keteranganDitolak,String nopengantar) {
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         RequestBody statusApproval = RequestBody.create(MediaType.parse("text/plain"), status);
         RequestBody keteranganDitolakApproval = RequestBody.create(MediaType.parse("text/plain"),  keteranganDitolak != null ? keteranganDitolak : "");
@@ -154,6 +160,7 @@ public class DataPopup extends DialogFragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
                 if (response.isSuccessful() && response.body() != null) {
                     String responseBody = null;
                     try {
@@ -174,7 +181,7 @@ public class DataPopup extends DialogFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", t.getMessage());
+                pDialog.dismissWithAnimation();
                 Toast.makeText(getContext(), "Gagal", Toast.LENGTH_SHORT).show();
             }
         });
@@ -267,15 +274,16 @@ public class DataPopup extends DialogFragment {
     }
 
     private void downloadPDF(Context context, String url, String title, int ipengajuan) {
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         if (downloadManager != null) {
             Uri uri = Uri.parse(url);
-
-            // Tentukan subdirektori
             String folderName = "Surat Badean";
             File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), folderName);
 
-            // Buat folder jika belum ada
             if (!directory.exists()) {
                 boolean isCreated = directory.mkdirs();
                 if (!isCreated) {
@@ -299,7 +307,9 @@ public class DataPopup extends DialogFragment {
             downloadManager.enqueue(request);
 
             Toast.makeText(context, "Unduhan dimulai...", Toast.LENGTH_SHORT).show();
+
         }
+        pDialog.dismissWithAnimation();
     }
 
 }

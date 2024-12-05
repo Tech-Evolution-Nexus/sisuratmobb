@@ -21,6 +21,7 @@ import com.nixie.sisuratmob.R;
 
 import org.json.JSONObject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +66,10 @@ public class AktivasiXreqActivity extends AppCompatActivity {
             if (hasError) {
                 return;
             }
-
+            SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.setTitleText("Loading...");
+            pDialog.setCancelable(false);
+            pDialog.show();
             VerivModel verivModel = new VerivModel(nik);
             ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
             Call<ResponseBody> call = apiService.reqVerifikasi(verivModel);
@@ -73,6 +77,7 @@ public class AktivasiXreqActivity extends AppCompatActivity {
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    pDialog.dismissWithAnimation();
                     if (response.isSuccessful()&& response.body() != null) {
                         try {
                             // Mendapatkan respons API
@@ -98,7 +103,6 @@ public class AktivasiXreqActivity extends AppCompatActivity {
                                     finish();
                                 }
                             } else {
-                                // Jika status null, tidak ada tindakan (hanya tampilkan pesan)
                                 Toast.makeText(AktivasiXreqActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
@@ -110,7 +114,7 @@ public class AktivasiXreqActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    // Kesalahan koneksi server
+                    pDialog.dismissWithAnimation();
                     Toast.makeText(AktivasiXreqActivity.this, "Tidak dapat terhubung ke server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

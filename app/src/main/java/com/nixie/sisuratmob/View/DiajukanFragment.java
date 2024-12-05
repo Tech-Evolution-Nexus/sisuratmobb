@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -104,6 +105,10 @@ public class DiajukanFragment extends Fragment {
         return view;
     }
     private void fetchData(String nik,String status) {
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getPengajuan(nik, status);
         String jsonResponse = ""; // Replace with API response
@@ -111,6 +116,7 @@ public class DiajukanFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         String responseBody = response.body().string();
@@ -161,7 +167,7 @@ public class DiajukanFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e("API Error", "Error: " + t.getMessage());
+                pDialog.dismissWithAnimation();
                 Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
             }
         });

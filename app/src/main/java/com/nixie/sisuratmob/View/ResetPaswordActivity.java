@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,23 +67,17 @@ public class ResetPaswordActivity extends AppCompatActivity {
 
                         // Get the current time in seconds
                         long currentTime = System.currentTimeMillis() / 1000;
-
-                        // Check if the token is expired
                         if (expiry < currentTime) {
-                            // Token is expired, show popup and redirect to login
                             showTokenExpiredPopup();
                         } else {
-                            // Token is still valid, proceed with further actions
                             Toast.makeText(this, "Valid Token. Proceeding...", Toast.LENGTH_LONG).show();
                             setResetPasswordClickListener();
                         }
                     } catch (JSONException e) {
-                        // Handle JSON parsing error
                         Toast.makeText(this, "Error decoding token", Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
-                // If no token exists, redirect to the login screen
                 redirectToLogin();
             }
 
@@ -165,11 +160,15 @@ public class ResetPaswordActivity extends AppCompatActivity {
                 lktxtpass.setError("Password Tidak Sama");
                 lktxtpass.setErrorIconDrawable(null);
             }
-
+            SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.setTitleText("Loading...");
+            pDialog.setCancelable(false);
+            pDialog.show();
             ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
             apiService.reqResetpass(email, token, pass).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    pDialog.dismissWithAnimation();
                     if (response.isSuccessful()) {
                         try {
                             assert response.body() != null;
@@ -193,6 +192,7 @@ public class ResetPaswordActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    pDialog.dismissWithAnimation();
                     Toast.makeText(ResetPaswordActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

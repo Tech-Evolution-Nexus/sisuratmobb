@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -144,7 +145,10 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
         if (hasError) {
             return;
         }
-
+        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         String ket = String.valueOf(etKeterangan.getText());
         List<LampiranSuratModel> lampiranData = lampiranAdapter.getLampiranList();
 
@@ -185,6 +189,7 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         String responseBody = response.body().string();
@@ -210,8 +215,8 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", "onFailure: " + t.getMessage());
-//                Toast.makeText(FormPengajuanActivity.this, "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                pDialog.dismissWithAnimation();
+                Toast.makeText(FormPengajuanActivity.this, "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.getstream.photoview.PhotoView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -78,6 +79,10 @@ public class DataPopup3 extends DialogFragment {
             inik = getArguments().getString("nik");
             fetchDataFromApi();
             dbatalView.setOnClickListener(v -> {
+                SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.setTitleText("Loading...");
+                pDialog.setCancelable(false);
+                pDialog.show();
                 ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
                 Call<ResponseBody> call = apiService.reqCancelvermas(inik);
                 call.enqueue(new Callback<ResponseBody>() {
@@ -116,6 +121,10 @@ public class DataPopup3 extends DialogFragment {
                 });
             });
             daccView.setOnClickListener(v->{
+                SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.setTitleText("Loading...");
+                pDialog.setCancelable(false);
+                pDialog.show();
                 ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
                 Call<ResponseBody> call = apiService.reqAccvermas(inik);
                 call.enqueue(new Callback<ResponseBody>() {
@@ -174,13 +183,17 @@ public class DataPopup3 extends DialogFragment {
     }
 
     private void fetchDataFromApi() {
-
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call = apiService.getVerifikasimasDetail(inik);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         String responseBody = response.body().string();
@@ -212,6 +225,7 @@ public class DataPopup3 extends DialogFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pDialog.dismissWithAnimation();
                 Toast.makeText(getContext(), "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
