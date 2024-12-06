@@ -2,6 +2,7 @@ package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -129,7 +130,10 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
                 .setContentText("Apakah Anda yakin ingin melanjutkan?")
                 .setConfirmText("Ya")
                 .setCancelText("Tidak")
+                .setConfirmButtonBackgroundColor(Color.parseColor("#4CAF50")) // Tombol Yes (Hijau)
+                .setCancelButtonBackgroundColor(Color.parseColor("#F44336")) // Tombol No (Merah)
                 .setConfirmClickListener(sDialog -> {
+                    sDialog.dismissWithAnimation();
                     eventClick();
                 })
                 .setCancelClickListener(sDialog -> {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -18,7 +19,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,7 +38,6 @@ import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.RegistrasiModel;
 import com.nixie.sisuratmob.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,7 +58,7 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText EditNik, EditPassword, EditNohp, EditNamalengkap,EditEmail;
+    private TextInputEditText EditNik, EditPassword, EditNohp, EditNamalengkap, EditEmail;
     private TextInputEditText EditTempatlahir, EditTanggal, EditPekerjaan;
     private TextInputEditText EditNamaayah;
     private TextInputEditText EditNamaibu, EditNokk, EditAlamat, EditRt, EditRw, EditKodepos, EditKelurahan;
@@ -75,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ConstraintLayout buttonPilihFile;
     private Uri imageUri;
     private File photoFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,62 +144,26 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = EditEmail.getText().toString().trim();
                 errortxtimg.setVisibility(View.GONE);
                 validateFields();
-                SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.setTitleText("Loading...");
-                pDialog.setCancelable(false);
-                pDialog.show();
-                if (imageUri != null) {
-                    String filePath = getRealPathFromURI(imageUri);
-                    if (filePath != null) {
-                        File file = new File(filePath);
-                        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-                        imagePart = MultipartBody.Part.createFormData("images", file.getName(), requestBody);
-                    } else {
-                        Log.e("Error", "Failed to get real path from URI.");
-                    }
-                    Gson gson = new Gson();
-                    RegistrasiModel registrasiModel = new RegistrasiModel(nik, password, noTelp, namaLengkap, jenisKelamin, tempatLahir,
-                            tanggalLahir, agama, pendidikan, pekerjaan, statusPernikahan, statusKeluarga, kewarganegaraan,
-                            namaAyah, namaIbu, noKK, alamat, rt, rw, kodepos, kelurahan, kecamatan, kabupaten, provinsi, kkTanggal,email);
-                    String jsonData = gson.toJson(registrasiModel);
-                    RequestBody data = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonData);
+                new SweetAlertDialog(getBaseContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Konfirmasi")
+                        .setContentText("Apakah Anda yakin ingin melanjutkan?")
+                        .setConfirmText("Ya")
+                        .setCancelText("Tidak")
+                        .setConfirmButtonBackgroundColor(Color.parseColor("#4CAF50")) // Tombol Yes (Hijau)
+                        .setCancelButtonBackgroundColor(Color.parseColor("#F44336")) // Tombol No (Merah)
+                        .setConfirmClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                            eventClickRegis(nik, password, noTelp, namaLengkap, jenisKelamin, tempatLahir, tanggalLahir,
+                                    agama, pendidikan, pekerjaan, statusPernikahan, statusKeluarga, kewarganegaraan,
+                                    namaAyah, namaIbu, noKK, alamat, rt, rw, kodepos, kelurahan, kecamatan,
+                                    kabupaten, provinsi, kkTanggal, email);
+                        })
+                        .setCancelClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                            // Tambahkan logika untuk No di sini
+                        })
+                        .show();
 
-                    ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-                    apiService.reqRegister(data, imagePart).enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            pDialog.dismissWithAnimation();
-                            if (response.isSuccessful()) {
-                                try {
-                                    assert response.body() != null;
-                                    String responseBody = response.body().string();
-                                    JSONObject jsonObject = new JSONObject(responseBody);
-                                    boolean status = jsonObject.getBoolean("status");
-                                    String message = jsonObject.getString("message");
-                                    Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    if (status) {
-                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                        intent.putExtra("nik", nik);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                } catch (JSONException e) {
-                                    throw new RuntimeException(e);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            pDialog.dismissWithAnimation();
-                            Toast.makeText(RegisterActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }else{
-                    errortxtimg.setVisibility(View.VISIBLE);
-                }
             }
         });
 
@@ -410,6 +374,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return null;
     }
+
     private void validateFields() {
         // EditText validations
         setFieldError(EditNik, "Wajib diisi");
@@ -460,6 +425,7 @@ public class RegisterActivity extends AppCompatActivity {
             showKewarganegaraanError(); // Show error for nationality selection
         }
     }
+
     private void setFieldError(TextInputEditText field, String errorMessage) {
         if (field.getText().toString().trim().isEmpty()) {
             field.setError(errorMessage);
@@ -485,6 +451,70 @@ public class RegisterActivity extends AppCompatActivity {
         // Implement your error handling for nationality RadioButton
         // Example: Toast or custom error message
         Toast.makeText(this, "Kewarganegaraan harus dipilih", Toast.LENGTH_SHORT).show();
+    }
+
+    private void eventClickRegis(
+            String nik, String password, String noTelp, String namaLengkap, String jenisKelamin, String tempatLahir,
+            String tanggalLahir, String agama, String pendidikan, String pekerjaan, String statusPernikahan,
+            String statusKeluarga, String kewarganegaraan, String namaAyah, String namaIbu, String noKK,
+            String alamat, String rt, String rw, String kodepos, String kelurahan, String kecamatan,
+            String kabupaten, String provinsi, String kkTanggal, String email) {
+        SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        if (imageUri != null) {
+            String filePath = getRealPathFromURI(imageUri);
+            if (filePath != null) {
+                File file = new File(filePath);
+                RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+                imagePart = MultipartBody.Part.createFormData("images", file.getName(), requestBody);
+            } else {
+                Log.e("Error", "Failed to get real path from URI.");
+            }
+            Gson gson = new Gson();
+            RegistrasiModel registrasiModel = new RegistrasiModel(nik, password, noTelp, namaLengkap, jenisKelamin, tempatLahir,
+                    tanggalLahir, agama, pendidikan, pekerjaan, statusPernikahan, statusKeluarga, kewarganegaraan,
+                    namaAyah, namaIbu, noKK, alamat, rt, rw, kodepos, kelurahan, kecamatan, kabupaten, provinsi, kkTanggal, email);
+            String jsonData = gson.toJson(registrasiModel);
+            RequestBody data = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonData);
+
+            ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+            apiService.reqRegister(data, imagePart).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    pDialog.dismissWithAnimation();
+                    if (response.isSuccessful()) {
+                        try {
+                            assert response.body() != null;
+                            String responseBody = response.body().string();
+                            JSONObject jsonObject = new JSONObject(responseBody);
+                            boolean status = jsonObject.getBoolean("status");
+                            String message = jsonObject.getString("message");
+                            Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+                            if (status) {
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                intent.putExtra("nik", nik);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    pDialog.dismissWithAnimation();
+                    Toast.makeText(RegisterActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            errortxtimg.setVisibility(View.VISIBLE);
+        }
     }
 
 }

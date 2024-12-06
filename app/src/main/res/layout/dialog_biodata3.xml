@@ -199,34 +199,38 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.5" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnaccverifmas"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginStart="18dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/rectangelradius"
-                    android:padding="12dp"
+                    android:hapticFeedbackEnabled="true"
                     android:text="Terima Verifikasi"
+                    app:backgroundTint="#052158"
+                    app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/btnbatalkanverifmas"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btntolakverifmas"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/rectanggelredradius"
-                    android:padding="12dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="left"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hapticFeedbackEnabled="true"
                     android:text="Tolak Verifikasi"
+                    app:backgroundTint="#BC0E0E"
+                    app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

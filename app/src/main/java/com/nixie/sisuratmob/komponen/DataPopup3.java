@@ -3,6 +3,7 @@ package com.nixie.sisuratmob.komponen;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
@@ -74,94 +76,46 @@ public class DataPopup3 extends DialogFragment {
         if (getArguments() != null) {
             String title = getArguments().getString("title");
             String status = getArguments().getString("status");
-            View dbatalView = view.findViewById(R.id.btnbatalkanverifmas);
-            View daccView = view.findViewById(R.id.btnaccverifmas);
+            MaterialButton dbatalView = view.findViewById(R.id.btntolakverifmas);
+            MaterialButton daccView = view.findViewById(R.id.btnaccverifmas);
             inik = getArguments().getString("nik");
             fetchDataFromApi();
             dbatalView.setOnClickListener(v -> {
-                SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.setTitleText("Loading...");
-                pDialog.setCancelable(false);
-                pDialog.show();
-                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-                Call<ResponseBody> call = apiService.reqCancelvermas(inik);
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            String responseBody = null;
-                            try {
-                                responseBody = response.body().string();
-                                JSONObject jsonObject = new JSONObject(responseBody);
-                                boolean status = jsonObject.getBoolean("status");
-                                if(status){
-                                    if (getParentFragment() != null) {
-                                        dismiss();
-                                        ((VerifikasiMasyarakatFragment) getParentFragment()).refreshFragment();
-                                    }
-                                }else{
-                                    Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                            }catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.d("API Response", responseBody);
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Konfirmasi")
+                        .setContentText("Apakah Anda yakin Untuk Membatalkan Pengajuan Surat Ini")
+                        .setConfirmText("Yes")
+                        .setCancelText("No")
+                        .setConfirmButtonBackgroundColor(Color.GREEN) // Hijau
+                        .setCancelButtonBackgroundColor(Color.RED)
+                        .setConfirmClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                            eventClikBatal();
+                        })
+                        .setCancelClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                        })
+                        .show();
 
-                        } else {
-                            // Menangani error dari respons
-                            Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("TAG", t.getMessage());
-                        Toast.makeText(getContext(),"Gagal",Toast.LENGTH_SHORT).show();
-                    }
-                });
             });
             daccView.setOnClickListener(v->{
-                SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.setTitleText("Loading...");
-                pDialog.setCancelable(false);
-                pDialog.show();
-                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-                Call<ResponseBody> call = apiService.reqAccvermas(inik);
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            String responseBody = null;
-                            try {
-                                responseBody = response.body().string();
-                                JSONObject jsonObject = new JSONObject(responseBody);
-                                boolean status = jsonObject.getBoolean("status");
-                                if(status){
-                                    if (getParentFragment() != null) {
-                                        ((VerifikasiMasyarakatFragment) getParentFragment()).refreshFragment();
-                                    }
-                                    dismiss();
-                                }else{
-                                    Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                            }catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                            Log.d("API Response", responseBody);
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Konfirmasi")
+                        .setContentText("Apakah Anda yakin ingin melanjutkan?")
+                        .setConfirmText("Ya")
+                        .setCancelText("Tidak")
+                        .setConfirmButtonBackgroundColor(Color.parseColor("#4CAF50")) // Tombol Yes (Hijau)
+                        .setCancelButtonBackgroundColor(Color.parseColor("#F44336")) // Tombol No (Merah)
+                        .setConfirmClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                            eventClickTerima();
 
-                        } else {
-                            // Menangani error dari respons
-                            Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("TAG", t.getMessage());
-                        Toast.makeText(getContext(),"Gagal",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                        })
+                        .setCancelClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                            // Tambahkan logika untuk No di sini
+                        })
+                        .show();
             });
         }
         return view;
@@ -230,6 +184,94 @@ public class DataPopup3 extends DialogFragment {
             }
         });
 
+    }
+    private void eventClikBatal(){
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.reqCancelvermas(inik);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
+                if (response.isSuccessful() && response.body() != null) {
+                    String responseBody = null;
+                    try {
+                        responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        boolean status = jsonObject.getBoolean("status");
+                        if(status){
+                            if (getParentFragment() != null) {
+                                dismiss();
+                                ((VerifikasiMasyarakatFragment) getParentFragment()).refreshFragment();
+                            }
+                        }else{
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("API Response", responseBody);
+
+                } else {
+                    // Menangani error dari respons
+                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pDialog.dismissWithAnimation();
+                Log.d("TAG", t.getMessage());
+                Toast.makeText(getContext(),"Gagal",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void eventClickTerima(){
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.reqAccvermas(inik);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
+                if (response.isSuccessful() && response.body() != null) {
+                    String responseBody = null;
+                    try {
+                        responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        boolean status = jsonObject.getBoolean("status");
+                        if(status){
+                            if (getParentFragment() != null) {
+                                ((VerifikasiMasyarakatFragment) getParentFragment()).refreshFragment();
+                            }
+                            dismiss();
+                        }else{
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("API Response", responseBody);
+
+                } else {
+                    // Menangani error dari respons
+                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pDialog.dismissWithAnimation();
+                Log.d("TAG", t.getMessage());
+                Toast.makeText(getContext(),"Gagal",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

@@ -174,6 +174,7 @@ public class DiajukanFragment extends Fragment {
     }
     public void refreshFragment() {
         riwayatSuratList.clear();
+        statusPengajuanAdapter.notifyDataSetChanged();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
         String nik = sharedPreferences.getString("nik", "");
         fetchData(nik,"pending");

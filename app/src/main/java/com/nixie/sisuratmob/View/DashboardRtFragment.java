@@ -76,15 +76,15 @@ public class DashboardRtFragment extends Fragment {
         textBerita = view.findViewById(R.id.textBerita);
         textdashrt = view.findViewById(R.id.textnamedashrt);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        textdashrt.setText("Hallo"+sharedPreferences.getString("nama_lengkap",""));
+        textdashrt.setText("Hallo "+sharedPreferences.getString("namalengkap",""));
 
-        icon = view.findViewById(R.id.iconn);
-        icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showOptionsDialog(v);
-            }
-        });
+//        icon = view.findViewById(R.id.iconn);
+//        icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showOptionsDialog(v);
+//            }
+//        });
         textBerita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
