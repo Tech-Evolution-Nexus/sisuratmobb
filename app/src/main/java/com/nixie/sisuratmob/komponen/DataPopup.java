@@ -3,6 +3,7 @@ package com.nixie.sisuratmob.komponen;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -126,9 +127,23 @@ public class DataPopup extends DialogFragment {
 
             dateText.setText(Helpers.formatTanggal(date));
             dbatalView.setOnClickListener(v -> {
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Konfirmasi")
+                        .setContentText("Apakah Anda yakin Untuk Membatalkan Pengajuan Surat Ini")
+                        .setConfirmText("Yes")
+                        .setCancelText("No")
+                        .setConfirmButtonBackgroundColor(Color.parseColor("#4CAF50")) // Tombol Yes (Hijau)
+                        .setCancelButtonBackgroundColor(Color.parseColor("#F44336")) // Tombol No (Merah)
+                        .setConfirmClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
 
-                String keteranganDitolak = ((TextInputEditText) view.findViewById(R.id.keterangan_ditolak)).getText().toString();
-                approvalPengajuan(snik, ipengajuan, "ditolak", keteranganDitolak,null);
+                            String keteranganDitolak = ((TextInputEditText) view.findViewById(R.id.keterangan_ditolak)).getText().toString();
+                            approvalPengajuan(snik, ipengajuan, "ditolak", keteranganDitolak,null);
+                        })
+                        .setCancelClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                        })
+                        .show();
             });
             btn_terima.setOnClickListener(v -> {
                 String nopengantar = txtpengantar.getText().toString();
@@ -136,7 +151,25 @@ public class DataPopup extends DialogFragment {
                     txtnopegantar.setError("No Pengantar Wajib Diisi");
                     return;
                 }
-                approvalPengajuan(snik, ipengajuan, "diterima", null,nopengantar);
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Konfirmasi")
+                        .setContentText("Apakah Anda yakin ingin melanjutkan?")
+                        .setConfirmText("Ya")
+                        .setCancelText("Tidak")
+                        .setConfirmButtonBackgroundColor(Color.parseColor("#4CAF50")) // Tombol Yes (Hijau)
+                        .setCancelButtonBackgroundColor(Color.parseColor("#F44336")) // Tombol No (Merah)
+                        .setConfirmClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+
+                            approvalPengajuan(snik, ipengajuan, "diterima", null,nopengantar);
+
+                        })
+                        .setCancelClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                        })
+                        .show();
+
+
             });
             dcetakView.setOnClickListener(v -> {
                 String url = Helpers.BASE_URL+"api/surat-selesai/export/" + ipengajuan;

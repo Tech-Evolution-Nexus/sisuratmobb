@@ -105,6 +105,7 @@ public class DataPopup2 extends DialogFragment {
                         .setConfirmText("Yes")
                         .setCancelText("No")
                         .setConfirmClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
                             eventClikBatal(ipengajuan);
                         })
                         .setCancelClickListener(sDialog -> {

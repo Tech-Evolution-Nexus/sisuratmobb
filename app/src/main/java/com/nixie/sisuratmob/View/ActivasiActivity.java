@@ -1,8 +1,8 @@
 package com.nixie.sisuratmob.View;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +17,6 @@ import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Models.AktivasiModel;
 import com.nixie.sisuratmob.R;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -28,8 +27,8 @@ import retrofit2.Response;
 
 public class ActivasiActivity extends AppCompatActivity {
 
-    private TextInputEditText textNik, textPassword, notelfon,textcPassword,textEmail;
-    private TextInputLayout ltxtnik,ltxtnohp, ltxtpass, lktxtpass,lemail;
+    private TextInputEditText textNik, textPassword, notelfon, textcPassword, textEmail;
+    private TextInputLayout ltxtnik, ltxtnohp, ltxtpass, lktxtpass, lemail;
     private Button buttonActivasi;
     private TextView masuklogin;
 
@@ -115,7 +114,7 @@ public class ActivasiActivity extends AppCompatActivity {
                     nohpErrors.append("No Telpon tidak boleh kosong.\n");
                     hasError = true;
                 }
-                if (noTelpon.length() <= 11 || noTelpon.length() >13) {
+                if (noTelpon.length() <= 11 || noTelpon.length() > 13) {
                     nohpErrors.append("No Telpon Harus Memiliki Panjang Lebih Dari 11 Dan Kurang Dari 13 Karakter.\n");
                     hasError = true;
                 }
@@ -128,7 +127,7 @@ public class ActivasiActivity extends AppCompatActivity {
                     passErrors.append("Password tidak boleh kosong.\n");
                     hasError = true;
                 }
-                if (password.length() <8) {
+                if (password.length() < 8) {
                     passErrors.append("Password Harus Memiliki Panjang Lebih Dari 8 Karakter.\n");
                     hasError = true;
                 }
@@ -155,7 +154,7 @@ public class ActivasiActivity extends AppCompatActivity {
                 if (hasError) {
                     return;
                 }
-                if(!password.equals(cpassword)){
+                if (!password.equals(cpassword)) {
                     lktxtpass.setError("Password Tidak Sama");
                     lktxtpass.setErrorIconDrawable(null);
                 }
@@ -164,51 +163,67 @@ public class ActivasiActivity extends AppCompatActivity {
                     textcPassword.setError("Password Tidak sama");
                     return;
                 }
-                SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.setTitleText("Loading...");
-                pDialog.setCancelable(false);
-                pDialog.show();
-                AktivasiModel userAktivasi = new AktivasiModel(nik,email, password, noTelpon);
-                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-                Call<ResponseBody> call = apiService.reqAktivasi(userAktivasi);
+                new SweetAlertDialog(getBaseContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Konfirmasi")
+                        .setContentText("Apakah Anda yakin ingin melanjutkan?")
+                        .setConfirmText("Ya")
+                        .setCancelText("Tidak")
+                        .setConfirmButtonBackgroundColor(Color.parseColor("#4CAF50")) // Tombol Yes (Hijau)
+                        .setCancelButtonBackgroundColor(Color.parseColor("#F44336")) // Tombol No (Merah)
+                        .setConfirmClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                            SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
+                            pDialog.setTitleText("Loading...");
+                            pDialog.setCancelable(false);
+                            pDialog.show();
+                            AktivasiModel userAktivasi = new AktivasiModel(nik, email, password, noTelpon);
+                            ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+                            Call<ResponseBody> call = apiService.reqAktivasi(userAktivasi);
 
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        pDialog.dismissWithAnimation();
-                        if (response.isSuccessful()) {
-                            try {
-                                String responseBody = response.body().string();
-                                JSONObject jsonObject = new JSONObject(responseBody);
+                            call.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    pDialog.dismissWithAnimation();
+                                    if (response.isSuccessful()) {
+                                        try {
+                                            String responseBody = response.body().string();
+                                            JSONObject jsonObject = new JSONObject(responseBody);
 
-                                // Ambil data dari JSON
-                                boolean status = jsonObject.getBoolean("status");
-                                String message = jsonObject.getString("message");
+                                            // Ambil data dari JSON
+                                            boolean status = jsonObject.getBoolean("status");
+                                            String message = jsonObject.getString("message");
 
-                                if (status) {
-                                    Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ActivasiActivity.this, LoginActivity.class);
-                                    intent.putExtra("nik", nik);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
+                                            if (status) {
+                                                Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(ActivasiActivity.this, LoginActivity.class);
+                                                intent.putExtra("nik", nik);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                Toast.makeText(ActivasiActivity.this, message, Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(ActivasiActivity.this, "Kesalahan parsing data", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(ActivasiActivity.this, "Aktivasi gagal, coba lagi", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Toast.makeText(ActivasiActivity.this, "Kesalahan parsing data", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(ActivasiActivity.this, "Aktivasi gagal, coba lagi", Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        pDialog.dismissWithAnimation();
-                        Toast.makeText(ActivasiActivity.this, "Gagal terhubung ke server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    pDialog.dismissWithAnimation();
+                                    Toast.makeText(ActivasiActivity.this, "Gagal terhubung ke server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setCancelClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                            // Tambahkan logika untuk No di sini
+                        })
+                        .show();
+
             }
         });
     }

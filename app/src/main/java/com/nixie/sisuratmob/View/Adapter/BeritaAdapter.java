@@ -51,6 +51,7 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailBritaActivity.class); // Replace with your desired activity
             intent.putExtra("id_berita", String.valueOf(berita.getId()));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
     }

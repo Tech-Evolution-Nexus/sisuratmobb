@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Menampilkan dialog untuk memberikan izin
     private void showPermissionRationale() {
         new AlertDialog.Builder(this)
                 .setTitle("Izin Diperlukan")
