@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -123,97 +124,19 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
     }
 
     public void onSubmit(View view) {
-        boolean hasError = false;
-        lketform.setError(null);
-        StringBuilder nikErrors = new StringBuilder();
-        if (etKeterangan.getText().toString().isEmpty()) {
-            nikErrors.append("Keterangan tidak boleh kosong.\n");
-            hasError = true;
-        }
-        if (nikErrors.length() > 0) {
-            lketform.setError(nikErrors.toString().trim());
-        }
-        if (fieldAdapter != null) {
-            if (!fieldAdapter.validateFields()) {
-                hasError = true;
-            }
-        }
-        if (!lampiranAdapter.validateImageFields()) {
-            hasError = true;
-        }
-        if (hasError) {
-            return;
-        }
-
-        String ket = String.valueOf(etKeterangan.getText());
-        List<LampiranSuratModel> lampiranData = lampiranAdapter.getLampiranList();
-
-        List<MultipartBody.Part> partList = new ArrayList<>();
-        if (fieldAdapter != null) {
-            List<FieldModel> dataField = fieldAdapter.getList();
-            if (dataField != null && !dataField.isEmpty()) {
-                for (FieldModel field : dataField) {
-                    RequestBody value = RequestBody.create(MediaType.parse("text/plain"), field.getValue());
-                    MultipartBody.Part valuePart = MultipartBody.Part.createFormData("fields[]", field.getValue(), value);
-                    partList.add(valuePart);
-                }
-            }
-        }
-
-        if (partList.isEmpty()) {
-            RequestBody emptyBody = RequestBody.create(MediaType.parse("text/plain"), "");
-            MultipartBody.Part emptyPart = MultipartBody.Part.createFormData("fields[]", "", emptyBody);
-            partList.add(emptyPart);
-        }
-        List<MultipartBody.Part> imageParts = new ArrayList<>();
-        for (LampiranSuratModel lampiran : lampiranData) {
-            Uri imageUri = lampiran.getImageUri(); // Assuming LampiranSuratModel has getImageUri()
-            if (imageUri != null) {
-                String realPath = getRealPathFromURI(imageUri);
-                File imageFile = new File(realPath);
-                RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-                MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images[]", imageFile.getName(), imageBody);
-                imageParts.add(imagePart);
-            }
-        }
-        RequestBody nikBody = RequestBody.create(MediaType.parse("text/plain"), nik);
-        RequestBody keteranganBody = RequestBody.create(MediaType.parse("text/plain"), ket);
-        RequestBody idsurBody = RequestBody.create(MediaType.parse("text/plain"), idSurat);
-        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        Call<ResponseBody> call = apiService.submitFormData(nikBody, idsurBody, keteranganBody, imageParts, partList);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    try {
-                        String responseBody = response.body().string();
-                        JSONObject jsonObject = new JSONObject(responseBody);
-                        boolean st = jsonObject.getBoolean("status");
-                        String msg = jsonObject.getString("message");
-                        if (st) {
-                            Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                            Intent i = new Intent(FormPengajuanActivity.this, DashboardActivity.class);
-//                            startActivity(i);
-                            finish();
-                        } else {
-                            Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (JSONException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    Toast.makeText(FormPengajuanActivity.this, "Gagal mengirim data", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", "onFailure: " + t.getMessage());
-//                Toast.makeText(FormPengajuanActivity.this, "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Konfirmasi")
+                .setContentText("Apakah Anda yakin ingin melanjutkan?")
+                .setConfirmText("Ya")
+                .setCancelText("Tidak")
+                .setConfirmClickListener(sDialog -> {
+                    eventClick();
+                })
+                .setCancelClickListener(sDialog -> {
+                    sDialog.dismissWithAnimation();
+                    // Tambahkan logika untuk No di sini
+                })
+                .show();
     }
 
     public void onPickImage(int position) {
@@ -337,4 +260,101 @@ public class FormPengajuanActivity extends AppCompatActivity implements ImagePic
         }
     }
 
+    private void eventClick(){
+        boolean hasError = false;
+        lketform.setError(null);
+        StringBuilder nikErrors = new StringBuilder();
+        if (etKeterangan.getText().toString().isEmpty()) {
+            nikErrors.append("Keterangan tidak boleh kosong.\n");
+            hasError = true;
+        }
+        if (nikErrors.length() > 0) {
+            lketform.setError(nikErrors.toString().trim());
+        }
+        if (fieldAdapter != null) {
+            if (!fieldAdapter.validateFields()) {
+                hasError = true;
+            }
+        }
+        if (!lampiranAdapter.validateImageFields()) {
+            hasError = true;
+        }
+        if (hasError) {
+            return;
+        }
+        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        String ket = String.valueOf(etKeterangan.getText());
+        List<LampiranSuratModel> lampiranData = lampiranAdapter.getLampiranList();
+
+        List<MultipartBody.Part> partList = new ArrayList<>();
+        if (fieldAdapter != null) {
+            List<FieldModel> dataField = fieldAdapter.getList();
+            if (dataField != null && !dataField.isEmpty()) {
+                for (FieldModel field : dataField) {
+                    RequestBody value = RequestBody.create(MediaType.parse("text/plain"), field.getValue());
+                    MultipartBody.Part valuePart = MultipartBody.Part.createFormData("fields[]", field.getValue(), value);
+                    partList.add(valuePart);
+                }
+            }
+        }
+
+        if (partList.isEmpty()) {
+            RequestBody emptyBody = RequestBody.create(MediaType.parse("text/plain"), "");
+            MultipartBody.Part emptyPart = MultipartBody.Part.createFormData("fields[]", "", emptyBody);
+            partList.add(emptyPart);
+        }
+        List<MultipartBody.Part> imageParts = new ArrayList<>();
+        for (LampiranSuratModel lampiran : lampiranData) {
+            Uri imageUri = lampiran.getImageUri(); // Assuming LampiranSuratModel has getImageUri()
+            if (imageUri != null) {
+                String realPath = getRealPathFromURI(imageUri);
+                File imageFile = new File(realPath);
+                RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+                MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images[]", imageFile.getName(), imageBody);
+                imageParts.add(imagePart);
+            }
+        }
+        RequestBody nikBody = RequestBody.create(MediaType.parse("text/plain"), nik);
+        RequestBody keteranganBody = RequestBody.create(MediaType.parse("text/plain"), ket);
+        RequestBody idsurBody = RequestBody.create(MediaType.parse("text/plain"), idSurat);
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.submitFormData(nikBody, idsurBody, keteranganBody, imageParts, partList);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        boolean st = jsonObject.getBoolean("status");
+                        String msg = jsonObject.getString("message");
+                        if (st) {
+                            Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                            Intent i = new Intent(FormPengajuanActivity.this, DashboardActivity.class);
+//                            startActivity(i);
+                            finish();
+                        } else {
+                            Toast.makeText(FormPengajuanActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    Toast.makeText(FormPengajuanActivity.this, "Gagal mengirim data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pDialog.dismissWithAnimation();
+                Toast.makeText(FormPengajuanActivity.this, "Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

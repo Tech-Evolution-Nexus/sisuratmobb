@@ -20,6 +20,7 @@ import com.nixie.sisuratmob.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -163,13 +164,18 @@ public class ActivasiActivity extends AppCompatActivity {
                     textcPassword.setError("Password Tidak sama");
                     return;
                 }
-               AktivasiModel userAktivasi = new AktivasiModel(nik,email, password, noTelpon);
+                SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.setTitleText("Loading...");
+                pDialog.setCancelable(false);
+                pDialog.show();
+                AktivasiModel userAktivasi = new AktivasiModel(nik,email, password, noTelpon);
                 ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
                 Call<ResponseBody> call = apiService.reqAktivasi(userAktivasi);
 
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        pDialog.dismissWithAnimation();
                         if (response.isSuccessful()) {
                             try {
                                 String responseBody = response.body().string();
@@ -199,6 +205,7 @@ public class ActivasiActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        pDialog.dismissWithAnimation();
                         Toast.makeText(ActivasiActivity.this, "Gagal terhubung ke server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

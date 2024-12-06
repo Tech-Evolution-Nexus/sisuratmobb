@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,11 +62,16 @@ public class UbahNoTeleponActivity extends AppCompatActivity {
             } else {
                 txtInputUbahNoHP.setError(null);  // Hapus error jika valid
             }
+            SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.setTitleText("Loading...");
+            pDialog.setCancelable(false);
+            pDialog.show();
             ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
             Call<ResponseBody> call = apiService.reqUbahNohp(nik,nohp,nohpbaru);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    pDialog.dismissWithAnimation();
                     if (response.isSuccessful() && response.body() != null) {
                         JSONObject jsonObject = null;
                         try {
@@ -91,7 +97,7 @@ public class UbahNoTeleponActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                    pDialog.dismissWithAnimation();
                 }
             });
 

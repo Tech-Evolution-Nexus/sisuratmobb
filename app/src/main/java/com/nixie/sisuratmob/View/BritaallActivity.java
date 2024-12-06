@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,11 +72,16 @@ public class BritaallActivity extends AppCompatActivity {
 
     }
     private void fetchdata() {
+        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         Call<ResponseBody> call2 = apiService.getberita("all");
         call2.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         String responseBody = response.body().string();
@@ -117,7 +123,7 @@ public class BritaallActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e("API Error", "Error: " + t.getMessage());
+                pDialog.dismissWithAnimation();
                 Toast.makeText(getBaseContext(), "Network error", Toast.LENGTH_SHORT).show();
             }
         });

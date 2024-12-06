@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,40 +99,18 @@ public class DataPopup2 extends DialogFragment {
             dateText.setText(date);
             detKeterangan.setText(ket);
             dbatalView.setOnClickListener(v -> {
-                ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-                Call<ResponseBody> call = apiService.batalkanpengajuan(String.valueOf(ipengajuan));
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            String responseBody = null;
-                            try {
-                                responseBody = response.body().string();
-                                JSONObject jsonObject = new JSONObject(responseBody);
-                                boolean status = jsonObject.getBoolean("status");
-                                if (status) {
-                                    if (getParentFragment() != null) {
-                                        dismiss();
-                                        ((DiajukanFragment) getParentFragment()).refreshFragment();
-                                    }
-                                } else {
-                                    Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            // Menangani error dari respons
-                            Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("TAG", t.getMessage());
-                        Toast.makeText(getContext(), "Gagal", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Konfirmasi")
+                        .setContentText("Apakah Anda yakin Untuk Membatalkan Pengajuan Surat Ini")
+                        .setConfirmText("Yes")
+                        .setCancelText("No")
+                        .setConfirmClickListener(sDialog -> {
+                            eventClikBatal(ipengajuan);
+                        })
+                        .setCancelClickListener(sDialog -> {
+                            sDialog.dismissWithAnimation();
+                        })
+                        .show();
             });
             dcetakView.setOnClickListener(v -> {
                 String url = Helpers.BASE_URL+"api/surat-selesai/export/" + ipengajuan;
@@ -263,15 +242,15 @@ public class DataPopup2 extends DialogFragment {
     }
 
     private void downloadPDF(Context context, String url, String title, int ipengajuan) {
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         if (downloadManager != null) {
             Uri uri = Uri.parse(url);
-
-            // Tentukan subdirektori
             String folderName = "Surat Badean";
             File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), folderName);
-
-            // Buat folder jika belum ada
             if (!directory.exists()) {
                 boolean isCreated = directory.mkdirs();
                 if (!isCreated) {
@@ -287,15 +266,53 @@ public class DataPopup2 extends DialogFragment {
             request.setTitle("Mengunduh PDF");
             request.setDescription("File sedang diunduh...");
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-            // Set URI tujuan dengan subdirektori
             request.setDestinationUri(Uri.fromFile(file));
-
-            // Enqueue request ke DownloadManager
             downloadManager.enqueue(request);
 
             Toast.makeText(context, "Unduhan dimulai...", Toast.LENGTH_SHORT).show();
         }
+        pDialog.dismissWithAnimation();
+    }
+    private void eventClikBatal(int ipengajuan){
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.batalkanpengajuan(String.valueOf(ipengajuan));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
+                if (response.isSuccessful() && response.body() != null) {
+                    String responseBody = null;
+                    try {
+                        responseBody = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        boolean status = jsonObject.getBoolean("status");
+                        if (status) {
+                            if (getParentFragment() != null) {
+                                dismiss();
+                                ((DiajukanFragment) getParentFragment()).refreshFragment();
+                            }
+                        } else {
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Menangani error dari respons
+                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pDialog.dismissWithAnimation();
+                Toast.makeText(getContext(), "Gagal", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

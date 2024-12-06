@@ -65,4 +65,6 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("io.getstream:photoview:1.0.2")
+    implementation("com.github.f0ris.sweetalert:library:1.6.2")
+
 }

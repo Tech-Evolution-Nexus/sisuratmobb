@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,10 +65,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if (hasError) {
             return;
         }
+        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
         ApiService apiService = ApiClient.getresetpassRetrofitInstance().create(ApiService.class);
         apiService.reqSendEmail(email).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismissWithAnimation();
                 if (response.isSuccessful()) {
                     try {
                         assert response.body() != null;
@@ -92,6 +98,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pDialog.dismissWithAnimation();
                 Toast.makeText(ForgotPasswordActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

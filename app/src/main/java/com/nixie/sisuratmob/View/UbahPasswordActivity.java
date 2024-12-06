@@ -20,6 +20,7 @@ import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.R;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,8 +63,6 @@ public class UbahPasswordActivity extends AppCompatActivity {
                 passPresentErrors.append("Password saat ini harus minimal 8 karakter.\n");
                 hasError = true;
             }
-
-// Validate Password baru (pass_now)
             if (pass_now.isEmpty()) {
                 passNowErrors.append("Password baru tidak boleh kosong.\n");
                 hasError = true;
@@ -72,13 +71,11 @@ public class UbahPasswordActivity extends AppCompatActivity {
                 hasError = true;
             }
 
-// Validate Konfirmasi password
             if (!pass_now.equals(pass_confirm)) {
                 passConfirmErrors.append("Konfirmasi password tidak cocok.\n");
                 hasError = true;
             }
 
-// Set error messages if any
             if (passPresentErrors.length() > 0) {
                 txtinputubuahpasslama.setError(passPresentErrors.toString().trim());
                 txtinputubuahpasslama.setErrorIconDrawable(null);
@@ -92,14 +89,15 @@ public class UbahPasswordActivity extends AppCompatActivity {
                 ctxtinputubuahpassbaru.setErrorIconDrawable(null);
             }
 
-// Stop execution if there's any error
             if (hasError) {
                 return;
             }
-
-// All fields are valid
-            txtinputubuahpasslama.setError(null);  // Remove error for valid pass_present
-            txtinputubuahpassbaru.setError(null);  // Remove error for valid pass_now
+            SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.setTitleText("Loading...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+            txtinputubuahpasslama.setError(null);
+            txtinputubuahpassbaru.setError(null);
             ctxtinputubuahpassbaru.setError(null);
             SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
             String nik = sharedPreferences.getString("nik", "");
@@ -109,11 +107,12 @@ public class UbahPasswordActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-
+                    pDialog.dismissWithAnimation();
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    pDialog.dismissWithAnimation();
                     Log.d("TAG", "onFailure: " + t.getMessage());
                     Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
 
