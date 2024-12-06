@@ -163,7 +163,7 @@ public class ActivasiActivity extends AppCompatActivity {
                     textcPassword.setError("Password Tidak sama");
                     return;
                 }
-                new SweetAlertDialog(getBaseContext(), SweetAlertDialog.WARNING_TYPE)
+                new SweetAlertDialog(ActivasiActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Konfirmasi")
                         .setContentText("Apakah Anda yakin ingin melanjutkan?")
                         .setConfirmText("Ya")
@@ -172,7 +172,7 @@ public class ActivasiActivity extends AppCompatActivity {
                         .setCancelButtonBackgroundColor(Color.parseColor("#F44336")) // Tombol No (Merah)
                         .setConfirmClickListener(sDialog -> {
                             sDialog.dismissWithAnimation();
-                            SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
+                            SweetAlertDialog pDialog = new SweetAlertDialog(ActivasiActivity.this, SweetAlertDialog.PROGRESS_TYPE);
                             pDialog.setTitleText("Loading...");
                             pDialog.setCancelable(false);
                             pDialog.show();

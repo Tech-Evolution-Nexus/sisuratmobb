@@ -104,24 +104,24 @@ public class DashboardRtFragment extends Fragment {
     popupMenu.getMenuInflater().inflate(R.menu.top_menu, popupMenu.getMenu());
 
     // Menangani klik item menu
-    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            if(item.getItemId() == R.id.aboutAppButton){
-                showAboutApp();
-                return true;
-            }else if(R.id.logoutButton == item.getItemId()){
-                logoutUser();
-                return true;
-            }
-
-                return false;
-
-        }
-    });
+//    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//        @Override
+//        public boolean onMenuItemClick(MenuItem item) {
+//            if(item.getItemId() == R.id.aboutAppButton){
+//                showAboutApp();
+//                return true;
+//            }else if(R.id.logoutButton == item.getItemId()){
+//                logoutUser();
+//                return true;
+//            }
+//
+//                return false;
+//
+//        }
+//    });
 
     // Tampilkan menu
-    popupMenu.show();
+//    popupMenu.show();
     }
     private void fetchdata() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
