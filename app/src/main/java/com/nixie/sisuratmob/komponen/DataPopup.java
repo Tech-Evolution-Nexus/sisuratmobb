@@ -181,10 +181,10 @@ public class DataPopup extends DialogFragment {
 
 
     private void approvalPengajuan(String nik, int ipengajuan, String status, String keteranganDitolak,String nopengantar) {
-        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.setTitleText("Loading...");
-        pDialog.setCancelable(false);
-        pDialog.show();
+//        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+//        pDialog.setTitleText("Loading...");
+//        pDialog.setCancelable(false);
+//        pDialog.show();
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
         RequestBody statusApproval = RequestBody.create(MediaType.parse("text/plain"), status);
         RequestBody keteranganDitolakApproval = RequestBody.create(MediaType.parse("text/plain"),  keteranganDitolak != null ? keteranganDitolak : "");
@@ -193,7 +193,7 @@ public class DataPopup extends DialogFragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                pDialog.dismissWithAnimation();
+//                pDialog.dismissWithAnimation();
                 if (response.isSuccessful() && response.body() != null) {
                     String responseBody = null;
                     try {
@@ -214,7 +214,7 @@ public class DataPopup extends DialogFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                pDialog.dismissWithAnimation();
+//                pDialog.dismissWithAnimation();
                 Toast.makeText(getContext(), "Gagal", Toast.LENGTH_SHORT).show();
             }
         });

@@ -144,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = EditEmail.getText().toString().trim();
                 errortxtimg.setVisibility(View.GONE);
                 validateFields();
-                new SweetAlertDialog(getBaseContext(), SweetAlertDialog.WARNING_TYPE)
+                new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Konfirmasi")
                         .setContentText("Apakah Anda yakin ingin melanjutkan?")
                         .setConfirmText("Ya")
