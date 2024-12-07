@@ -6,7 +6,7 @@
         android:title="Home" />
     <item
         android:id="@+id/nav_statussurat"
-        android:icon="@drawable/ic_surat"
+        android:icon="@drawable/ic_suratrt"
         android:title="Status Surat" />
     <item
         android:id="@+id/nav_profile"

@@ -152,7 +152,7 @@
                         android:id="@+id/activasi_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_phone"
+                        android:drawableStart="@drawable/ic_email"
                         android:drawablePadding="16dp"
                         android:hint="Email"
                         android:inputType="textEmailAddress" />

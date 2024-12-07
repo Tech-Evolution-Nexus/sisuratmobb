@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_rekap"
         android:title="Verifikasi"/>
     <item android:id="@+id/menuprofile"
-        android:icon="@drawable/ic_rekap"
+        android:icon="@drawable/ic_profile"
         android:title="Profile"/>
 
 </menu>

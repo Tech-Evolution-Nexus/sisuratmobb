@@ -31,7 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
@@ -63,7 +65,12 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText EditNamaayah;
     private TextInputEditText EditNamaibu, EditNokk, EditAlamat, EditRt, EditRw, EditKodepos, EditKelurahan;
     private TextInputEditText EditKecamatan, EditKabupaten, EditProvinsi, EditKkTanggal;
-    private Spinner selectagama, selectpendidikan, selectperkawinan, selectstatuskeluarga;
+    private MaterialAutoCompleteTextView selectagama, selectpendidikan, selectperkawinan, selectstatuskeluarga;
+    private TextInputLayout ltNik, ltPassword, ltNohp, ltNamaLengkap, ltEmail;
+    private TextInputLayout ltTempatLahir, ltTanggal, ltPekerjaan;
+    private TextInputLayout ltNamaAyah, ltNamaIbu, ltNokk, ltAlamat, ltRt, ltRw, ltKodePos, ltKelurahan;
+    private TextInputLayout ltKecamatan, ltKabupaten, ltProvinsi, ltKkTanggal;
+    private TextInputLayout ltAgama, ltPendidikan, ltPerkawinan, ltStatusKeluarga;
     private TextView errortxtimg;
     private RadioGroup registrasi_jenis_kelamin, registrasi_kewarganegaraan;
     private Button btn_register;
@@ -89,23 +96,23 @@ public class RegisterActivity extends AppCompatActivity {
         // Setup tanggal lahir dan KK
         setupDatePickers();
         String[] hubunganArray = getResources().getStringArray(R.array.status_hubungan);
-        ArrayAdapter hubunganAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, hubunganArray);
+        ArrayAdapter hubunganAdapter = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, hubunganArray);
         hubunganAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectstatuskeluarga.setAdapter(hubunganAdapter);
 
         // Agama
         String[] agamaArray = getResources().getStringArray(R.array.agama);
-        ArrayAdapter agamaAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, agamaArray);
+        ArrayAdapter agamaAdapter = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, agamaArray);
         agamaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectagama.setAdapter(agamaAdapter);
 
         String[] pendidikanArray = getResources().getStringArray(R.array.pendidikan);
-        ArrayAdapter pendidikanAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, pendidikanArray);
+        ArrayAdapter pendidikanAdapter = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, pendidikanArray);
         pendidikanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectpendidikan.setAdapter(pendidikanAdapter);
 
         String[] perkawinanArray = getResources().getStringArray(R.array.status_perkawinan);
-        ArrayAdapter perkawinanAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, perkawinanArray);
+        ArrayAdapter perkawinanAdapter = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, perkawinanArray);
         perkawinanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectperkawinan.setAdapter(perkawinanAdapter);
 
@@ -124,11 +131,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String tempatLahir = EditTempatlahir.getText().toString().trim();
                 String tanggalLahir = EditTanggal.getText().toString().trim();
-                String agama = selectagama.getSelectedItem().toString().trim();
-                String pendidikan = selectpendidikan.getSelectedItem().toString().trim();
+                String agama = selectagama.getText().toString().trim();
+                String pendidikan = selectpendidikan.getText().toString().trim();
                 String pekerjaan = EditPekerjaan.getText().toString().trim();
-                String statusPernikahan = selectperkawinan.getSelectedItem().toString().trim();
-                String statusKeluarga = selectstatuskeluarga.getSelectedItem().toString().trim();
+                String statusPernikahan = selectperkawinan.getText().toString().trim();
+                String statusKeluarga = selectstatuskeluarga.getText().toString().trim();
                 String namaAyah = EditNamaayah.getText().toString().trim();
                 String namaIbu = EditNamaibu.getText().toString().trim();
                 String noKK = EditNokk.getText().toString().trim();
@@ -143,7 +150,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String kkTanggal = EditKkTanggal.getText().toString().trim();
                 String email = EditEmail.getText().toString().trim();
                 errortxtimg.setVisibility(View.GONE);
-                validateFields();
+                if(validateFields()){
+                    return;
+                }
+
                 new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Konfirmasi")
                         .setContentText("Apakah Anda yakin ingin melanjutkan?")
@@ -178,11 +188,11 @@ public class RegisterActivity extends AppCompatActivity {
         registrasi_jenis_kelamin = findViewById(R.id.registrasi_jenis_kelamin);
         EditTempatlahir = findViewById(R.id.registrasi_tempat_lahir);
         EditTanggal = findViewById(R.id.registrasi_tgl_lahir);
-        selectagama = findViewById(R.id.registrasi_agama);
-        selectpendidikan = findViewById(R.id.registrasi_pendidikan);
+        selectagama = findViewById(R.id.selectagama);
+        selectpendidikan = findViewById(R.id.selectpendidikan);
         EditPekerjaan = findViewById(R.id.registrasi_pekerjaan);
-        selectperkawinan = findViewById(R.id.registrasi_status_perkawinan);
-        selectstatuskeluarga = findViewById(R.id.registrasi_status_keluarga);
+        selectperkawinan = findViewById(R.id.selectstatus_perkawinan);
+        selectstatuskeluarga = findViewById(R.id.selectstatus_keluarga);
         registrasi_kewarganegaraan = findViewById(R.id.registrasi_kewarganegaraan);
         EditNamaayah = findViewById(R.id.registrasi_nama_ayah);
         EditNamaibu = findViewById(R.id.registrasi_nama_ibu);
@@ -199,6 +209,35 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = findViewById(R.id.registrasi_button);
         EditEmail = findViewById(R.id.registrasi_email);
         errortxtimg = findViewById(R.id.errortxtimg2);
+
+        ltNik = findViewById(R.id.textregistrasi_nik);
+        ltPassword = findViewById(R.id.textregistrasi_password);
+        ltNohp = findViewById(R.id.textregistrasi_no_hp);
+        ltNamaLengkap = findViewById(R.id.textregistrasi_nama_lengkap);
+        ltEmail = findViewById(R.id.textregistrasi_email);
+
+        ltTempatLahir = findViewById(R.id.textregistrasi_tempat_lahir);
+        ltTanggal = findViewById(R.id.textregistrasi_tgl_lahir);
+        ltPekerjaan = findViewById(R.id.textregistrasi_pekerjaan);
+
+        ltNamaAyah = findViewById(R.id.textregistrasi_nama_ayah);
+        ltNamaIbu = findViewById(R.id.textregistrasi_nama_ibu);
+        ltNokk = findViewById(R.id.textregistrasi_no_kk);
+        ltAlamat = findViewById(R.id.textregistrasi_alamat);
+        ltRt = findViewById(R.id.textregistrasi_rt);
+        ltRw = findViewById(R.id.textregistrasi_rw);
+        ltKodePos = findViewById(R.id.textregistrasi_kode_pos);
+        ltKelurahan = findViewById(R.id.textregistrasi_kelurahan);
+
+        ltKecamatan = findViewById(R.id.textregistrasi_kecamatan);
+        ltKabupaten = findViewById(R.id.textregistrasi_kabupaten);
+        ltProvinsi = findViewById(R.id.textregistrasi_provinsi);
+        ltKkTanggal = findViewById(R.id.textregistrasi_kk_tgl);
+
+        ltAgama = findViewById(R.id.textregistrasi_agama);
+        ltPendidikan = findViewById(R.id.textregistrasi_pendidikan);
+        ltPerkawinan = findViewById(R.id.textregistrasi_perkawinan);
+        ltStatusKeluarga = findViewById(R.id.textregistrasi_status_keluarga);
         EditNik.setText(getIntent().getStringExtra("nik"));
     }
 
@@ -375,82 +414,143 @@ public class RegisterActivity extends AppCompatActivity {
         return null;
     }
 
-    private void validateFields() {
+    private boolean validateFields() {
+        resetErrors();
+        boolean isValid = false;
+
         // EditText validations
-        setFieldError(EditNik, "Wajib diisi");
-        setFieldError(EditPassword, "Wajib diisi");
-        setFieldError(EditNohp, "Wajib diisi");
-        setFieldError(EditNamalengkap, "Wajib diisi");
-        setFieldError(EditTempatlahir, "Wajib diisi");
-        setFieldError(EditTanggal, "Wajib diisi");
-        setFieldError(EditPekerjaan, "Wajib diisi");
-        setFieldError(EditNamaayah, "Wajib diisi");
-        setFieldError(EditNamaibu, "Wajib diisi");
-        setFieldError(EditAlamat, "Wajib diisi");
-        setFieldError(EditRt, "Wajib diisi");
-        setFieldError(EditRw, "Wajib diisi");
-        setFieldError(EditKodepos, "Wajib diisi");
-        setFieldError(EditKelurahan, "Wajib diisi");
-        setFieldError(EditKecamatan, "Wajib diisi");
-        setFieldError(EditKabupaten, "Wajib diisi");
-        setFieldError(EditProvinsi, "Wajib diisi");
-        setFieldError(EditKkTanggal, "Wajib diisi");
-        setFieldError(EditEmail, "Wajib diisi");
+        if (setFieldError(EditNik, ltNik, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditNokk, ltNokk, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditPassword, ltPassword, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditNohp, ltNohp, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditNamalengkap, ltNamaLengkap, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditTempatlahir, ltTempatLahir, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditTanggal, ltTanggal, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditPekerjaan, ltPekerjaan, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditNamaayah, ltNamaAyah, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditNamaibu, ltNamaIbu, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditAlamat, ltAlamat, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditRt, ltRt, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditRw, ltRw, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditKodepos, ltKodePos, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditKelurahan, ltKelurahan, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditKecamatan, ltKecamatan, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditKabupaten, ltKabupaten, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditProvinsi, ltProvinsi, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditKkTanggal, ltKkTanggal, "Wajib diisi")) isValid = true;
+        if (setFieldError(EditEmail, ltEmail, "Wajib diisi")) isValid = true;
 
         // Spinner validations
-        setSpinnerError(selectagama, "Wajib diisi");
-        setSpinnerError(selectpendidikan, "Wajib diisi");
-        setSpinnerError(selectperkawinan, "Wajib diisi");
-        setSpinnerError(selectstatuskeluarga, "Wajib diisi");
+        if (setSpinnerError(selectagama, ltAgama, "Wajib diisi")) isValid = true;
+        if (setSpinnerError(selectpendidikan, ltPendidikan, "Wajib diisi")) isValid = true;
+        if (setSpinnerError(selectperkawinan, ltPerkawinan, "Wajib diisi")) isValid = true;
+        if (setSpinnerError(selectstatuskeluarga, ltStatusKeluarga, "Wajib diisi")) isValid = true;
+
+        // Gender validation
+        if (getSelectedGender().isEmpty()) {
+            showGenderError();
+            isValid = true;
+        }
+
+        // Nationality validation
+        if (getSelectedKewarganegaraan().isEmpty()) {
+            showKewarganegaraanError();
+            isValid = true;
+        }
+
+        // Specific field length validations
         if (EditNik.getText().toString().trim().length() != 16) {
-            EditNik.setError("NIK harus memiliki panjang 16 karakter");
-            return;
+            ltNik.setError("NIK harus memiliki panjang 16 karakter");
+            isValid = true;
         }
         if (EditPassword.getText().toString().trim().length() < 8) {
-            EditPassword.setError("Password harus memiliki minimal 8 karakter");
-            return;
+            ltPassword.setError("Password harus memiliki minimal 8 karakter");
+            isValid = true;
         }
-        setFieldError(EditNokk, "Wajib diisi");
         if (EditNokk.getText().toString().trim().length() != 16) {
-            EditNokk.setError("No KK harus memiliki panjang 16 karakter");
-            return;
-        }
-        // RadioButton validation (gender)
-        if (getSelectedGender().isEmpty()) {
-            showGenderError(); // Show error for gender selection
+            ltNokk.setError("No KK harus memiliki panjang 16 karakter");
+            isValid = true;
         }
 
-        // RadioButton validation (nationality)
-        if (getSelectedKewarganegaraan().isEmpty()) {
-            showKewarganegaraanError(); // Show error for nationality selection
+        // Image validation
+        if (imageUri == null) {
+            errortxtimg.setVisibility(View.VISIBLE);
+            isValid = true;
         }
+        return isValid;
+
     }
 
-    private void setFieldError(TextInputEditText field, String errorMessage) {
+    private boolean setFieldError(TextInputEditText field, TextInputLayout lt, String errorMessage) {
         if (field.getText().toString().trim().isEmpty()) {
-            field.setError(errorMessage);
+            lt.setError(errorMessage);
+            return true; // Error found
         }
+        return false; // No error
     }
 
     // Helper method to check and set error for empty Spinner selections
-    private void setSpinnerError(Spinner spinner, String errorMessage) {
-        if (spinner.getSelectedItem().toString().trim().isEmpty()) {
-            ((TextView) spinner.getSelectedView()).setError(errorMessage);
+    private boolean setSpinnerError(MaterialAutoCompleteTextView spinner, TextInputLayout lt, String errorMessage) {
+        if (spinner.getText().toString().trim().isEmpty()) {
+            lt.setError(errorMessage);
+            return true; // Error found
         }
+        return false; // No error
     }
 
     // Helper method for RadioButton validation (for gender)
     private void showGenderError() {
-        // Implement your error handling for gender RadioButton
-        // Example: Toast or custom error message
-        Toast.makeText(this, "Jenis kelamin harus dipilih", Toast.LENGTH_SHORT).show();
+        TextView tvGenderError = findViewById(R.id.tvGenderError);
+        tvGenderError.setVisibility(View.VISIBLE);
     }
 
     // Helper method for RadioButton validation (for nationality)
     private void showKewarganegaraanError() {
-        // Implement your error handling for nationality RadioButton
-        // Example: Toast or custom error message
-        Toast.makeText(this, "Kewarganegaraan harus dipilih", Toast.LENGTH_SHORT).show();
+        TextView tvGenderError = findViewById(R.id.tvKewarganegaraanError);
+        tvGenderError.setVisibility(View.VISIBLE);
+    }private void resetErrors() {
+        // Reset errors for TextInputLayout
+        ltNik.setError(null);
+        ltPassword.setError(null);
+        ltNohp.setError(null);
+        ltNamaLengkap.setError(null);
+        ltEmail.setError(null);
+        ltTempatLahir.setError(null);
+        ltTanggal.setError(null);
+        ltPekerjaan.setError(null);
+        ltNamaAyah.setError(null);
+        ltNamaIbu.setError(null);
+        ltAlamat.setError(null);
+        ltRt.setError(null);
+        ltRw.setError(null);
+        ltKodePos.setError(null);
+        ltKelurahan.setError(null);
+        ltKecamatan.setError(null);
+        ltKabupaten.setError(null);
+        ltProvinsi.setError(null);
+        ltKkTanggal.setError(null);
+
+        // Reset errors for Spinners
+        ltAgama.setError(null);
+        ltPendidikan.setError(null);
+        ltPerkawinan.setError(null);
+        ltStatusKeluarga.setError(null);
+
+        // Hide TextView errors for gender and nationality
+        TextView tvGenderError = findViewById(R.id.tvGenderError);
+        if (tvGenderError != null) {
+            tvGenderError.setVisibility(View.GONE);
+        }
+
+        TextView tvKewarganegaraanError = findViewById(R.id.tvKewarganegaraanError);
+        if (tvKewarganegaraanError != null) {
+            tvKewarganegaraanError.setVisibility(View.GONE);
+        }
+
+        // Reset image error visibility
+        if (errortxtimg != null) {
+            errortxtimg.setVisibility(View.GONE);
+        }
     }
 
     private void eventClickRegis(
@@ -459,7 +559,7 @@ public class RegisterActivity extends AppCompatActivity {
             String statusKeluarga, String kewarganegaraan, String namaAyah, String namaIbu, String noKK,
             String alamat, String rt, String rw, String kodepos, String kelurahan, String kecamatan,
             String kabupaten, String provinsi, String kkTanggal, String email) {
-        SweetAlertDialog pDialog = new SweetAlertDialog(getBaseContext(), SweetAlertDialog.PROGRESS_TYPE);
+        SweetAlertDialog pDialog = new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.setTitleText("Loading...");
         pDialog.setCancelable(false);
         pDialog.show();
