@@ -27,6 +27,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Helpers.Helpers;
@@ -75,9 +76,16 @@ public class DashboardRtFragment extends Fragment {
         suratSelesai = view.findViewById(R.id.suratSelesai);
         textBerita = view.findViewById(R.id.textBerita);
         textdashrt = view.findViewById(R.id.textnamedashrt);
+        ImageView iv = view.findViewById(R.id.imgdash);
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         textdashrt.setText("Hallo "+sharedPreferences.getString("namalengkap",""));
-
+        String foto = sharedPreferences.getString("foto", "");
+        Glide.with(getContext())
+                .load(Helpers.BASE_URL+"admin/assetsprofile/"+foto)
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
+                .into(iv);
 //        icon = view.findViewById(R.id.iconn);
 //        icon.setOnClickListener(new View.OnClickListener() {
 //            @Override

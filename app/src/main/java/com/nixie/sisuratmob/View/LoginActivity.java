@@ -134,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("nokk", data.getString("no_kk"));
                                     editor.putString("email", data.getString("email"));
                                     editor.putString("no_hp", data.getString("no_hp"));
+                                    editor.putString("foto", data.getString("foto_profile"));
                                     editor.apply();
 
                                     if(data.getString("role").equals("masyarakat")){

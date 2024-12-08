@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +21,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.Models.Berita;
 import com.nixie.sisuratmob.Models.Surat;
 import com.nixie.sisuratmob.R;
@@ -54,7 +57,7 @@ public class    DasboardFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private MaterialAutoCompleteTextView etSearch;
     private TextView txt5;
-
+    private ImageView iv;
 
     @Nullable
     @Override
@@ -66,10 +69,18 @@ public class    DasboardFragment extends Fragment {
         recyclerViewsurdash = view.findViewById(R.id.recjsurdash);
         etSearch = view.findViewById(R.id.carijsurdash);
         txt5 = view.findViewById(R.id.textnamedashrt);
+        iv = view.findViewById(R.id.imgdash);
+
         sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getActivity().MODE_PRIVATE);
         String nama = sharedPreferences.getString("namalengkap", "");
-        txt5.setText("Hallo "+nama);
 
+        String foto = sharedPreferences.getString("foto", "");
+        txt5.setText("Hallo "+nama);
+        Glide.with(getContext())
+                .load(Helpers.BASE_URL+"admin/assetsprofile/"+foto)
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
+                .into(iv);
         recyclerViewBerita.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewsurdash.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
