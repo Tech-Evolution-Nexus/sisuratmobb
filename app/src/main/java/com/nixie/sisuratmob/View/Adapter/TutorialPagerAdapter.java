@@ -31,7 +31,7 @@ public class TutorialPagerAdapter extends PagerAdapter {
     private String[] descriptions = {
             "Kami akan memandu warga yang sudah terdaftar untuk melakukan login ke aplikasi. Cukup masukkan NIK dan kata sandi yang telah Anda daftarkan. Jika data anda sudah terdaftar sebelumnya bisa langsung Login Menuju Aplikasi E-surat.",
             "Bagi warga baru diharapkan Register terlebih dahulu dan Pastikan Anda mengisi semua informasi yang diperlukan dengan benar, termasuk Nik, nomor telepon, dan kata sandi. ",
-            "Bagi warga yang sudah Terdaftar akan melanjutkan Aktifasi akun, Proses aktifasi akun sangat penting untuk memastikan keamanan dan keaslian pengguna.Pastikan untuk memeriksa notifikasi dan menyelesaikan aktifasi agar dapat mengakses semua fitur aplikasi."
+            "Bagi warga yang sudah Terdaftar akan melanjutkan Aktifasi akun, Proses aktifasi akun sangat penting untuk memastikan keamanan dan keaslian pengguna. Pastikan untuk memeriksa notifikasi dan menyelesaikan aktifasi agar dapat mengakses semua fitur aplikasi."
     };
 
     public TutorialPagerAdapter(Context context) {
@@ -60,6 +60,7 @@ public class TutorialPagerAdapter extends PagerAdapter {
 
         slideImage.setImageResource(images[position]);
         slideTitle.setText(titles[position]);
+
         slideDescription.setText(descriptions[position]);
 
         container.addView(view);
