@@ -67,7 +67,7 @@ public class BritaallActivity extends AppCompatActivity {
         dberitaList = new ArrayList<>();
         beritaAdapter = new BeritaAdapter(getBaseContext(), dberitaList);
         recyclerViewBerita.setAdapter(beritaAdapter);
-        recyclerViewBerita.setHasFixedSize(true);
+//        recyclerViewBerita.setHasFixedSize(true);
         fetchdata();
 
     }

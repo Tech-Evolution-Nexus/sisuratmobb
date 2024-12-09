@@ -70,7 +70,7 @@ public class DashboardRtFragment extends Fragment {
 
         beritaAdapter = new BeritaAdapter(getContext(), dberitaList);
         recyclerView.setAdapter(beritaAdapter);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         suratMasuk = view.findViewById(R.id.suratMasuk);
         suratSelesai = view.findViewById(R.id.suratSelesai);
         textBerita = view.findViewById(R.id.textBerita);

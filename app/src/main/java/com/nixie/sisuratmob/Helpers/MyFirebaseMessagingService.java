@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
@@ -15,8 +16,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.nixie.sisuratmob.Api.ApiClient;
+import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.R;
 import com.nixie.sisuratmob.View.DashboardActivity;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -61,7 +70,38 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     @Override
-    public void onNewToken(@NonNull String token) {
+    public void onNewToken(String token) {
+        super.onNewToken(token);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String nik = sharedPreferences.getString("nik", null);
+
+        if (nik != null) {
+            sendNikAndFcmTokenToServer(nik, token);
+        } else {
+            Log.d("FCM", "fcmreset");
+        }
     }
+
+    private void sendNikAndFcmTokenToServer(String nik, String fcmToken) {
+        ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
+        Call<ResponseBody> call = apiService.reqResetfcm(nik, fcmToken);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.d("FCM", "Token berhasil diperbarui di server.");
+                } else {
+                    Log.e("FCM", "Gagal memperbarui token di server.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("FCM", "Gagal mengirim token ke server: " + t.getMessage());
+            }
+        });
+    }
+
 }

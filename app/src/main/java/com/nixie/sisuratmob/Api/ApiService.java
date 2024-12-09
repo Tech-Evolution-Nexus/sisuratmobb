@@ -117,4 +117,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("ubah-nohp")
     Call<ResponseBody> reqUbahNohp(@Field("nik") String nik, @Field("nohplama") String nohplama, @Field("nohpbaru") String nohpbaru);
+    @FormUrlEncoded
+    @POST("reset-fcm")
+    Call<ResponseBody> reqResetfcm(@Field("nik") String nik, @Field("token") String token);
 }

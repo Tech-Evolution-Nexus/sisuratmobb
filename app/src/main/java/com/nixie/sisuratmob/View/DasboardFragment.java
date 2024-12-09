@@ -81,10 +81,10 @@ public class    DasboardFragment extends Fragment {
 
 
         recyclerViewsurdash.setAdapter(jsuratAdapter);
-        recyclerViewsurdash.setHasFixedSize(true);
+//        recyclerViewsurdash.setHasFixedSize(true);
 
         recyclerViewBerita.setAdapter(beritaAdapter);
-        recyclerViewBerita.setHasFixedSize(true);
+//        recyclerViewBerita.setHasFixedSize(true);
 
 
         ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getSuratTitles());

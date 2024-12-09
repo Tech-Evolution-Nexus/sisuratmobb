@@ -50,7 +50,7 @@ public class DashboardRwFragment extends Fragment {
         recyclerView.setAdapter(beritaAdapter);
 
         recyclerView.setAdapter(beritaAdapter);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
 
         icon = view.findViewById(R.id.iconn);
         icon.setOnClickListener(new View.OnClickListener() {
