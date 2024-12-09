@@ -11,9 +11,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.nixie.sisuratmob.Helpers.Helpers;
 import com.nixie.sisuratmob.R;
 
 /**
@@ -70,9 +73,18 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         TextView nik = view.findViewById(R.id.textnikf);
         TextView nama = view.findViewById(R.id.txt_namaprofilef);
+        ImageView iv = view.findViewById(R.id.txt_homefotoprofil);
+
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", getActivity().MODE_PRIVATE);
         String namalengkap = sharedPreferences.getString("namalengkap", "");
         String niks = sharedPreferences.getString("nik", "");
+        String foto = sharedPreferences.getString("foto", "");
+        Glide.with(getContext())
+                .load(Helpers.BASE_URL+"admin/assetsprofile/"+foto)
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
+                .into(iv);
         nik.setText(niks);
         nama.setText(namalengkap);
         view.findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
