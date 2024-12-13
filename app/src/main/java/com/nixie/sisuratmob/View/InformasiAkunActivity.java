@@ -67,6 +67,15 @@ public class InformasiAkunActivity extends AppCompatActivity {
         infRW = findViewById(R.id.infRW);
         infKecamatan = findViewById(R.id.infKecamatan);
         infKelurahan = findViewById(R.id.infKelurahan);
+        ImageView pp = findViewById(R.id.txt_homefotoprofil);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String foto = sharedPreferences.getString("foto", "");
+        Glide.with(this)
+                .load(Helpers.BASE_URL+"admin/assetsprofile/"+foto)
+                .placeholder(R.drawable.baground_rtrw)
+                .error(R.drawable.baground_rtrw)
+                .into(pp);
+
         fetchdata();
     }
 
