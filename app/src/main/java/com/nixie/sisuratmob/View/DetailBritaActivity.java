@@ -1,5 +1,6 @@
 package com.nixie.sisuratmob.View;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
@@ -9,12 +10,16 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.nixie.sisuratmob.Api.ApiClient;
 import com.nixie.sisuratmob.Api.ApiService;
 import com.nixie.sisuratmob.Helpers.Helpers;
@@ -26,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.annotation.Target;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -33,7 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailBritaActivity extends AppCompatActivity {
-    TextView title, tgl;
+    TextView title,sub, tgl;
     WebView des;
     ImageView img;
 
@@ -51,7 +57,7 @@ public class DetailBritaActivity extends AppCompatActivity {
         tgl = findViewById(R.id.tglberitadetail);
         des = findViewById(R.id.webview);
         img = findViewById(R.id.detailimage);
-
+        sub = findViewById(R.id.subjudl);
 
         String idBerita = getIntent().getStringExtra("id_berita");
         fetchdata(idBerita);
@@ -75,14 +81,17 @@ public class DetailBritaActivity extends AppCompatActivity {
                         if(st){
                             title.setText(dataArray.getString("judul"));
                             tgl.setText(Helpers.formatTanggalalltime(dataArray.getString("created_at")));
-                            des.loadData(dataArray.getString("deskripsi"), "text/html", "UTF-8");
-//                            des.setText();
+                            sub.setText(dataArray.getString("sub_judul"));
 
+//                            des.setText();
+                            String imageUrl = Helpers.BASE_URL + "admin/assetsberita/" + dataArray.getString("gambar");
                             Glide.with(DetailBritaActivity.this)
-                                    .load(Helpers.BASE_URL+"admin/assetsberita/" + dataArray.getString("gambar"))
+                                    .load(imageUrl)
+                                    .override(1000, 1000) // Ubah ukuran sesuai kebutuhan
                                     .placeholder(R.drawable.baground_rtrw)
                                     .error(R.drawable.baground_rtrw)
                                     .into(img);
+                            des.loadData(dataArray.getString("deskripsi"), "text/html", "UTF-8");
                         }else{
                             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
                         }
