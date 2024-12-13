@@ -67,6 +67,10 @@ public class SuratbatalkAdapter extends RecyclerView.Adapter<SuratbatalkAdapter.
                 formattedStatus = "Ditolak oleh RW";
                 backgroundColor = 0xFFC82333;
                 break;
+            case "dibatalkan":
+                formattedStatus = "Dibatalkan";
+                backgroundColor = 0xFFC82333;
+                break;
             case "selesai":
                 formattedStatus = "Proses Selesai";
                 backgroundColor = 0xFF218838;
